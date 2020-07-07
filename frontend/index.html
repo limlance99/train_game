@@ -22,30 +22,38 @@
                         <div class="row">
                             <div class="col-md-auto rail-vertical-invis"></div>
                             <div @click="send_button(row, col, 0)" class="col-md-auto rail rail-vertical"
-                                :style="[clicked.includes((row+'-'+col+'-'+0)) ? {'backgroundColor' : '#855E3F'} : {'backgroundColor': '#FFFFFF'}]">
+                                :style="[clicked.includes((row * 3 + col - 4) + '-' + 0) ? {'backgroundColor' : '#855E3F'} : {'backgroundColor': '#FFFFFF'}]">
                             </div>
                             <div class="col-md-auto rail-vertical-invis"></div>
                         </div>
                         <div class="row">
                             <div @click="send_button(row, col, 3)" class="col-md-auto rail rail-horizontal"
-                                :style="[clicked.includes((row+'-'+col+'-'+3)) ? {'backgroundColor' : '#855E3F'} : {'backgroundColor': '#FFFFFF'}]">
+                                :style="[clicked.includes((row * 3 + col - 4) + '-' + 3) ? {'backgroundColor' : '#855E3F'} : {'backgroundColor': '#FFFFFF'}]">
                             </div>
                             <div class="col-md-auto center-box"></div>
                             <div @click="send_button(row, col, 1)" class="col-md-auto rail rail-horizontal"
-                                :style="[clicked.includes((row+'-'+col+'-'+1)) ? {'backgroundColor' : '#855E3F'} : {'backgroundColor': '#FFFFFF'}]">
+                                :style="[clicked.includes((row * 3 + col - 4) + '-' + 1) ? {'backgroundColor' : '#855E3F'} : {'backgroundColor': '#FFFFFF'}]">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-auto rail-vertical-invis"></div>
                             <div @click="send_button(row, col, 2)" class="col-md-auto rail rail-vertical"
-                                :style="[clicked.includes((row+'-'+col+'-'+2)) ? {'backgroundColor' : '#855E3F'} : {'backgroundColor': '#FFFFFF'}]">
+                                :style="[clicked.includes((row * 3 + col - 4) + '-' + 2) ? {'backgroundColor' : '#855E3F'} : {'backgroundColor': '#FFFFFF'}]">
                             </div>
                             <div class="col-md-auto rail-vertical-invis"></div>
                         </div>
                     </div>
                 </div>
+                <div class="row mt-3 mb-3">
+                    <button type="button" @click="find_path()" class="btn btn-success btn-lg btn-block"> Go </button>
+                </div>
+            </div>
+            <div class="sidebar">
+                <div class="history"></div>
+                <div class="chatbox"></div>
             </div>
         </div>
+        
     </div>
 </body>
 
@@ -54,7 +62,9 @@
     const vueApp = new Vue({
         el: '#app',
         data: {
-            clicked: []
+            clicked: [],
+            directions: [],
+            startAnimation: false
         },
         methods: {
             send_button(row, col, direction) {
@@ -62,15 +72,20 @@
                 // console.log(id);
                 Socket.sendRail(id);
                 var i;
-                if (this.clicked.includes(row + '-' + col + '-' + direction)) {
-                    this.clicked = this.clicked.filter(function (value) { return value != (row + '-' + col + '-' + direction); });
+                if (this.clicked.includes(id)) {
+                    this.clicked = this.clicked.filter(function (value) { return value != (id); });
                 }
                 else {
-                    this.clicked.push(row + '-' + col + '-' + direction)
+                    this.clicked.push(id)
                 }
 
 
             },
+            find_path(){
+                // get info from backend
+                this.directions = ['e','e','s','s','e'];
+                this.startAnimation = true;
+            }
         },
         watch: {
             clicked() {
@@ -81,7 +96,7 @@
 </script>
 <style>
     .header {
-        margin-top: 50px;
+        margin-top: 10px;
     }
 
     .body {
@@ -89,37 +104,37 @@
     }
 
     .grid {
-        width: 750px;
+        width: 630px;
     }
 
     .box {
-        width: 250px;
-        height: 250px;
+        width: 210px;
+        height: 210px;
         border-style: hidden;
-        border-width: 2px;
+        border-width: 1.5px;
     }
 
     .rail-vertical {
         width: 50px;
-        height: 100px;
+        height: 80px;
         border-style: solid;
-        border-width: 2px;
+        border-width: 1.5px;
         padding: 0;
     }
 
     .rail-vertical-invis {
-        width: 100px;
-        height: 100px;
+        width: 80px;
+        height: 80px;
         border-style: hidden;
-        border-width: 2px;
+        border-width: 1.5px;
         padding: 0;
     }
 
     .rail-horizontal {
-        width: 100px;
+        width: 80px;
         height: 50px;
         border-style: solid;
-        border-width: 2px;
+        border-width: 1.5px;
         padding: 0;
     }
 
@@ -132,5 +147,17 @@
     .rail:hover {
         cursor: pointer;
         background-color: #855E3F;
+    }
+    .sidebar {
+        width:40%;
+        background-color: #E0E0E0;
+    }
+    .history {
+        height: 50%;
+        background-color: rgb(177, 177, 255);
+    }
+    .chatbox {
+        height: 50%;
+        background-color: rgb(255, 255, 177);
     }
 </style>
