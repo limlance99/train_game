@@ -39,7 +39,8 @@ const fakeHistory = [
 io.on("connection", socket => {
     console.log("Connected");
     socket.emit("start-up", {
-        map: fakeMap, history: fakeHistory,
+        map: fakeMap, 
+        history: fakeHistory,
     });
 
     socket.on("rail-clicked", data => {
