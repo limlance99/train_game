@@ -1,4 +1,23 @@
-const io = require("socket.io")(3000)
+const app = require('express')();
+const http = require('http').Server(app);
+const io = require("socket.io")(http);
+const port = 8080;
+
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/frontend/index.html');
+});
+
+app.get('/client/socket', (req, res) => {
+    res.sendFile(__dirname + '/frontend/socket.js');
+});
+
+app.get('/client/constants', (req, res) => {
+    res.sendFile(__dirname + '/frontend/constants/rail_paths.js');
+});
+
+http.listen(port, () => {
+    console.log(`Listening on port {port}`)
+});
 
 const fakeMap = [
     {
