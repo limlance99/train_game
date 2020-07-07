@@ -1,0 +1,28 @@
+{
+  "name": "train_game",
+  "version": "1.0.0",
+  "description": "train game",
+  "main": "index.js",
+  "scripts": {
+    "socket": "nodemon .\\server.js",
+    "start": "http-server .\\frontend",
+    "socket-mac": "nodemon ./server.js",
+    "start-mac": "http-server ./frontend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/limlance99/train_game.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/limlance99/train_game/issues"
+  },
+  "homepage": "https://github.com/limlance99/train_game#readme",
+  "dependencies": {
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}

@@ -1,5 +1,4 @@
-// import {rail_paths} from "./constants/rail_paths";
-
+const socket = io("http://localhost:3000");
 const rail_paths = {
     "0-0": [[0,1], [1,1]],
     "0-1": [[1,0], [1, 1]],
@@ -48,10 +47,10 @@ const rail_paths = {
     
 }
 
-const Socket = {
+const Util = {
     sendRail: function(id) {
         console.log(rail_paths[id]);
-        // socket.broadcast()
+        // socket.emit("send-rail", rail_paths[id]);
     }
 }
 
