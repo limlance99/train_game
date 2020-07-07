@@ -26,9 +26,22 @@ const idConv = {
     getRow: function(buttonID){
         return buttonID/4/3; //change 3 to width
     },
-    getID: function(row, column){
-        
+    getEndpoints: function(buttonID){
+        //returns endpoints of the button ID
+        d = this.getDirection(buttonID);
+        row1 = this.getRow(buttonID);
+        column1 = this.getColumn(buttonID);
+        row2 = row1 + locationDelta[d]["row"];
+        row2 = row1 + locationDelta[d]["column"];
+        return [[column1, row1], [column2, row2]];
+    },
+    getID: function(row, column, directionID){
+        //takes row and column of center nodes from the matrix/grid. adjust accordingly
+        boxRow = (row - 1)/2;
+        boxColumn = (column - 1)/2;
+        width = 3;//temp
 
+        return (bowRow*width+boxCol)*4+directionID;
     }
 }
 
@@ -59,13 +72,25 @@ for(i = 0; i < gridSize; i++){
 
 function getMap(){
     //wip
+    var modifiedRails = [];
 
     for(row = 1;row < grid.length;row+=2){
-        for(column = 1;column < grid.length;column+=2){
-
+        for(column = 1;column < grid[i].length;column+=2){
+            for(d = 0;d < directionPriority.length;d++){
+                let color = grid[row][column].rails[directionPriority[d]];
+                if(color != "#FFFFFF"){
+                    let id = idConv.getID(row, column, d);
+                    modifiedRails.append(new Rail(id, color));
+                } 
+            }
         }
     }
 
+    return modifiedRails;
+}
+
+function clickRail(data){
+    
 }
 
 function updateRails(coordinatePair, socketid){
@@ -149,3 +174,5 @@ function pathfind(){
 
     return route;
 }
+
+export {}
