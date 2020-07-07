@@ -8,10 +8,18 @@ const Socket = {
     }
 }
 
+const clicked = [];
+
 socket.on("start-up", data => {
-    console.log(data);
-})
+    username = prompt("Enter a username");
+
+    socket.emit("send-name", username);
+});
 
 socket.on("new-rail", rail => {
     console.log(rail);
-})
+});
+
+socket.on("broadcast-message", message => {
+    console.log(message);
+});
