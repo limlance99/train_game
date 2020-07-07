@@ -1,4 +1,4 @@
-// const socket = io("http://localhost:3000");
+const socket = io("http://localhost:3000");
 const rail_paths = {
     "0-0": [[0,1], [1,1]],
     "0-1": [[1,0], [1, 1]],
@@ -49,10 +49,12 @@ const rail_paths = {
 
 const Socket = {
     sendRail: function(id) {
-        console.log(rail_paths[id]);
-        // socket.emit("send-rail", rail_paths[id]);
+        console.log("rail-clicked", rail_paths[id]);
+        socket.emit("rail-clicked", rail_paths[id]);
     }
 }
 
 
-// module.exports = sendRail;
+socket.on("start-up", message => {
+    console.log("hello");
+})
