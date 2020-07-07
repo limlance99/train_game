@@ -11,6 +11,7 @@
     <script src="https://unpkg.com/vuex"></script>
     <script defer src="/client/socket"></script>
     <script defer src="/client/constants"></script>
+    <link rel="stylesheet" type="text/css" href="/style">
     <title>Train Game</title>
 </head>
 
@@ -79,84 +80,28 @@
                 // console.log(id);
                 Socket.sendRail(id);
                 var i;
+                this.toggleRail(id);
+            },
+
+            find_path() {
+                // get info from backend
+                this.directions = ['e', 'e', 's', 's', 'e'];
+                this.startAnimation = true;
+            },
+
+            toggleRail(id) {
                 if (this.clicked.includes(id)) {
                     this.clicked = this.clicked.filter(function (value) { return value != (id); });
                 }
                 else {
                     this.clicked.push(id)
                 }
-
-
-            },
-            find_path() {
-                // get info from backend
-                this.directions = ['e', 'e', 's', 's', 'e'];
-                this.startAnimation = true;
             }
         },
         watch: {
             clicked() {
-                console.log(this.clicked)
+                console.log(this.clicked);
             }
         }
     })
 </script>
-<style>
-    .header {
-        margin-top: 10px;
-    }
-
-    .box {
-        width:  80%
-    }
-
-    .rail-vertical {
-        width: 50px;
-        height: 80px;
-        border-style: solid;
-        border-width: 1.5px;
-        padding: 0;
-    }
-
-    .rail-vertical-invis {
-        width: 80px;
-        height: 80px;
-        border-style: hidden;
-        border-width: 1.5px;
-        padding: 0;
-    }
-
-    .rail-horizontal {
-        width: 80px;
-        height: 50px;
-        border-style: solid;
-        border-width: 1.5px;
-        padding: 0;
-    }
-
-    .center-box {
-        width: 50px;
-        height: 50px;
-        padding: 0;
-    }
-
-    .rail:hover {
-        cursor: pointer;
-        background-color: #855E3F;
-    }
-
-    .sidebar {
-        width: 600px;
-        background-color: #E0E0E0;
-    }
-
-    .history {
-        height: 50%;
-        background-color: rgb(177, 177, 255);
-    }
-
-    .chatbox {
-        height: 50%;
-        background-color: rgb(255, 255, 177);
-    }
-</style>
