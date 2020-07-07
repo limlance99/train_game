@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <script defer src="http://localhost:3000/socket.io/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vuex"></script>
     <script defer src="socket.js"></script>
-    <script defer src="http://localhost:3000/socket.io/socket.io.js"></script>
     <title>Train Game</title>
 </head>
 
@@ -54,7 +54,7 @@
                 <div class="chatbox"></div>
             </div>
         </div>
-        
+
     </div>
 </body>
 
@@ -82,9 +82,9 @@
 
 
             },
-            find_path(){
+            find_path() {
                 // get info from backend
-                this.directions = ['e','e','s','s','e'];
+                this.directions = ['e', 'e', 's', 's', 'e'];
                 this.startAnimation = true;
             }
         },
@@ -149,14 +149,17 @@
         cursor: pointer;
         background-color: #855E3F;
     }
+
     .sidebar {
-        width:40%;
+        width: 40%;
         background-color: #E0E0E0;
     }
+
     .history {
         height: 50%;
         background-color: rgb(177, 177, 255);
     }
+
     .chatbox {
         height: 50%;
         background-color: rgb(255, 255, 177);

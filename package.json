@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "train game",
   "scripts": {
-    "socket": "nodemon server.js",
+    "socket": "nodemon .\\backend\\server.js",
     "start": "http-server .\\frontend",
     "socket-mac": "nodemon server.js",
     "start-mac": "http-server ./frontend"
