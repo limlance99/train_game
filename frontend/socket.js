@@ -2,13 +2,10 @@ const socket = io();
 // import {rail_paths} from 'rail_paths.js'
 
 const Socket = {
-    sendRail: function(id) {
-        console.log("rail-clicked", rail_paths[id]);
-        socket.emit("rail-clicked", rail_paths[id]);
+    sendRail: function(railID) {
+        socket.emit("rail-clicked", railID);
     }
 }
-
-const clicked = [];
 
 socket.on("start-up", data => {
     username = prompt("Enter a username");
@@ -16,8 +13,9 @@ socket.on("start-up", data => {
     socket.emit("send-name", username);
 });
 
-socket.on("new-rail", rail => {
-    console.log(rail);
+socket.on("new-rail", data => {
+    console.log(data.newHistory);
+    vueApp.toggleRail(data.rail.id);
 });
 
 socket.on("broadcast-message", message => {

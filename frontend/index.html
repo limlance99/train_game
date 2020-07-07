@@ -80,24 +80,27 @@
                 // console.log(id);
                 Socket.sendRail(id);
                 var i;
+                this.toggleRail(id);
+            },
+
+            find_path() {
+                // get info from backend
+                this.directions = ['e', 'e', 's', 's', 'e'];
+                this.startAnimation = true;
+            },
+
+            toggleRail(id) {
                 if (this.clicked.includes(id)) {
                     this.clicked = this.clicked.filter(function (value) { return value != (id); });
                 }
                 else {
                     this.clicked.push(id)
                 }
-
-
-            },
-            find_path() {
-                // get info from backend
-                this.directions = ['e', 'e', 's', 's', 'e'];
-                this.startAnimation = true;
             }
         },
         watch: {
             clicked() {
-                console.log(this.clicked)
+                console.log(this.clicked);
             }
         }
     })

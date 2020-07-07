@@ -55,6 +55,8 @@ module.exports.init = (io, names, actionHistory, messageHistory, colors) => {
                 },
                 newHistory: action
             });
+            actionHistory.push(action);
+            console.log(action);
         });
 
         socket.on("go-clicked", data => {
