@@ -6,20 +6,7 @@ train game
 npm install
 ```
 
-### HOW TO RUN FRONTEND
+### HOW TO RUN
 ```
-cd frontend
 npm run start
-
-OR if MAC
-npm run start-mac
-```
-
-### HOW TO RUN BACKEND
-```
-cd backend
-npm run socket
-
-OR if MAC
-npm run socket-mac
 ```
