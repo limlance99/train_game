@@ -4,9 +4,9 @@
   "description": "train game",
   "main": "index.js",
   "scripts": {
-    "socket": "nodemon .\\server.js",
+    "socket": "nodemon server.js",
     "start": "http-server .\\frontend",
-    "socket-mac": "nodemon ./server.js",
+    "socket-mac": "nodemon server.js",
     "start-mac": "http-server ./frontend"
   },
   "repository": {
