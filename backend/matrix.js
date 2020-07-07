@@ -8,21 +8,21 @@ class Node{
 }
 
 var boxSize = 3;
-var gridSize = ( 3 + ( 2*(boxSize - 1) ) )**2;
+var gridSize = ( 3 + ( 2*(boxSize - 1) ) );
 var direction = "east"; //N E W S; defaults to East;
 const directionPriority = ["east", "south", "west", "north"];
 const directionReverse = {"north": "south", "east": "west", "south": "north", "west": "east"};
 const locationDelta = {"north": {"row": -1, "column": 0}, "east": {"row": 0, "column": 1}, "south": {"row": 1, "column": 0}, "west": {"row": 0, "column": -1}};
 
-var players = {"user1": "#111111", "user2": "#222222"};
-    //dictionary containing all users and their corresponding color for coloring rails
+var users = {userID: {"name": "", "color": ""}}; //dictionary containing all users and their corresponding usernames and colors
+var history = ["username added rail on box#-rail#"]; //string list of all actions previously made
     
 
 var grid = [];
 for(i = 0; i < gridSize; i++){
     var row = [];
     for(j = 0; j < gridSize; j++){
-        if(i%2 == 0 & j%2 == 0){} //ignore corners to optimize space?
+        if(i%2 == 0 && j%2 == 0){} //ignore corners to optimize space?
         else row.push(new Node());
     }
     grid.push(row);
@@ -60,7 +60,7 @@ function pathfind(){
                 route.append(direction);
             } else {
                 for(d = 0; d < directionPriority.length; d++){
-                    if(grid[row][column].rails[directionPriority[d]] != "" & directionReverse[directionPriority[d]] != direction){
+                    if(grid[row][column].rails[directionPriority[d]] != "" && directionReverse[directionPriority[d]] != direction){
                         newRow += locationDelta[direction]["row"];
                         newColumn += locationDelta[direction]["column"];
             
