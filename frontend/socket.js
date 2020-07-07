@@ -55,6 +55,10 @@ const Socket = {
 }
 
 
-socket.on("start-up", message => {
-    console.log("hello");
+socket.on("start-up", data => {
+    console.log(data);
+})
+
+socket.on("new-rail", rail => {
+    console.log(rail);
 })
