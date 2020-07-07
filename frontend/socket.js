@@ -1,5 +1,4 @@
 // import {rail_paths} from "./constants/rail_paths";
-
 const rail_paths = {
     "0-0": [[0,1], [1,1]],
     "0-1": [[1,0], [1, 1]],
