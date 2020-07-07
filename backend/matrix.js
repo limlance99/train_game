@@ -7,12 +7,39 @@ class Node{
     }
 }
 
+
+class Rail{
+    constructor(id, color){
+        this.id = id;
+        this.color = color;
+    }
+}
+
+
+const idConv = {
+    getDirection: function(buttonID){
+        return directionPriority[buttonID % 4];
+    },
+    getColumn: function(buttonID){
+        return buttonID/4%3; //change 3 to width
+    },
+    getRow: function(buttonID){
+        return buttonID/4/3; //change 3 to width
+    },
+    getID: function(row, column){
+        
+
+    }
+}
+
 var boxSize = 3;
 var gridSize = ( 3 + ( 2*(boxSize - 1) ) );
 var direction = "east"; //N E W S; defaults to East;
-const directionPriority = ["east", "south", "west", "north"];
+const directionPriority = ["north", "east", "south", "west"];
 const directionReverse = {"north": "south", "east": "west", "south": "north", "west": "east"};
 const locationDelta = {"north": {"row": -1, "column": 0}, "east": {"row": 0, "column": 1}, "south": {"row": 1, "column": 0}, "west": {"row": 0, "column": -1}};
+const endpointsToRailid = {};
+
 
 var users = {userID: {"name": "", "color": ""}}; //dictionary containing all users and their corresponding usernames and colors
 var history = ["username added rail on box#-rail#"]; //string list of all actions previously made
@@ -30,6 +57,36 @@ for(i = 0; i < gridSize; i++){
     //2d array representing the map
     //the row/column of each element also corresponds to its respective coordinate in the map
 
+function getMap(){
+    //wip
+
+    for(row = 1;row < grid.length;row+=2){
+        for(column = 1;column < grid.length;column+=2){
+
+        }
+    }
+
+}
+
+function updateRails(coordinatePair, socketid){
+    //  !  might need to be updated to work with buttonIDs instead of coordinatePairs
+
+    var railPair = [{row = coordinatePair[0][1], column = coordinatePair[0][0], railDirection = "east"}, {row = coordinatePair[0][1], column = coordinatePair[0][0], railDirection = "east"}];
+    var delta = {"column": coordinatePair[0][0]-coordinatePair[1][0], "row": coordinatePair[0][1]-coordinatePair[1][1]};
+
+    for (d in locationDelta){
+        if(locationDelta[d][row] == delta[row] && locationDelta[d][column] == delta[column]){
+            railPair[0].railDirection = d;
+            railPair[1].railDirection = directionReverse[d];
+        }
+    }
+
+    //update matrix to dis/connect rails
+    let newRail = ""
+    if (grid[railPair[0].row][railPair[0].column].rails[railPair[railDirection]] == "") newRail = users[socketid]["color"];
+    grid[railPair[0].row][railPair[0].column].rails[railPair[railDirection]] = newRail;
+    grid[railPair[1].row][railPair[1].column].rails[railPair[railDirection]] = newRail;
+}
 
 /*
     pathfind function used to find the route of the train given the activated rails
@@ -48,7 +105,6 @@ function pathfind(){
 
     //find end of route
     for(i = true;i;){
-
         //find next coordinate
         if(grid[row][column].rails[direction] != ""){
             newRow += locationDelta[direction]["row"];
