@@ -1,4 +1,6 @@
-export const rail_paths = {
+// import {rail_paths} from "./constants/rail_paths";
+
+const rail_paths = {
     "0-0": [[0,1], [1,1]],
     "0-1": [[1,0], [1, 1]],
     "0-2": [[1,1], [1, 2]],
@@ -45,3 +47,12 @@ export const rail_paths = {
     "8-3": [[5,5], [6, 5]],
     
 }
+
+const Socket = {
+    sendRail: function(id) {
+        console.log(rail_paths[id]);
+        // socket.broadcast()
+    }
+}
+
+// module.exports = sendRail;
