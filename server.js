@@ -7,6 +7,14 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/frontend/index.html');
 });
 
+app.get('/client/socket', (req, res) => {
+    res.sendFile(__dirname + '/frontend/socket.js');
+});
+
+app.get('/client/constants', (req, res) => {
+    res.sendFile(__dirname + '/frontend/constants/rail_paths.js');
+});
+
 http.listen(port, () => {
     console.log(`Listening on port {port}`)
 });
