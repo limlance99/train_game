@@ -48,13 +48,13 @@ module.exports.init = (io, users, actionHistory, railMap) => {
             };
 
             message = `${users[socket.id].name} ${utils.joinMessage()}`;
-            socket.broadcast.emit("broadcast-message", message);
+            socket.broadcast.emit("broadcastMessage", message);
         });
 
         socket.on("sendMessage", data => {
             if (socket.id in users) {
                 message = `${users[socket.id].name}: ${data}`;
-                socket.broadcast("broadcast-message", message);
+                socket.broadcast.emit("broadcastMessage", message);
             }
         });
     });

@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "train game",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "dev" : "(cd frontend && npm run build) && npm run start"
   },
   "repository": {
     "type": "git",
