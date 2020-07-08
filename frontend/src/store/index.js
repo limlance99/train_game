@@ -15,7 +15,11 @@ const state = {
     "Lance moved here",
     "Lance moved here",
   ],
-  listOfClickedRails: [],
+  listOfClickedRails: [
+    {"id": 0, "color": '#000000' },
+    {"id": 1, "color": '#0099FF' },
+    {"id": 2, "color": '#0099FF' },
+  ],
   chatMessages: [],
 }
 
