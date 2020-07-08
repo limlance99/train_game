@@ -2,8 +2,10 @@
     <div class="h-50">
         <div class="chatbox h-100">
             <h5> Chatbox </h5>
-            <div v-for="(line, index) in chatMessages" :key="index">
-                {{line}}
+            <div v-for="(chatLine, index) in chatMessages" :key="index">
+                <span :style="`color:${chatLine.color}`">
+                    {{chatLine.name}}
+                </span>: {{chatLine.message}}
             </div>
         </div>
         <div class="flex-shrink-1 input-group">
