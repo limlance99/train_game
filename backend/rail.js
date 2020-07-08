@@ -4,11 +4,11 @@ const constants = require('./constants')
 class Rail {
     constructor(railID, color, width) {
         this.id = railID;
-        this.direction = constants.direction[railID % 4];
+        this.direction = constants.directions[railID % 4];
         this.row = Math.trunc(Math.trunc(railID / 4) / width);
         this.col = Math.trunc(Math.trunc(railID / 4) % width);
         this.color = color;
-        this.enabled = enabled;
+        this.enabled = true;
     }
 }
 
@@ -18,21 +18,25 @@ class RailMap {
     }
 
     add(rail) {
-        this.rails[rail.id] = rail;
-    }
-
-    toggle(railID) {
-        if (railID in this.rails) {
-            this.rails[railID].enabled = !this.rails[railID].enabled;
+        if (rail.id in this.rails) {
+            this.rails[rail.id] = rail;
+            this.rails[rail.id].enabled = false;
+        } else {
+            this.rails[rail.id] = rail;
         }
     }
 
     solve() {
-        
+        edgeList = algo.railsToEdges(this.rails);
+        return algo.solve(edgeList);
     }
 
     encode() {
-
+        let railColorMap = {};
+        for (const [railID, rail] of Object.entries(this.rails)) {
+            railColorMap[railID] = rail.color;
+        }
+        return raidColorMap;
     }
 }
 

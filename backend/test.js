@@ -1,20 +1,15 @@
+const rails = require('./rail');
 const algo = require('./algo');
 
 function main() {
-    edge_list = [
-        [[1, 0], [1, 1]],
-        [[2, 1], [1, 1]],
-        [[1, 2], [1, 1]],
-        [[1, 3], [1, 2]],
-        [[1, 3], [2, 3]],
-        [[3, 3], [2, 3]],
-        [[3, 3], [3, 2]],
-        [[3, 1], [3, 2]]
-    ];
+    railMap = new rails.RailMap();
+    railMap.add(new rails.Rail(0, "#FF0000", 3));
+    railMap.add(new rails.Rail(1, "#FF0000", 3));
+    railMap.add(new rails.Rail(3, "#FF0000", 3));
+    railMap.add(new rails.Rail(7, "#FF0000", 3));
+    railMap.add(new rails.Rail(6, "#FF0000", 3));
     
-    a = algo(edge_list);
-    
-    console.log(a);
+    console.log(algo.railsToEdges(railMap.rails));
 }
 
 main();

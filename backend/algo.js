@@ -32,9 +32,9 @@ function add(node, delta) {
     return [node[0] + delta[0], node[1] + delta[1]];
 }
 
-function findNeighbors(node, edge_list) {
+function findNeighbors(node, edgeList) {
     let neighbors = [];
-    for (let [index, edge] of edge_list.entries()) {
+    for (let [index, edge] of edgeList.entries()) {
         let neighbor = checkNeighbor(node, edge);
         if (neighbor !== false) {
             neighbors.push({
@@ -70,14 +70,14 @@ function check(node, neighbors) {
     return false;
 }
 
-function solve(edge_list) {
+function solve(edgeList) {
     let node = [1, 0];
     let face = 'e';
     let path = [];
     let visited = {}
     
     while (true) {
-        let neighbors = findNeighbors(node, edge_list);
+        let neighbors = findNeighbors(node, edgeList);
         let next = add(node, vector[face]);
         let nextNeighbor = check(next, neighbors);
 
@@ -106,15 +106,15 @@ function solve(edge_list) {
 
 function railsToEdges(rails) {
     let edges = [];
-    for (let rail of rails) {
+    for (const [railID, rail] of Object.entries(rails)) {
         let nodeA = [
             1 + (2 * rail.row),
             1 + (2 * rail.col)
         ];
-        let nodeB = [
-        
-        ]
+        let nodeB = add(nodeA, vector[rail.direction]);
+        edges.push([nodeA, nodeB]);
     }
+    return edges;
 }
 
 module.exports.solve = solve;

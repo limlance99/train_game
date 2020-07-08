@@ -48,7 +48,7 @@ module.exports.init = (io, map, users, actionHistory, railMap) => {
             };
 
             message = `${users[socket.id].name} ${utils.joinMessage()}`;
-            io.sockets.emit("broadcastMessage", message);
+            io.sockets.emit("sendUser", message);
         });
 
         socket.on("sendMessage", data => {
