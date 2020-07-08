@@ -45,6 +45,10 @@ const mutations = {
   broadcastMessage: (state, message) => {
     state.chatMessages.push(message); 
   },
+  sendUser: (state, data) => {
+    console.log(data);
+    state.askingName = false;
+  }
 }
 
 const actions = {
@@ -62,7 +66,7 @@ const actions = {
   },
   SOCKET_sendUser({commit}, message) {
     commit("sendUser", message);
-    state.askingName = false;
+
   },
 }
 
