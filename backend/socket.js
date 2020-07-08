@@ -25,7 +25,7 @@ module.exports.init = (io, map, users, actionHistory, railMap) => {
                     color: colors[socket.id]
                 }
 
-                socket.broadcast.emit("newRail", {
+                io.sockets.emit("newRail", {
                     rail: {
                         id: railID,
                         color: newColor
