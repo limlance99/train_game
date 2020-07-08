@@ -10,6 +10,11 @@
 import { mapState } from "vuex";
 
 export default {
+data() {
+    return {
+        doneAnimating: false
+    };
+},
   computed: {
     ...mapState(["directions"]),
   },
@@ -27,10 +32,10 @@ export default {
       
       var currentPosX = left;
       var currentPosY = top;
-
+        elem.style.left = left;
+        elem.style.top = top;
     var i = 0;
     var id = setInterval(function() { frame(); i+=1; }, 500);
-    
     
       function frame() {
         
@@ -38,7 +43,7 @@ export default {
         if (i > dirLen) {
             console.log("done")
             clearInterval(id);
-            return;
+            return true;
         } 
         else {
           console.log("went thru here once", currentPosX, currentPosY)
@@ -61,6 +66,13 @@ export default {
         }
       }
     }
+  },
+  watch: {
+      directions() {
+          if (this.directions.length >0) {
+              this.doneAnimating = this.moveTrain()
+          }
+      },
   }
 };
 </script>
