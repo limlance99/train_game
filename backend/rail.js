@@ -35,8 +35,8 @@ class RailMap {
         return railColorMap;
     }
 
-    enabled(railID) {
-        return this.rails[railID].enabled;
+    color(railID) {
+        return this.rails[railID].enabled ? this.rails[railID].color : "#FFFFFF";
     }
 }
 

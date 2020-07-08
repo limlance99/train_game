@@ -35,7 +35,7 @@ module.exports.init = (io, railMap, users, actionHistory) => {
                 io.sockets.emit("newRail", {
                     rail: {
                         id: railID,
-                        color: railMap.enabled(railID) ? users[socket.id].color : "#FFFFFF"
+                        color: railMap.color(railID)
                     },
                     newHistory: action
                 });

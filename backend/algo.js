@@ -84,6 +84,7 @@ function solve(edgeList) {
         if (nextNeighbor !== false && !visited[nextNeighbor.edgeIndex]) {
             path.push(face);
             node = next;
+            visited[nextNeighbor.edgeIndex] = true;
         }
 
         else if (neighbors.length <= 1) {
@@ -91,15 +92,19 @@ function solve(edgeList) {
         } 
         
         else {
+            let found = false;
             for (let neighbor of neighbors) {
-                if (face != opposite[neighbor.direction]) {
+                if (!visited[neighbor.edgeIndex]) {
                     path.push(neighbor.direction);
                     face = neighbor.direction;
                     visited[neighbor.edgeIndex] = true;
                     node = neighbor.coord;
+                    found = true;
                     break;
                 }
             }
+            if (!found)
+                return path;
         }
     } 
 }
@@ -107,12 +112,14 @@ function solve(edgeList) {
 function railsToEdges(rails) {
     let edges = [];
     for (const [railID, rail] of Object.entries(rails)) {
-        let nodeA = [
-            1 + (2 * rail.row),
-            1 + (2 * rail.col)
-        ];
-        let nodeB = add(nodeA, vector[rail.direction]);
-        edges.push([nodeA, nodeB]);
+        if (rail.enabled) {
+            let nodeA = [
+                1 + (2 * rail.row),
+                1 + (2 * rail.col)
+            ];
+            let nodeB = add(nodeA, vector[rail.direction]);
+            edges.push([nodeA, nodeB]);
+        }
     }
     return edges;
 }
