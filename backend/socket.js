@@ -46,6 +46,7 @@ module.exports.init = (io, map, users, actionHistory, railMap) => {
         });
 
         socket.on("sendName", name => {
+            // console.log(name)
             users[socket.id] = {
                 name: name,
                 color: utils.chooseRandomColor()

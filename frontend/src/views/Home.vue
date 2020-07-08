@@ -42,7 +42,7 @@
         </div>
         <button
           type="button"
-          @click="send_button(0,0,2)"
+          @click="go()"
           class="btn btn-success btn-lg btn-block mt-2 mb"
         >Go</button>
       </div>
@@ -105,6 +105,9 @@ export default {
       }
       
       return "#FFFFFF";
+    },
+    go() {
+      this.$socket.emit("goClicked");
     }
   },
   watch: {

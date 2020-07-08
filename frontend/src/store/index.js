@@ -68,7 +68,6 @@ const actions = {
   },
   SOCKET_sendUser({commit}, message) {
     commit("sendUser", message);
-
   },
 }
 
