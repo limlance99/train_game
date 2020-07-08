@@ -48,8 +48,10 @@ module.exports.init = (io, users, actionHistory, railMap) => {
         });
 
         socket.on("sendMessage", data => {
+            console.log("sendMessage");
             if (socket.id in users) {
                 message = `${users[socket.id].name}: ${data}`;
+                socket.emit("broadcastMessage", message);
                 socket.broadcast.emit("broadcastMessage", message);
             }
         });

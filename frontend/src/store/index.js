@@ -56,6 +56,7 @@ const actions = {
     commit("moveTrain", obj);
   },
   SOCKET_broadcastMessage({commit}, message) {
+    console.log("message receieved");
     commit("broadcastMessage", message);
   },
 }
