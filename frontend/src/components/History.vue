@@ -1,8 +1,22 @@
 <template>
-    <div>
-        Hello, its me history
+    <div class="history">
+        <div v-for="(line, index) in actionHistory" :key="index">
+            {{line}}
+        </div>
     </div>
 </template>
 
 <script>
+import {mapState} from "vuex";
+export default {
+    computed: {
+        ...mapState(["actionHistory"]),
+    }
+}
 </script>
+
+<style scoped>
+.history {
+    overflow: scroll;
+}
+</style>

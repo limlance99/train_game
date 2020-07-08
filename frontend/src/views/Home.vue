@@ -42,9 +42,9 @@
       </div>
 
       <div class="flex-grow-1">
-        <div class="history"> 
+        
           <History />
-        </div>
+    
         <div class="chatbox">
           <Chatbox />
         </div>
