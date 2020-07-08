@@ -13,34 +13,6 @@ module.exports.init = (io, users, actionHistory, railMap) => {
             }
         });
 
-        socket.on("railClicked", railID => {
-            if (socket.id in users) {
-                action = `${users[socket.id].name} clicked rail ${railID}`;
-                rail = {
-                    id: railID,
-                    color: colors[socket.id]
-                }
-
-                socket.broadcast.emit("newRail", {
-                    rail: {
-                        id: railID,
-                        color: colors[socket.id]
-                    },
-                    newHistory: action
-                });
-                actionHistory.push(action);
-                console.log(action);
-            }
-        });
-
-        socket.on("goClicked", data => {
-            console.log(data);
-        });
-
-        socket.on("trainStop", data => {
-            console.log(data);
-        });
-
         socket.on("sendName", name => {
             users[socket.id] = {
                 name: name,

@@ -163,7 +163,7 @@ module.exports.init = (io, map, users, actionHistory) => {
 
         users[socket.id] = {name: socket.id + "", color: "FF0000"};
 
-        socket.emit("start-up", getMap(map));
+        //socket.emit("start-up", getMap(map));
 
         socket.on("rail-clicked", railID => {
             action = `${users[socket.id].name} clicked rail ${railID}`;
