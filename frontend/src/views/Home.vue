@@ -71,14 +71,13 @@ export default {
     };
   },
   computed: {
-    ...mapState(['rail']),
+    ...mapState(['rail', "listOfClickedRails"]),
   },
   methods: {
     send_button(row, col, direction) {
       row -= 1;
       col -= 1;
       var id = (row * this.width + col) * 4 + direction;
-      // console.log("WUT", selectedRails);
       // Socket.sendRail(id);
       this.$socket.emit("railClicked", id);
       console.log("sent");
@@ -107,14 +106,19 @@ export default {
     //   this.startAnimation = true;
     // },
     setColor(row, col, direction) {
-      console.log("went thru here");
-      // row -= 1;
-      // col -= 1;
-      // var id = (row * this.width + col) * 4 + direction;
-      // if (selectedRails.map[id] != undefined || selectedRails.map[id] != null) {
-      //   return selectedRails.map[id].color;
-      // }
-      console.log(row + col + direction);
+      // console.log("went thru here");
+      row -= 1;
+      col -= 1;
+      var id = (row * this.width + col) * 4 + direction;
+      var item;
+      
+      for (item of this.listOfClickedRails) {
+        console.log(item)
+        if (item.id == id) {
+          return item.color
+        }
+      }
+      
       return "#FFFFFF";
     }
   },
