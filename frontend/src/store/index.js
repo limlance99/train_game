@@ -22,6 +22,7 @@ const state = {
     4: "#00c6d7",
   },
   chatMessages: [],
+  directions: ["e","e", "e", "s", "s", "s"],
 }
 
 const mutations = {
