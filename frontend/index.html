@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-        <script defer src="/socket.io/socket.io.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vuex"></script>
-    <script defer src="/client/socket"></script>
+    <script src="/client/socket"></script>
     <script defer src="/client/constants"></script>
     <title>Train Game</title>
 </head>
@@ -24,23 +24,23 @@
                         <div class="row">
                             <div class="col-md-auto rail-vertical-invis"></div>
                             <div @click="send_button(row, col, 0)" class="col-md-auto rail rail-vertical"
-                                :style="[clicked.includes(((row-1) * width + (col-1))*4 + 0) ? {'backgroundColor' : '#855E3F'} : {'backgroundColor': '#FFFFFF'}]">
+                                :style="{ 'backgroundColor': setColor(row, col, 0) }">
                             </div>
                             <div class="col-md-auto rail-vertical-invis"></div>
                         </div>
                         <div class="row">
                             <div @click="send_button(row, col, 3)" class="col-md-auto rail rail-horizontal"
-                                :style="[clicked.includes(((row-1) * width + (col-1))*4 + 3) ? {'backgroundColor' : '#855E3F'} : {'backgroundColor': '#FFFFFF'}]">
+                                :style="{ 'backgroundColor': setColor(row, col, 3) }">
                             </div>
                             <div class="col-md-auto center-box"></div>
                             <div @click="send_button(row, col, 1)" class="col-md-auto rail rail-horizontal"
-                                :style="[clicked.includes(((row-1) * width + (col-1))*4 + 1) ? {'backgroundColor' : '#855E3F'} : {'backgroundColor': '#FFFFFF'}]">
+                                :style="{ 'backgroundColor': setColor(row, col, 1) }">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-auto rail-vertical-invis"></div>
                             <div @click="send_button(row, col, 2)" class="col-md-auto rail rail-vertical"
-                                :style="[clicked.includes(((row-1) * width + (col-1))*4 + 2) ? {'backgroundColor' : '#855E3F'} : {'backgroundColor': '#FFFFFF'}]">
+                                :style="{ 'backgroundColor': setColor(row, col, 2) }">
                             </div>
                             <div class="col-md-auto rail-vertical-invis"></div>
                         </div>
@@ -61,6 +61,7 @@
 </body>
 
 </html>
+
 <script>
     const vueApp = new Vue({
         el: '#app',
@@ -69,14 +70,14 @@
             directions: [],
             startAnimation: false,
             width: 3,
-            height: 3
+            height: 3,
         },
         methods: {
             send_button(row, col, direction) {
                 row -=1;
                 col -=1;
                 var id = (row * this.width + col)*4 + direction;
-                // console.log(id);
+                console.log('WUT', selectedRails)
                 Socket.sendRail(id);
                 var i;
                 if (this.clicked.includes(id)) {
@@ -92,12 +93,25 @@
                 // get info from backend
                 this.directions = ['e', 'e', 's', 's', 'e'];
                 this.startAnimation = true;
+            },
+            setColor(row, col, direction) {
+                console.log("went thru here")
+                row -=1;
+                col -=1;
+                var id = (row * this.width + col)*4 + direction;
+                if (selectedRails.map[id] != undefined || selectedRails.map[id] != null) {
+                    return selectedRails.map[id].color;
+                }
+                return '#FFFFFF'
             }
         },
         watch: {
             clicked() {
                 console.log(this.clicked)
-            }
+            },
+        },
+        mounted() {
+            console.log("w", selectedRails);
         }
     })
 </script>
