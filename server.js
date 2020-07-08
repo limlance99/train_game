@@ -3,7 +3,6 @@ const http = require('http').Server(app);
 const io = require("socket.io")(http);
 const rail = require('./backend/rail');
 const socket = require('./backend/socket');
-// const matrix = require('./backend/matrix');
 const port = 3000;
 
 app.get('/', (req, res) => {
@@ -17,6 +16,11 @@ app.get('/favicon.ico', (req, res) => {
 app.get('/css/:pageValue', (req, res) => {
     const file = req.params.pageValue;
     res.sendFile(__dirname + '/frontend/dist/css/' + file);
+});
+
+app.get('/img/:pageValue', (req, res) => {
+    const file = req.params.pageValue;
+    res.sendFile(__dirname + '/frontend/dist/img/' + file);
 });
 
 app.get('/js/:pageValue', (req, res) => {
@@ -34,4 +38,3 @@ let map = [];
 let actionHistory = [];
 
 socket.init(io, railMap, users, actionHistory);
-// matrix.init(io, map, actionHistory);

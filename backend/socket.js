@@ -1,4 +1,3 @@
-// const matrix = require('./matrix');
 const utils = require('./utils');
 const rail = require('./rail');
 
@@ -12,42 +11,29 @@ module.exports.init = (io, railMap, users, actionHistory) => {
 
         socket.on("disconnect", data => {
             if (socket.id in users) {
-                message = `${users[socket.id].name} has disconnected`;
-                io.sockets.emit("broadcastMessage", message);
+                io.sockets.emit("userLeft", {
+                    name: users[socket.id].name,
+                    color: users[socket.id].color,
+                    message: "has disconnected"
+                });
             }
         });
 
-        // socket.on("railClicked", railID => {
-        //     if (socket.id in users) {
-        //         let newColor = matrix.updateMap(railID, users[socket.id].color, map);
-
-        //         action = `${users[socket.id].name} clicked rail ${railID}`;
-        //         rail = {
-        //             id: railID,
-        //             color: colors[socket.id]
-        //         }
-
-        //         io.sockets.emit("newRail", {
-        //             rail: {
-        //                 id: railID,
-        //                 color: newColor
-        //             },
-        //             newHistory: action
-        //         });
-        //         actionHistory.push(action);
-        //         console.log(action);
-        //     }
-        // });
-
-        socket.on("railClicked", railID => {
+        socket.on("railClicked", data => {
             if (socket.id in users) {
-                action = `${users[socket.id].name} clicked rail ${railID}`;
-                railMap.add(new rail.Rail(railID, users[socket.id].color, 3));
+                let railID = data.id;
+                let placed = data.placed;
 
+                railMap.add(new rail.Rail(railID, users[socket.id].color, 3), placed);
+                action = {
+                    name: users[socket.id].name,
+                    color: users[socket.id].color,
+                    message: placed ? `added rail ${railID}` : `removed rail ${railID}`
+                };
                 io.sockets.emit("newRail", {
                     rail: {
                         id: railID,
-                        color: railMap.rails[railID].enabled ? users[socket.id].color : "#FFFFFF"
+                        color: railMap.enabled(railID) ? users[socket.id].color : "#FFFFFF"
                     },
                     newHistory: action
                 });
@@ -57,7 +43,16 @@ module.exports.init = (io, railMap, users, actionHistory) => {
 
         socket.on("goClicked", data => {
             frozen = true;
-            io.sockets.emit("moveTrain", railMap.solve());
+            action = {
+                name: users[socket.id].name,
+                color: users[socket.id].color,
+                message: `started the train`
+            };
+            io.sockets.emit("moveTrain", {
+                directions: railMap.solve(),
+                newHistory: action
+            });
+            actionHistory.push(action);
         });
 
         socket.on("trainStop", data => {
@@ -72,13 +67,21 @@ module.exports.init = (io, railMap, users, actionHistory) => {
             };
 
             message = `${users[socket.id].name} ${utils.joinMessage()}`;
-            io.sockets.emit("sendUser", message);
+            io.sockets.emit("sendUser", {
+                name: users[socket.id].name,
+                color: users[socket.id].color,
+                message: utils.joinMessage(),
+                accepted: true
+            });
         });
 
         socket.on("sendMessage", data => {
             if (socket.id in users) {
-                message = `${users[socket.id].name}: ${data}`;
-                io.sockets.emit("broadcastMessage", message);
+                io.sockets.emit("broadcastMessage", {
+                    name: users[socket.id].name,
+                    color: users[socket.id].color,
+                    message: data
+                });
             }
         });
     });

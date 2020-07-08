@@ -9,19 +9,8 @@ const state = {
     color: null,
   },
   askingName: false,
-  actionHistory: [
-    "Lance moved here",
-    "Lance moved here",
-    "Lance moved here","Lance moved here",
-    "Lance moved here",
-    "Lance moved here",
-  ],
-  listOfClickedRails: {
-    0: "#142323",
-    1: "#243213",
-    4: "#00c6d7",
-    5: "#414144",
-  },
+  actionHistory: [],
+  listOfClickedRails: {},
   chatMessages: [],
   directions: []
   // directions: ["e","e", "e", "s", "s", "s"],

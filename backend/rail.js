@@ -17,13 +17,9 @@ class RailMap {
         this.rails = {};
     }
 
-    add(rail) {
-        if (rail.id in this.rails && this.rails[rail.id].enabled) {
-            this.rails[rail.id] = rail;
-            this.rails[rail.id].enabled = false;
-        } else {
-            this.rails[rail.id] = rail;
-        }
+    add(rail, placed) {
+        this.rails[rail.id] = rail;
+        this.rails[rail.id].enabled = placed;
     }
 
     solve() {
@@ -34,9 +30,13 @@ class RailMap {
     encode() {
         let railColorMap = {};
         for (const [railID, rail] of Object.entries(this.rails)) {
-            railColorMap[railID] = rail.color;
+            railColorMap[railID] = rail.enabled ? rail.color : "#FFFFFF";
         }
         return railColorMap;
+    }
+
+    enabled(railID) {
+        return this.rails[railID].enabled;
     }
 }
 
