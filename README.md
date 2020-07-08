@@ -8,5 +8,5 @@ npm install
 
 ### HOW TO RUN
 ```
-npm run start
+npm run dev
 ```
