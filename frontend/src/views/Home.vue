@@ -12,7 +12,7 @@
               <div
                 @click="send_button(row, col, 0)"
                 class="col-md-auto rail rail-vertical"
-                :style="{ 'backgroundColor': setColor(row, col, 0) }"
+                :style="[listOfClickedRails[(row * width + col) * 4 + 0] != undefined ? listOfClickedRails[(row * width + col) * 4 + 0] : '#FFFFFF']"
               ></div>
               <div class="col-md-auto rail-vertical-invis"></div>
             </div>
@@ -20,13 +20,13 @@
               <div
                 @click="send_button(row, col, 3)"
                 class="col-md-auto rail rail-horizontal"
-                :style="{ 'backgroundColor': setColor(row, col, 3) }"
+                :style="[listOfClickedRails[(row * width + col) * 4 + 3] != undefined ? listOfClickedRails[(row * width + col) * 4 + 3] : '#FFFFFF']"
               ></div>
               <div class="col-md-auto center-box"></div>
               <div
                 @click="send_button(row, col, 1)"
                 class="col-md-auto rail rail-horizontal"
-                :style="{ 'backgroundColor': setColor(row, col, 1) }"
+                :style="[listOfClickedRails[(row * width + col) * 4 + 1] != undefined ? listOfClickedRails[(row * width + col) * 4 + 1] : '#FFFFFF']"
               ></div>
             </div>
             <div class="row">
@@ -34,7 +34,7 @@
               <div
                 @click="send_button(row, col, 2)"
                 class="col-md-auto rail rail-vertical"
-                :style="{ 'backgroundColor': setColor(row, col, 2) }"
+                :style="[listOfClickedRails[(row * width + col) * 4 + 2] != undefined ? listOfClickedRails[(row * width + col) * 4 + 2] : '#FFFFFF']"
               ></div>
               <div class="col-md-auto rail-vertical-invis"></div>
             </div>
@@ -95,7 +95,7 @@ export default {
     },
 
     setColor(row, col, direction) {
-      // console.log("went thru here");
+      console.log("went thru here");
       row -= 1;
       col -= 1;
       var id = (row * this.width + col) * 4 + direction;

@@ -38,6 +38,7 @@ const mutations = {
 
     let rail = data.rail;
     state.listOfClickedRails[rail.id] = rail.color;
+    console.log(state.listOfClickedRails);
     state.actionHistory.push(data.newHistory);
   },
   moveTrain: (state, data) => {
