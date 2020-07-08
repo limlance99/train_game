@@ -42,8 +42,12 @@
       </div>
 
       <div class="flex-grow-1">
-        <div class="history"></div>
-        <div class="chatbox"></div>
+        <div class="history"> 
+          <History />
+        </div>
+        <div class="chatbox">
+          <Chatbox />
+        </div>
       </div>
     </div>
   </div>
@@ -52,8 +56,11 @@
 <script>
 // @ is an alias to /src
 import {mapState} from "vuex";
+import History from "@/components/History.vue";
+import Chatbox from "@/components/Chatbox.vue";
 export default {
   name: "Home",
+  components: {History, Chatbox},
   data() {
     return {
       clicked: [],
@@ -174,10 +181,12 @@ export default {
 .history {
     height: 50%;
     background-color: rgb(177, 177, 255);
+    padding: 10px;
 }
 
 .chatbox {
     height: 50%;
     background-color: rgb(255, 255, 177);
+    padding: 10px
 }
 </style>
