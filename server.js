@@ -16,13 +16,17 @@ app.get('/client/constants', (req, res) => {
     res.sendFile(__dirname + '/frontend/constants/rail_paths.js');
 });
 
+app.get('/style', (req, res) => {
+    res.sendFile(__dirname + '/frontend/style.css');
+});
+
 http.listen(port, () => {
     console.log(`Listening on port ${port}`)
 });
 
 const names = {};
-const color = {};
+const colors = {};
 const actionHistory = [];
 const messageHistory = [];
 
-socket.init(io, names, actionHistory, messageHistory);
+socket.init(io, names, actionHistory, messageHistory, colors);

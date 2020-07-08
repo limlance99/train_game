@@ -5,17 +5,24 @@ const socket = io();
 
 
 const Socket = {
-    sendRail: function(id) {
-        console.log("rail-clicked", rail_paths[id]);
-        socket.emit("rail-clicked", rail_paths[id]);
+    sendRail: function(railID) {
+        socket.emit("rail-clicked", railID);
     }
 }
 
 socket.on("start-up", data => {
     console.log(data);
     selectedRails = data;
-})
+    username = prompt("Enter a username");
 
-socket.on("new-rail", rail => {
-    console.log(rail);
-})
+    socket.emit("send-name", username);
+});
+
+socket.on("new-rail", data => {
+    console.log(data.newHistory);
+    vueApp.toggleRail(data.rail.id);
+});
+
+socket.on("broadcast-message", message => {
+    console.log(message);
+});
