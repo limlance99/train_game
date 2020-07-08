@@ -107,43 +107,44 @@ function pathfind(grid){
     //train starts at 1,0
     let row = 1;
     let column = 0;
+    const coords = [0,1];
     let newRow = 1;
     let newColumn = 0;
     crossed.push(grid[row][column]);
 
     //find end of route
-    for(i = true;i;){
-        //find next coordinate
-        console.log("x: " + column + " y:" + row);
-        console.log("\tdirect rail: " + grid[row][column].rails[direction]);
+    for(i=true;i;){
+        let noStraight = true;
         if(grid[row][column].rails[direction] != "#FFFFFF"){
-            console.log("go next");
-
-            newRow += constants.locationDelta[direction]["row"];
-            newColumn += constants.locationDelta[direction]["column"];
-            
+            newRow += locationDelta[direction]["row"];
+            newColumn += locationDelta[direction]["column"];
+    
             if(!crossed.includes[grid[newRow][newColumn]]){
-                row += constants.locationDelta[direction]["row"];
-                column += constants.locationDelta[direction]["column"];
-            } else {
-                for(d = 0; d < constants.directions.length; d++){
-                    if(grid[row][column].rails[constants.directions[d]] != "#FFFFFF" && constants.directionsReversed[constants.directions[d]] != direction){
-                        let newRow = row + constants.locationDelta[direction]["row"];
-                        let newColumn = column + constants.locationDelta[direction]["column"];
-            
-                        if(!crossed.includes[grid[newRow][newColumn]]){
-                            row = newRow;
-                            column = newColumn;
-                            direction = constants.directions[d];
-                            d = constants.directions.length;
-                        }
+                row += locationDelta[direction]["row"];
+                column += locationDelta[direction]["column"];
+                noStraight = false;
+            }
+        }
+        if(noStraight){
+            console.log("yes")
+            console.log(grid[row][column].rails[directions[d]]);
+            for(d = 0; d < directions.length; d++){
+                if(grid[row][column].rails[directions[d]] != "#FFFFFF" && directionsReversed[directions[d]] != direction){
+                    newRow = row + locationDelta[directions[d]]["row"];
+                    newColumn = column + locationDelta[directions[d]]["column"];
+                    if(!crossed.includes[grid[newRow][newColumn]]){
+                        row = newRow;
+                        column = newColumn;
+                        direction = directions[d];
+                        d = directions.length;
+                        console.log(direction);
                     }
                 }
             }
         }
 
         //if next coordinate has already been crossed, terminate loop (end of rail)
-        if(grid[row][column].timesCrossed == 0){
+        if(!crossed.includes(grid[row][column])){
             crossed.push(grid[row][column]);
             route.push(direction);
         } else {
