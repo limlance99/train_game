@@ -1,4 +1,4 @@
-const utils = require('./utils');
+utils = require('./utils');
 
 module.exports.init = (io, users, actionHistory, railMap) => {
     io.on("connection", socket => {
@@ -16,6 +16,10 @@ module.exports.init = (io, users, actionHistory, railMap) => {
         socket.on("railClicked", railID => {
             if (socket.id in users) {
                 action = `${users[socket.id].name} clicked rail ${railID}`;
+                rail = {
+                    id: railID,
+                    color: colors[socket.id]
+                }
 
                 socket.broadcast.emit("newRail", {
                     rail: {

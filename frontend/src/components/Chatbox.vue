@@ -9,7 +9,8 @@
         <div class="flex-shrink-1 input-group">
             <input class="form-control" v-model="chatMessage" placeholder="chat here">
             <div class="input-group-append">
-                <button class="btn btn-primary mb-2" @click="sendMessage()">Send</button>
+                <button class="btn btn-primary mb-2" @click="sendMessage()"
+                :disabled="chatMessage ? false: true">Send</button>
             </div>
         </div>
     </div>
@@ -20,7 +21,7 @@ import {mapState} from "vuex";
 export default {
     data() {
         return {
-            chatMessage: null,
+            chatMessage: "",
         }
     },
     computed: {
@@ -28,7 +29,10 @@ export default {
     },
     methods: {
         sendMessage() {
-            this.$socket.emit('sendMessage', this.chatMessage);
+            if (this.chatMessage != "") {
+                this.$socket.emit('sendMessage', this.chatMessage);
+                this.chatMessage = "";
+            }
         }
     },
 }
