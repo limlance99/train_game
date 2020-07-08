@@ -4,7 +4,7 @@
     <Name />
     <div class="d-flex flex-row">
       <div class="col-md-auto container ml-5 mr-5">
-        <Train />
+        <!-- <Train /> -->
         <div v-for="row in height" class="row justify-content-center ml-5 mr-5" :key="row">
           <div v-for="col in width" class="col col-md-auto" :key="col">
             <div class="row">
