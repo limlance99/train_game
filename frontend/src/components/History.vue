@@ -1,7 +1,10 @@
 <template>
-    <div class="history">
-        <div v-for="(line, index) in actionHistory" :key="index">
-            {{line}}
+    <div class="h-50">
+        <div class="history h-100">
+            <h5> History </h5>
+            <div v-for="(line, index) in actionHistory" :key="index">
+                {{line}}
+            </div>
         </div>
     </div>
 </template>
@@ -18,7 +21,6 @@ export default {
 <style scoped>
 .history {
     overflow-y: scroll;
-    height: 50%;
 }
 
 </style>

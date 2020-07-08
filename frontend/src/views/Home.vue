@@ -46,10 +46,8 @@
       </div>
 
       <div class="flex-grow-1">
-        <History />
-    
-      
-        <Chatbox />
+        <History  />
+        <Chatbox  />
       </div>
     </div>
   </div>
@@ -181,13 +179,11 @@ export default {
 }
 
 .history {
-  height: 50%;
   background-color: rgb(177, 177, 255);
   padding: 10px;
 }
 
 .chatbox {
-  height: 50%;
   background-color: rgb(255, 255, 177);
   padding: 10px;
 }

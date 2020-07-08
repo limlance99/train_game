@@ -1,6 +1,7 @@
 <template>
     <div class="h-50">
         <div class="chatbox h-100">
+            <h5> Chatbox </h5>
             <div v-for="(line, index) in chatMessages" :key="index">
                 {{line}}
             </div>
