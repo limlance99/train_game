@@ -73,11 +73,7 @@ export default {
     };
   },
   computed: {
-<<<<<<< HEAD
-    ...mapState(["rail"])
-=======
     ...mapState(['rail', "listOfClickedRails"]),
->>>>>>> 5b2d1798372fc9ad6a38320ffa9f1cb73ee0c498
   },
   methods: {
     send_button(row, col, direction) {
