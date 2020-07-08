@@ -36,7 +36,7 @@ class RailMap {
         for (const [railID, rail] of Object.entries(this.rails)) {
             railColorMap[railID] = rail.color;
         }
-        return raidColorMap;
+        return railColorMap;
     }
 }
 

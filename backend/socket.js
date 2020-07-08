@@ -6,7 +6,7 @@ module.exports.init = (io, railMap, users, actionHistory) => {
     let frozen = false;
     io.on("connection", socket => {
         socket.emit("startUp", {
-            map: railMap, 
+            map: railMap.encode(), 
             actionHistory: actionHistory
         });
 
