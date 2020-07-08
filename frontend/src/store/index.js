@@ -15,19 +15,11 @@ const state = {
     "Lance moved here",
     "Lance moved here",
   ],
-<<<<<<< HEAD
   listOfClickedRails: {
     0: "#142323",
     1: "#243213",
     4: "#00c6d7",
   },
-=======
-  listOfClickedRails: [
-    {"buttonID": 0, "color": '#000000' },
-    {"buttonID": 1, "color": '#0099FF' },
-    {"buttonID": 2, "color": '#0099FF' },
-  ],
->>>>>>> 29b88ff742129449341980d1fe84b01d2ebc0383
   chatMessages: [],
 }
 
