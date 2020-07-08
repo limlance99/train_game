@@ -78,7 +78,8 @@ function getMap(grid){
     return modifiedRails;
 }
 
-function updateMap(coordinatePair, color, grid){
+function updateMap(railID, color, grid){
+    let coordinatePair = railIDConv(railID);
     let railPair = [{row: coordinatePair[0][1], column: coordinatePair[0][0], railDirection: "e"}, {row: coordinatePair[1][1], column: coordinatePair[1][0], railDirection: "e"}];
     let delta = {"column": coordinatePair[0][0]-coordinatePair[1][0], "row": coordinatePair[0][1]-coordinatePair[1][1]};
 
@@ -167,7 +168,7 @@ module.exports.init = (io, map, users, actionHistory) => {
 
         socket.on("rail-clicked", railID => {
             action = `${users[socket.id].name} clicked rail ${railID}`;
-            let newColor = updateMap(railIDConv.getEndpoints(railID), users[socket.id].color, map);
+            let newColor = updateMap(railID, users[socket.id].color, map);
 
             io.sockets.emit("new-rail", {
                 rail: {
