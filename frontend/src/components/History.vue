@@ -3,9 +3,12 @@
         <div class="history h-100">
             <h5> History </h5>
             <div v-for="(historyLine, index) in actionHistory" :key="index">
+                <b>
+                    [{{historyLine.time}}]
                 <span :style="`color:${historyLine.color}`">
-                    {{historyLine.name}}
-                </span>: {{historyLine.message}}
+                    {{historyLine.name}} {{historyLine.message}}
+                </span>
+                </b>
             </div>
         </div>
     </div>
