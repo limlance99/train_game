@@ -38,16 +38,18 @@
             </div>
           </div>
         </div>
-        <button type="button" @click="send_button(0,0,2)" class="btn btn-success btn-lg btn-block mt-2 mb">Go</button>
+        <button
+          type="button"
+          @click="send_button(0,0,2)"
+          class="btn btn-success btn-lg btn-block mt-2 mb"
+        >Go</button>
       </div>
 
       <div class="flex-grow-1">
-        
-          <History />
+        <History />
     
-        <div class="chatbox">
-          <Chatbox />
-        </div>
+      
+        <Chatbox />
       </div>
     </div>
   </div>
@@ -55,12 +57,12 @@
 
 <script>
 // @ is an alias to /src
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 import History from "@/components/History.vue";
 import Chatbox from "@/components/Chatbox.vue";
 export default {
   name: "Home",
-  components: {History, Chatbox},
+  components: { History, Chatbox },
   data() {
     return {
       clicked: [],
@@ -114,7 +116,7 @@ export default {
       
       for (item of this.listOfClickedRails) {
         console.log(item)
-        if (item.id == id) {
+        if (item.buttonID == id) {
           return item.color
         }
       }
@@ -135,62 +137,62 @@ export default {
 
 <style>
 .header {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .box {
-    width:  80%
+  width: 80%;
 }
 
 .rail-vertical {
-    width: 50px;
-    height: 80px;
-    border-style: solid;
-    border-width: 1.5px;
-    padding: 0;
+  width: 50px;
+  height: 80px;
+  border-style: solid;
+  border-width: 1.5px;
+  padding: 0;
 }
 
 .rail-vertical-invis {
-    width: 80px;
-    height: 80px;
-    border-style: hidden;
-    border-width: 1.5px;
-    padding: 0;
+  width: 80px;
+  height: 80px;
+  border-style: hidden;
+  border-width: 1.5px;
+  padding: 0;
 }
 
 .rail-horizontal {
-    width: 80px;
-    height: 50px;
-    border-style: solid;
-    border-width: 1.5px;
-    padding: 0;
+  width: 80px;
+  height: 50px;
+  border-style: solid;
+  border-width: 1.5px;
+  padding: 0;
 }
 
 .center-box {
-    width: 50px;
-    height: 50px;
-    padding: 0;
+  width: 50px;
+  height: 50px;
+  padding: 0;
 }
 
 .rail:hover {
-    cursor: pointer;
-    background-color: #855E3F;
+  cursor: pointer;
+  background-color: #855e3f;
 }
 
 .sidebar {
-    width: 600px;
-    background-color: #E0E0E0;
+  width: 600px;
+  background-color: #e0e0e0;
 }
 
 .history {
-    height: 50%;
-    background-color: rgb(177, 177, 255);
-    padding: 10px;
+  height: 50%;
+  background-color: rgb(177, 177, 255);
+  padding: 10px;
 }
 
 .chatbox {
-    height: 50%;
-    background-color: rgb(255, 255, 177);
-    padding: 10px
+  height: 50%;
+  background-color: rgb(255, 255, 177);
+  padding: 10px;
 }
 </style>

@@ -13,19 +13,13 @@ const state = {
     "Lance moved here",
     "Lance moved here","Lance moved here",
     "Lance moved here",
-    "Lance moved here","Lance moved here",
-    "Lance moved here",
-    "Lance moved here","Lance moved here",
-    "Lance moved here",
-    "Lance moved here","Lance moved here",
-    "Lance moved here",
     "Lance moved here",
   ],
-  listOfClickedRails: [
-    {"id": 0, "color": '#000000' },
-    {"id": 1, "color": '#0099FF' },
-    {"id": 2, "color": '#0099FF' },
-  ],
+  listOfClickedRails: {
+    0: "#142323",
+    1: "#243213",
+    4: "#00c6d7",
+  },
   chatMessages: [],
 }
 
@@ -35,6 +29,9 @@ const mutations = {
     state.listOfClickedRails = data.map; 
   },
   newRail: (state, data) => {
+    console.log(data.rail);
+    // state.listOfClickedRails.push(data.rail);
+
     state.rail = data.rail;
     state.actionHistory.push(data.newHistory);
   },
