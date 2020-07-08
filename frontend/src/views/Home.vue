@@ -112,13 +112,9 @@ export default {
       row -= 1;
       col -= 1;
       var id = (row * this.width + col) * 4 + direction;
-      var item;
       
-      for (item of this.listOfClickedRails) {
-        console.log(item)
-        if (item.buttonID == id) {
-          return item.color
-        }
+      if (this.listOfClickedRails[id] != undefined && this.listOfClickedRails != null) {
+        return this.listOfClickedRails[id];
       }
       
       return "#FFFFFF";
