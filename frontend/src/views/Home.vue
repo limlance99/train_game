@@ -12,7 +12,7 @@
               <div
                 @click="send_button(row, col, 0)"
                 class="col-md-auto rail rail-vertical"
-                :style="[(listOfClickedRails[(row * width + col) * 4 + 0] != undefined) ? 'backgroundColor :' + listOfClickedRails[(row * width + col) * 4 + 0] : 'backgroundColor: #FFFFFF']"
+                :style="`background-color: ${(listOfClickedRails[((row-1) * width + (col-1)) * 4 + 0 - '']) ? listOfClickedRails[((row-1) * width + (col-1)) * 4 + 0 - ''] : '#FFFFFF'}`"
               ></div>
               <div class="col-md-auto rail-vertical-invis"></div>
             </div>
@@ -20,13 +20,13 @@
               <div
                 @click="send_button(row, col, 3)"
                 class="col-md-auto rail rail-horizontal"
-                :style="{ backgroundColor : listOfClickedRails[(row * width + col) * 4 + 0] }"
+                 :style="`background-color: ${(listOfClickedRails[((row-1) * width + (col-1)) * 4 + 3 - '']) ? listOfClickedRails[((row-1) * width + (col-1)) * 4 + 3 - ''] : '#FFFFFF'}`"
               ></div>
               <div class="col-md-auto center-box"></div>
               <div
                 @click="send_button(row, col, 1)"
                 class="col-md-auto rail rail-horizontal"
-                :style="[(listOfClickedRails[(row * width + col) * 4 + 1] != undefined) ? 'backgroundColor :' + listOfClickedRails[(row * width + col) * 4 + 1] : 'backgroundColor: #FFFFFF']"
+                 :style="`background-color: ${(listOfClickedRails[((row-1) * width + (col-1)) * 4 + 1 - '']) ? listOfClickedRails[((row-1) * width + (col-1)) * 4 + 1 - ''] : '#FFFFFF'}`"
               ></div>
             </div>
             <div class="row">
@@ -34,7 +34,7 @@
               <div
                 @click="send_button(row, col, 2)"
                 class="col-md-auto rail rail-vertical"
-                :style="[(listOfClickedRails[(row * width + col) * 4 + 2] != undefined )? 'backgroundColor :' + listOfClickedRails[(row * width + col) * 4 + 2] : 'backgroundColor: #FFFFFF']"
+                :style="`background-color: ${(listOfClickedRails[((row-1) * width + (col-1)) * 4 + 2 - '']) ? listOfClickedRails[((row-1) * width + (col-1)) * 4 + 2 - ''] : '#FFFFFF'}`"
               ></div>
               <div class="col-md-auto rail-vertical-invis"></div>
             </div>
@@ -72,11 +72,11 @@ export default {
       startAnimation: false,
       width: 3,
       height: 3,
-      gettingName: false
+      gettingName: false,
     };
   },
   computed: {
-    ...mapState(['rail', "listOfClickedRails"]),
+    ...mapState(["listOfClickedRails"]),
   },
   methods: {
     send_button(row, col, direction) {
@@ -111,6 +111,10 @@ export default {
     }
   },
   watch: {
+    listOfClickedRails() {
+      this.ClickedRails = this.listOfClickedRails;
+      console.log(this.ClickedRailslistOfClickedRails);
+    }
   },
 };
 </script>

@@ -20,6 +20,7 @@ const state = {
     0: "#142323",
     1: "#243213",
     4: "#00c6d7",
+    5: "#414144",
   },
   chatMessages: [],
   directions: ["e","e", "e", "s", "s", "s"],
@@ -37,7 +38,8 @@ const mutations = {
     // state.listOfClickedRails.push(data.rail);
 
     let rail = data.rail;
-    state.listOfClickedRails[rail.id] = rail.color;
+    Vue.set(state.listOfClickedRails, rail.id, rail.color);
+    // state.listOfClickedRails[rail.id] = rail.color;
     console.log(state.listOfClickedRails);
     state.actionHistory.push(data.newHistory);
   },
@@ -59,6 +61,7 @@ const actions = {
     commit("startUp", obj);
   },
   SOCKET_newRail({commit}, obj) {
+    console.log("I HAVE A NEW RAIL");
     commit("newRail", obj);
   },
   SOCKET_moveTrain({commit}, obj) {
