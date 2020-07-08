@@ -1,14 +1,15 @@
 <template>
-    <div class="h-100">
-        <div class="chatbox h-40 flex-grow-1">
+    <div class="h-50">
+        <div class="chatbox h-100">
             <div v-for="(line, index) in chatMessages" :key="index">
                 {{line}}
             </div>
         </div>
-        <div class="flex-shrink-1">
-
-        <input class="form-control" :value="chatMessage" placeholder="chat here">
-        <button class="btn btn-primary mb-2" @click="sendMessage()">Send</button>
+        <div class="flex-shrink-1 input-group">
+            <input class="form-control" :value="chatMessage" placeholder="chat here">
+            <div class="input-group-append">
+                <button class="btn btn-primary mb-2" @click="sendMessage()">Send</button>
+            </div>
         </div>
     </div>
 </template>
