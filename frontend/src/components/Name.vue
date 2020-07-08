@@ -1,10 +1,13 @@
 <template>
 <div>
-<modal name="hello-world">
-  <div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="Wats ur name" v-model="username">
-  <div class="input-group-append">
-    <button @click="sendName" class="input-group-text" id="basic-addon2"> Enter </button>
+<modal name="hello-world" :clickToClose="false" :height="200">
+  <div class="p-5">
+    <h5> Please Enter Your Name </h5>
+    <div class="input-group mt-3">
+    <input type="text" class="form-control" placeholder="Wats ur name" v-model="username">
+    <div class="input-group-append">
+      <button @click="sendName" class="input-group-text" id="basic-addon2"> Enter </button>
+    </div>
   </div>
 </div>
 </modal>
