@@ -116,7 +116,7 @@ export default {
       
       for (item of this.listOfClickedRails) {
         console.log(item)
-        if (item.id == id) {
+        if (item.buttonID == id) {
           return item.color
         }
       }
