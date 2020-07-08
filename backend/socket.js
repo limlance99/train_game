@@ -12,7 +12,7 @@ module.exports.init = (io, railMap, users, actionHistory) => {
 
         socket.on("disconnect", data => {
             if (socket.id in users) {
-                message = `${names[socket.id]} has disconnected`;
+                message = `${users[socket.id].name} has disconnected`;
                 io.sockets.emit("broadcastMessage", message);
             }
         });
