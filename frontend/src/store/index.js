@@ -51,7 +51,8 @@ const mutations = {
     state.chatMessages.push(message); 
   },
   sendUser: (state, data) => {
-    console.log(data);
+    // console.log(data);
+    state.chatMessages.push(data);
     state.askingName = false;
   }
 }

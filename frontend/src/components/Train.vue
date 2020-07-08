@@ -13,25 +13,29 @@ export default {
     ...mapState(["directions"]),
   },
   methods: {
-    // moveTrain() {
-    //   var elem = document.getElementById("train");
-    //   var pos = 10;
-    //   var listOfDirections = this.directions;
-    //   var id = setInterval(frame, 5);
-    //   var i = 0;
-    //   var face = "east";
+    moveTrain() {
+      var elem = document.getElementById("train");
+      var top = 100;
+      var left = 60;
+      var listOfDirections = this.directions;
+      var id = setInterval(frame, 5);
+      var i = 0;
+      var face = "e";
 
-    //   function frame() {
+      function frame() {
           
-    //     if (i == listOfDirections.length - 1) {
-    //       clearInterval(id);
-    //     } else {
-    //       if (face == east) pass;
-    //       elem.style.top = pos + "px";
-    //       elem.style.left = pos + "px";
-    //     }
-    //   }
-    // }
+        if (i == listOfDirections.length) {
+          clearInterval(id);
+        } else {
+          // if 
+          // if (face == east) {
+            
+          // };
+          elem.style.top = top + "px";
+          elem.style.left = top + "px";
+        }
+      }
+    }
   }
 };
 </script>
