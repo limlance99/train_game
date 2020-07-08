@@ -1,6 +1,6 @@
 utils = require('./utils');
 
-module.exports.init = (io, names, actionHistory, messageHistory, colors) => {
+module.exports.init = (io, users, actionHistory, railMap) => {
     const fakeMap = {
         "0": {
             id: "0-0",
@@ -18,20 +18,12 @@ module.exports.init = (io, names, actionHistory, messageHistory, colors) => {
             id: "5-2",
             color: "#B1B1FF",
         }
-
-}
-
-    const fakeHistory = [
-        "Lance added rail 0-0",
-        "Keith added rail 3-3",
-        "Gene removed rail 3-3",
-        "Lexi pressed Go!",
-    ]
+    };
 
     io.on("connection", socket => {
-        socket.emit("start-up", {
-            map: fakeMap, 
-            history: fakeHistory,
+        socket.emit("startUp", {
+            map: railMap, 
+            actionHistory: actionHistory
         });
 
         socket.on("disconnect", data => {
@@ -41,14 +33,14 @@ module.exports.init = (io, names, actionHistory, messageHistory, colors) => {
             console.log(message);
         });
 
-        socket.on("rail-clicked", railID => {
+        socket.on("railClicked", railID => {
             action = `${names[socket.id]} clicked rail ${railID}`;
             rail = {
                 id: railID,
                 color: colors[socket.id]
             }
 
-            socket.broadcast.emit("new-rail", {
+            socket.broadcast.emit("newRail", {
                 rail: {
                     id: railID,
                     color: colors[socket.id]
@@ -59,17 +51,19 @@ module.exports.init = (io, names, actionHistory, messageHistory, colors) => {
             console.log(action);
         });
 
-        socket.on("go-clicked", data => {
+        socket.on("goClicked", data => {
             console.log(data);
         });
 
-        socket.on("train-stop", data => {
+        socket.on("trainStop", data => {
             console.log(data);
         });
 
-        socket.on("send-name", name => {
-            names[socket.id] = name;
-            colors[socket.id] = utils.chooseRandomColor();
+        socket.on("sendName", name => {
+            users[socket.id] = {
+                name: name,
+                color: utils.chooseRandomColor()
+            };
 
             message = `${names[socket.id]} ${utils.joinMessage()}`;
             socket.broadcast.emit("broadcast-message", message);
@@ -77,7 +71,7 @@ module.exports.init = (io, names, actionHistory, messageHistory, colors) => {
             console.log(message);
         });
 
-        socket.on("send-message", data => {
+        socket.on("sendMessage", data => {
             message = `${names[socket.id]}: ${data}`;
             socket.broadcast("broadcast-message", message);
             messageHistory.push(message);
