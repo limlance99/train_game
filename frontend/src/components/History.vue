@@ -17,6 +17,8 @@ export default {
 
 <style scoped>
 .history {
-    overflow: scroll;
+    overflow-y: scroll;
+    height: 50%;
 }
+
 </style>
