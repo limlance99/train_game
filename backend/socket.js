@@ -2,13 +2,8 @@
 const utils = require('./utils');
 const rail = require('./rail');
 
-module.exports.init = (io) => {
-    let railMap = new rail.RailMap();
-    let users = {};
-    let map = [];
-    let actionHistory = [];
+module.exports.init = (io, railMap, users, actionHistory) => {
     let frozen = false;
-
     io.on("connection", socket => {
         socket.emit("startUp", {
             map: railMap, 
@@ -80,7 +75,6 @@ module.exports.init = (io) => {
         });
 
         socket.on("sendMessage", data => {
-            console.log("sendMessage");
             if (socket.id in users) {
                 message = `${users[socket.id].name}: ${data}`;
                 io.sockets.emit("broadcastMessage", message);

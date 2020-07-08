@@ -28,6 +28,10 @@ http.listen(port, () => {
     console.log(`Listening on port ${port}`)
 });
 
+let railMap = new rail.RailMap();
+let users = {};
+let map = [];
+let actionHistory = [];
 
-socket.init(io);
+socket.init(io, railMap, users, actionHistory);
 // matrix.init(io, map, actionHistory);
