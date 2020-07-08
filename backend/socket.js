@@ -57,7 +57,7 @@ module.exports.init = (io, railMap, users, actionHistory) => {
 
         socket.on("goClicked", data => {
             frozen = true;
-            io.sockets.emit("trainPath", railMap.solve());
+            io.sockets.emit("moveTrain", railMap.solve());
         });
 
         socket.on("trainStop", data => {
