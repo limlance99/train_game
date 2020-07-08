@@ -20,8 +20,12 @@ module.exports.init = (io, map, users, actionHistory, railMap) => {
                 let newColor = matrix.updateMap(railID, users[socket.id].color, map);
 
                 action = `${users[socket.id].name} clicked rail ${railID}`;
+                rail = {
+                    id: railID,
+                    color: colors[socket.id]
+                }
 
-                socket.broadcast.emit("newRail", {
+                io.sockets.emit("newRail", {
                     rail: {
                         id: railID,
                         color: newColor

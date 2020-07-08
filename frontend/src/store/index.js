@@ -8,6 +8,7 @@ const state = {
     buttonID: null,
     color: null,
   },
+  askingName: false,
   actionHistory: [
     "Lance moved here",
     "Lance moved here",
@@ -26,6 +27,7 @@ const state = {
 const mutations = {
   startUp: (state, data) => {
     console.log(data)
+    state.askingName = true;
     // state.actionHistory = data.actionHistory;
     // state.listOfClickedRails = data.map; 
   },
@@ -56,8 +58,11 @@ const actions = {
     commit("moveTrain", obj);
   },
   SOCKET_broadcastMessage({commit}, message) {
-    console.log("message receieved");
     commit("broadcastMessage", message);
+  },
+  SOCKET_sendUser({commit}, message) {
+    commit("sendUser", message);
+    state.askingName = false;
   },
 }
 
