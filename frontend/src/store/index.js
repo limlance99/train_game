@@ -30,8 +30,8 @@ const mutations = {
   startUp: (state, data) => {
     console.log(data)
     state.askingName = true;
-    // state.actionHistory = data.actionHistory;
-    // state.listOfClickedRails = data.map; 
+    state.actionHistory = data.actionHistory;
+    state.listOfClickedRails = data.map; 
   },
   newRail: (state, data) => {
     console.log(data.rail);

@@ -18,7 +18,7 @@ class RailMap {
     }
 
     add(rail) {
-        if (rail.id in this.rails) {
+        if (rail.id in this.rails && this.rails[rail.id].enabled) {
             this.rails[rail.id] = rail;
             this.rails[rail.id].enabled = false;
         } else {
