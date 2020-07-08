@@ -1,12 +1,8 @@
-//node class containing variable for available rails
-//if variable has a non-empty string value, then the corresponding direction can be traversed
 class Node{
     constructor(){
-        this.rails = {"north": "", "east": "", "south": "", "west": ""};
-        this.timesCrossed = 0; //tracks the number of times a node has been crossed by the train; for algo purposes
+        this.rails = {"n": "#FFFFFF", "e": "#FFFFFF", "s": "#FFFFFF", "w": "#FFFFFF"};
     }
 }
-
 
 class Rail{
     constructor(id, color){
@@ -15,117 +11,131 @@ class Rail{
     }
 }
 
-
-const idConv = {
+const railIDConv = {
     getDirection: function(buttonID){
-        return directionPriority[buttonID % 4];
+        return directions[buttonID % 4];
     },
     getColumn: function(buttonID){
-        return buttonID/4%3; //change 3 to width
+        return boxesToGridSize(parseInt(buttonID/4%gridWidth)); //change 3 to width
     },
     getRow: function(buttonID){
-        return buttonID/4/3; //change 3 to width
+        return boxesToGridSize(parseInt(buttonID/4/gridWidth)); //change 3 to width
     },
-    getID: function(row, column){
-        
+    getEndpoints: function(buttonID){
+        //returns endpoints of the button ID
+        let d = this.getDirection(buttonID);
+        let row1 = this.getRow(buttonID);
+        let column1 = this.getColumn(buttonID);
+        let row2 = row1 + locationDelta[d]["row"];
+        let column2 = column1 + locationDelta[d]["column"];
+        return [[column1, row1], [column2, row2]];
+    },
+    getID: function(row, column, directionID){
+        //takes row and column of center nodes from the matrix/grid. adjust accordingly
+        boxRow = (row - 1)/2;
+        boxColumn = (column - 1)/2;
 
+        return (boxRow*gridWidth+boxColumn)*4+directionID;
     }
 }
 
-var boxSize = 3;
-var gridSize = ( 3 + ( 2*(boxSize - 1) ) );
-var direction = "east"; //N E W S; defaults to East;
-const directionPriority = ["north", "east", "south", "west"];
-const directionReverse = {"north": "south", "east": "west", "south": "north", "west": "east"};
-const locationDelta = {"north": {"row": -1, "column": 0}, "east": {"row": 0, "column": 1}, "south": {"row": 1, "column": 0}, "west": {"row": 0, "column": -1}};
-const endpointsToRailid = {};
+var gridHeight = 3;
+var gridWidth = 3; //temp variables
+const directions = ["n", "e" , "s", "w"];
+const directionsReversed = {"n": "s", "e": "w", "s": "n", "w": "e"};
+const locationDelta = {"n": {"row": -1, "column": 0}, "e": {"row": 0, "column": 1}, "s": {"row": 1, "column": 0}, "w": {"row": 0, "column": -1}};
 
-
-var users = {userID: {"name": "", "color": ""}}; //dictionary containing all users and their corresponding usernames and colors
-var history = ["username added rail on box#-rail#"]; //string list of all actions previously made
-    
-
-var grid = [];
-for(i = 0; i < gridSize; i++){
-    var row = [];
-    for(j = 0; j < gridSize; j++){
-        if(i%2 == 0 && j%2 == 0){} //ignore corners to optimize space?
-        else row.push(new Node());
-    }
-    grid.push(row);
+function boxesToGridSize(size){
+    return 1 + 2*(size);
 }
-    //2d array representing the map
-    //the row/column of each element also corresponds to its respective coordinate in the map
 
-function getMap(){
-    //wip
+function newMap(grid){
+    for(i=0;i<boxesToGridSize(gridHeight);i++){
+        let row = [];
+        for(j=0;j<boxesToGridSize(gridWidth);j++){
+            if(i%2 == 0 && j%2 == 0) row.push("");
+            else row.push(new Node());
+        }
+        grid.push(row);
+    }
+}
+
+function getMap(grid){
+    let modifiedRails = [];
 
     for(row = 1;row < grid.length;row+=2){
-        for(column = 1;column < grid.length;column+=2){
-
+        for(column = 1;column < grid[row].length;column+=2){
+            for(d = 0;d < directions.length;d++){
+                let color = grid[row][column].rails[directions[d]];
+                if(color != "#FFFFFF"){
+                    let id = railIDConv.getID(row, column, d);
+                    modifiedRails.push(new Rail(id, color));
+                } 
+            }
         }
     }
 
+    return modifiedRails;
 }
 
-function updateRails(coordinatePair, socketid){
-    //  !  might need to be updated to work with buttonIDs instead of coordinatePairs
+function updateMap(coordinatePair, color, grid){
+    let railPair = [{row: coordinatePair[0][1], column: coordinatePair[0][0], railDirection: "e"}, {row: coordinatePair[1][1], column: coordinatePair[1][0], railDirection: "e"}];
+    let delta = {"column": coordinatePair[0][0]-coordinatePair[1][0], "row": coordinatePair[0][1]-coordinatePair[1][1]};
 
-    var railPair = [{row = coordinatePair[0][1], column = coordinatePair[0][0], railDirection = "east"}, {row = coordinatePair[0][1], column = coordinatePair[0][0], railDirection = "east"}];
-    var delta = {"column": coordinatePair[0][0]-coordinatePair[1][0], "row": coordinatePair[0][1]-coordinatePair[1][1]};
-
-    for (d in locationDelta){
-        if(locationDelta[d][row] == delta[row] && locationDelta[d][column] == delta[column]){
-            railPair[0].railDirection = d;
-            railPair[1].railDirection = directionReverse[d];
+    for(d in locationDelta){
+        if(locationDelta[d]["row"] == delta["row"] && locationDelta[d]["column"] == delta["column"]){
+            railPair[0].railDirection = directionsReversed[d];
+            railPair[1].railDirection = d;
         }
     }
 
-    //update matrix to dis/connect rails
-    let newRail = ""
-    if (grid[railPair[0].row][railPair[0].column].rails[railPair[railDirection]] == "") newRail = users[socketid]["color"];
-    grid[railPair[0].row][railPair[0].column].rails[railPair[railDirection]] = newRail;
-    grid[railPair[1].row][railPair[1].column].rails[railPair[railDirection]] = newRail;
+    let newColor = "#FFFFFF";
+    if (grid[railPair[0].row][railPair[0].column].rails[railPair[0].railDirection] == "#FFFFFF") newColor = "#" + color;
+    grid[railPair[0].row][railPair[0].column].rails[railPair[0].railDirection] = newColor;
+    grid[railPair[1].row][railPair[1].column].rails[railPair[1].railDirection] = newColor;
+    console.log(railPair);
+
+    return newColor;
 }
 
-/*
-    pathfind function used to find the route of the train given the activated rails
-    tracks directions moved at every step in route array. return array for front-end animation
-    
-    consider creating a separate 2d array for timesCrossed
-        - so multiple synchronous function calls do not conflict with each other??? (modifying the same memory space)
-*/
-function pathfind(){
-    var route = [];
+function pathfind(grid){
+    let direction = "e";
+    let route = [];
+    let crossed = [];
+
 
     //train starts at 1,0
-    grid[1][0].timesCrossed = 1;
-    var row = 1;
-    var column = 0;
+    let row = 1;
+    let column = 0;
+    let newRow = 1;
+    let newColumn = 0;
+    crossed.push(grid[row][column]);
 
     //find end of route
     for(i = true;i;){
         //find next coordinate
-        if(grid[row][column].rails[direction] != ""){
+        console.log("x: " + column + " y:" + row);
+        console.log("\tdirect rail: " + grid[row][column].rails[direction]);
+        if(grid[row][column].rails[direction] != "#FFFFFF"){
+            console.log("go next");
+
             newRow += locationDelta[direction]["row"];
             newColumn += locationDelta[direction]["column"];
             
-            if(grid[newRow][newColumn].timesCrossed == 0){
-                row = newRow;
-                column = newColumn;
-                route.append(direction);
+            if(!crossed.includes[grid[newRow][newColumn]]){
+                row += locationDelta[direction]["row"];
+                column += locationDelta[direction]["column"];
             } else {
-                for(d = 0; d < directionPriority.length; d++){
-                    if(grid[row][column].rails[directionPriority[d]] != "" && directionReverse[directionPriority[d]] != direction){
-                        newRow += locationDelta[direction]["row"];
-                        newColumn += locationDelta[direction]["column"];
+                for(d = 0; d < directions.length; d++){
+                    if(grid[row][column].rails[directions[d]] != "#FFFFFF" && directionsReversed[directions[d]] != direction){
+                        let newRow = row + locationDelta[direction]["row"];
+                        let newColumn = column + locationDelta[direction]["column"];
             
-                        if(grid[newRow][newColumn].timesCrossed == 0){
+                        if(!crossed.includes[grid[newRow][newColumn]]){
                             row = newRow;
                             column = newColumn;
-                            direction = directionPriority[d];
-                            route.append(direction);
-                            d = directionPriority.length;
+                            direction = directions[d];
+                            d = directions.length;
                         }
                     }
                 }
@@ -134,18 +144,47 @@ function pathfind(){
 
         //if next coordinate has already been crossed, terminate loop (end of rail)
         if(grid[row][column].timesCrossed == 0){
-            grid[row][column].timesCrossed++;
+            crossed.push(grid[row][column]);
+            route.push(direction);
         } else {
             i = false;
         }
     }
 
-    //reset values can be optimizes using route array to reset specific nodes
-    for(i = 0; i < boxSize; i++){
-        for(j = 0; j < boxSize; j++){
-            grid[i][j].timesCrossed = 0;
-        }
-    }
-
     return route;
 }
+
+
+module.exports.init = (io, map, users, actionHistory) => {
+    newMap(map);
+    
+    io.on("connection", socket => {
+        console.log("good");
+
+        users[socket.id] = {name: socket.id + "", color: "FF0000"};
+
+        //socket.emit("start-up", getMap(map));
+
+        socket.on("rail-clicked", railID => {
+            action = `${users[socket.id].name} clicked rail ${railID}`;
+            let newColor = updateMap(railIDConv.getEndpoints(railID), users[socket.id].color, map);
+
+            io.sockets.emit("new-rail", {
+                rail: {
+                    id: parseInt(railID),
+                    color: newColor
+                },
+                newHistory: action
+            });
+            actionHistory.push(action);
+            console.log(action);
+        });
+
+        socket.on("go-clicked", data => {
+            let path = pathfind(map);
+            console.log(path);
+            io.sockets.emit("go-clicked", pathfind(map));
+            //io.sockets.emit("go-clicked", "hi!");
+        });
+    });
+};

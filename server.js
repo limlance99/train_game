@@ -1,7 +1,8 @@
 const app = require('express')();
 const http = require('http').Server(app);
 const io = require("socket.io")(http);
-const socket = require('./backend/socket')
+const socket = require('./backend/socket');
+const matrix = require('./backend/matrix')
 const port = 3000;
 
 app.get('/', (req, res) => {
@@ -26,7 +27,10 @@ http.listen(port, () => {
     console.log(`Listening on port ${port}`)
 });
 
+const railMap = {}
 const users = {};
+const map = [];
 const actionHistory = [];
 
 socket.init(io, users, actionHistory, 0);
+// matrix.init(io, map, actionHistory);
