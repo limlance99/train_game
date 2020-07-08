@@ -1,7 +1,8 @@
 <template>
   <div>
+    <button class="mt-100px" @click="moveTrain()"> GO {{ directions }} {{ directions.length }}</button>
     <img src="@/assets/train.png" class="train" id="train" />
-    <button @click="moveTrain()">GO {{ directions }}</button>
+    
   </div>
 </template>
 
@@ -15,37 +16,49 @@ export default {
   methods: {
     moveTrain() {
       console.log("directions", this.directions);
+      console.log(this.directions[0]);
+      var dirLen = this.directions.length;
+      console.log(dirLen);
+      var direcs = this.directions
       var elem = document.getElementById("train");
-      var top = 200;
-      var left = 60;
+      var top = 120;
+      var left = 10;
       var movement = 100;
-      var id = setInterval(frame, 5);
-      var i = 0;
+      
       var currentPosX = left;
       var currentPosY = top;
+
+    var i = 0;
+    var id = setInterval(function() { frame(); i+=1; }, 500);
+    
+    
       function frame() {
-        if (i == this.directions.length) {
-          clearInterval(id);
-        } else {
-          // if 
-          if (this.directions[i] == 'e') {
+        
+        console.log("went thru here once", i, direcs, dirLen)
+        if (i > dirLen) {
+            console.log("done")
+            clearInterval(id);
+            return;
+        } 
+        else {
+          console.log("went thru here once", currentPosX, currentPosY)
+          if (direcs[i] == 'e') {
               elem.style.left = currentPosX + movement + "px"; 
-              currentPosX = elem.style.left;
+              currentPosX = currentPosX + movement;
           }
-          else if (this.directions[i] == 'w') {
+          else if (direcs[i] == 'w') {
               elem.style.left = currentPosX - movement + "px";
-              currentPosX = elem.style.left;
+              currentPosX = currentPosX - movement;
           }
-          else if (this.directions[i] == 'n') {
+          else if (direcs[i] == 'n') {
               elem.style.top = currentPosY - movement + "px";
-              currentPosY = elem.style.top;
+              currentPosY = currentPosY - movement;
           }
-          else {
+          else if (direcs[i] == 's') {
               elem.style.top = currentPosY + movement + "px";
-              currentPosY = elem.style.top;
+              currentPosY = currentPosY + movement;
           }
         }
-        i += 1;
       }
     }
   }
@@ -57,7 +70,9 @@ export default {
   position: absolute;
   transform: scaleX(-1);
   width: 100px;
-  top: 10px;
+  top: 120px;
   left: 10px;
+  z-index: 1;
+  margin: 0
 }
 </style>
