@@ -1,87 +1,61 @@
 utils = require('./utils');
 
-module.exports.init = (io, names, actionHistory, messageHistory, colors) => {
-    const fakeMap = {
-        "0": {
-            id: "0-0",
-            color: "#343434",
-        },
-        "1": {
-            id: "1-3",
-            color: "#B1B1FF",
-        },
-        "4": {
-            id: "4-2",
-            color: "#B1B1FF",
-        },
-        "5": {
-            id: "5-2",
-            color: "#B1B1FF",
-        }
-
-}
-
-    const fakeHistory = [
-        "Lance added rail 0-0",
-        "Keith added rail 3-3",
-        "Gene removed rail 3-3",
-        "Lexi pressed Go!",
-    ]
-
+module.exports.init = (io, users, actionHistory, railMap) => {
     io.on("connection", socket => {
-        socket.emit("start-up", {
-            map: fakeMap, 
-            history: fakeHistory,
+        socket.emit("startUp", {
+            map: railMap, 
+            actionHistory: actionHistory
         });
 
         socket.on("disconnect", data => {
-            message = `${names[socket.id]} has disconnected`
-            socket.broadcast.emit("broadcast-message", message);
-            messageHistory.push(message);
-            console.log(message);
+            if (socket.id in users) {
+                socket.broadcast.emit("userLeft", users[socket.id].name);
+            }
         });
 
-        socket.on("rail-clicked", railID => {
-            action = `${names[socket.id]} clicked rail ${railID}`;
-            rail = {
-                id: railID,
-                color: colors[socket.id]
-            }
-
-            socket.broadcast.emit("new-rail", {
-                rail: {
+        socket.on("railClicked", railID => {
+            if (socket.id in users) {
+                action = `${users[socket.id].name} clicked rail ${railID}`;
+                rail = {
                     id: railID,
                     color: colors[socket.id]
-                },
-                newHistory: action
-            });
-            actionHistory.push(action);
-            console.log(action);
+                }
+
+                socket.broadcast.emit("newRail", {
+                    rail: {
+                        id: railID,
+                        color: colors[socket.id]
+                    },
+                    newHistory: action
+                });
+                actionHistory.push(action);
+                console.log(action);
+            }
         });
 
-        socket.on("go-clicked", data => {
+        socket.on("goClicked", data => {
             console.log(data);
         });
 
-        socket.on("train-stop", data => {
+        socket.on("trainStop", data => {
             console.log(data);
         });
 
-        socket.on("send-name", name => {
-            names[socket.id] = name;
-            colors[socket.id] = utils.chooseRandomColor();
+        socket.on("sendName", name => {
+            users[socket.id] = {
+                name: name,
+                color: utils.chooseRandomColor()
+            };
 
-            message = `${names[socket.id]} ${utils.joinMessage()}`;
+            message = `${users[socket.id].name} ${utils.joinMessage()}`;
             socket.broadcast.emit("broadcast-message", message);
-            messageHistory.push(message);
-            console.log(message);
         });
 
-        socket.on("send-message", data => {
-            message = `${names[socket.id]}: ${data}`;
-            socket.broadcast("broadcast-message", message);
-            messageHistory.push(message);
-            console.log(message);
+        socket.on("sendMessage", data => {
+            if (socket.id in users) {
+                message = `${users[socket.id].name}: ${data}`;
+                socket.broadcast("broadcast-message", message);
+            }
         });
     });
 }
