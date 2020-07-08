@@ -28,7 +28,7 @@ module.exports.init = (io, railMap, users, actionHistory) => {
                 action = {
                     name: users[socket.id].name,
                     color: users[socket.id].color,
-                    message: `clicked rail ${railID}`
+                    message: placed ? `added rail ${railID}` : `removed rail ${railID}`
                 };
                 io.sockets.emit("newRail", {
                     rail: {
