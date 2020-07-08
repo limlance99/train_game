@@ -3,7 +3,6 @@ const http = require('http').Server(app);
 const io = require("socket.io")(http);
 const rail = require('./backend/rail');
 const socket = require('./backend/socket');
-// const matrix = require('./backend/matrix');
 const port = 3000;
 
 app.get('/', (req, res) => {
@@ -39,4 +38,3 @@ let map = [];
 let actionHistory = [];
 
 socket.init(io, railMap, users, actionHistory);
-// matrix.init(io, map, actionHistory);
