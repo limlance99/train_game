@@ -44,7 +44,7 @@ module.exports.init = (io, railMap, users, actionHistory) => {
                 action = `${users[socket.id].name} clicked rail ${railID}`;
                 railMap.add(new rail.Rail(railID, users[socket.id].color, 3));
 
-                socket.broadcast.emit("newRail", {
+                io.sockets.emit("newRail", {
                     rail: {
                         id: railID,
                         color: users[socket.id].color
