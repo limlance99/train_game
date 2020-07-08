@@ -1,8 +1,12 @@
 const algo = require('./algo');
+const constants = require('./constants')
 
 class Rail {
-    constructor(railID, color) {
+    constructor(railID, color, width) {
         this.id = railID;
+        this.direction = constants.direction[railID % 4];
+        this.row = Math.trunc(Math.trunc(railID / 4) / width);
+        this.col = Math.trunc(Math.trunc(railID / 4) % width);
         this.color = color;
         this.enabled = enabled;
     }
@@ -14,15 +18,12 @@ class RailMap {
     }
 
     add(rail) {
-        this.rails
+        this.rails[rail.id] = rail;
     }
 
     toggle(railID) {
-        for (let rail of this.rails) {
-            if (rail.id == railID) {
-                rail.enabled = !rail.enabled;
-                break;
-            }
+        if (railID in this.rails) {
+            this.rails[railID].enabled = !this.rails[railID].enabled;
         }
     }
 

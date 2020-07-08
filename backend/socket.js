@@ -10,7 +10,8 @@ module.exports.init = (io, map, users, actionHistory, railMap) => {
 
         socket.on("disconnect", data => {
             if (socket.id in users) {
-                socket.broadcast.emit("userLeft", users[socket.id].name);
+                message = `${names[socket.id]} has disconnected`;
+                io.sockets.emit("broadcastMessage", message);
             }
         });
 
@@ -51,15 +52,14 @@ module.exports.init = (io, map, users, actionHistory, railMap) => {
             };
 
             message = `${users[socket.id].name} ${utils.joinMessage()}`;
-            socket.broadcast.emit("broadcastMessage", message);
+            io.sockets.emit("broadcastMessage", message);
         });
 
         socket.on("sendMessage", data => {
             console.log("sendMessage");
             if (socket.id in users) {
                 message = `${users[socket.id].name}: ${data}`;
-                socket.emit("broadcastMessage", message);
-                socket.broadcast.emit("broadcastMessage", message);
+                io.sockets.emit("broadcastMessage", message);
             }
         });
     });

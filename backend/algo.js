@@ -70,7 +70,7 @@ function check(node, neighbors) {
     return false;
 }
 
-function algo(edge_list) {
+function solve(edge_list) {
     let node = [1, 0];
     let face = 'e';
     let path = [];
@@ -104,4 +104,18 @@ function algo(edge_list) {
     } 
 }
 
-module.exports = algo;
+function railsToEdges(rails) {
+    let edges = [];
+    for (let rail of rails) {
+        let nodeA = [
+            1 + (2 * rail.row),
+            1 + (2 * rail.col)
+        ];
+        let nodeB = [
+        
+        ]
+    }
+}
+
+module.exports.solve = solve;
+module.exports.railsToEdges = railsToEdges;

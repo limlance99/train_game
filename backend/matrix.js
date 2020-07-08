@@ -1,3 +1,5 @@
+const constants = require('./constants');
+
 class Node{
     constructor(){
         this.rails = {"n": "#FFFFFF", "e": "#FFFFFF", "s": "#FFFFFF", "w": "#FFFFFF"};
@@ -13,7 +15,7 @@ class Rail{
 
 const railIDConv = {
     getDirection: function(buttonID){
-        return directions[buttonID % 4];
+        return constants.directions[buttonID % 4];
     },
     getColumn: function(buttonID){
         return boxesToGridSize(parseInt(buttonID/4%gridWidth)); //change 3 to width
@@ -26,8 +28,8 @@ const railIDConv = {
         let d = this.getDirection(buttonID);
         let row1 = this.getRow(buttonID);
         let column1 = this.getColumn(buttonID);
-        let row2 = row1 + locationDelta[d]["row"];
-        let column2 = column1 + locationDelta[d]["column"];
+        let row2 = row1 + constants.locationDelta[d]["row"];
+        let column2 = column1 + constants.locationDelta[d]["column"];
         return [[column1, row1], [column2, row2]];
     },
     getID: function(row, column, directionID){
@@ -41,9 +43,6 @@ const railIDConv = {
 
 var gridHeight = 3;
 var gridWidth = 3; //temp variables
-const directions = ["n", "e" , "s", "w"];
-const directionsReversed = {"n": "s", "e": "w", "s": "n", "w": "e"};
-const locationDelta = {"n": {"row": -1, "column": 0}, "e": {"row": 0, "column": 1}, "s": {"row": 1, "column": 0}, "w": {"row": 0, "column": -1}};
 
 function boxesToGridSize(size){
     return 1 + 2*(size);
@@ -65,8 +64,8 @@ function getMap(grid){
 
     for(row = 1;row < grid.length;row+=2){
         for(column = 1;column < grid[row].length;column+=2){
-            for(d = 0;d < directions.length;d++){
-                let color = grid[row][column].rails[directions[d]];
+            for(d = 0;d < constants.directions.length;d++){
+                let color = grid[row][column].rails[constants.directions[d]];
                 if(color != "#FFFFFF"){
                     let id = railIDConv.getID(row, column, d);
                     modifiedRails.push(new Rail(id, color));
@@ -83,9 +82,9 @@ function updateMap(railID, color, grid){
     let railPair = [{row: coordinatePair[0][1], column: coordinatePair[0][0], railDirection: "e"}, {row: coordinatePair[1][1], column: coordinatePair[1][0], railDirection: "e"}];
     let delta = {"column": coordinatePair[0][0]-coordinatePair[1][0], "row": coordinatePair[0][1]-coordinatePair[1][1]};
 
-    for(d in locationDelta){
-        if(locationDelta[d]["row"] == delta["row"] && locationDelta[d]["column"] == delta["column"]){
-            railPair[0].railDirection = directionsReversed[d];
+    for(d in constants.locationDelta){
+        if(constants.locationDelta[d]["row"] == delta["row"] && constants.locationDelta[d]["column"] == delta["column"]){
+            railPair[0].railDirection = constants.directionsReversed[d];
             railPair[1].railDirection = d;
         }
     }
@@ -120,23 +119,23 @@ function pathfind(grid){
         if(grid[row][column].rails[direction] != "#FFFFFF"){
             console.log("go next");
 
-            newRow += locationDelta[direction]["row"];
-            newColumn += locationDelta[direction]["column"];
+            newRow += constants.locationDelta[direction]["row"];
+            newColumn += constants.locationDelta[direction]["column"];
             
             if(!crossed.includes[grid[newRow][newColumn]]){
-                row += locationDelta[direction]["row"];
-                column += locationDelta[direction]["column"];
+                row += constants.locationDelta[direction]["row"];
+                column += constants.locationDelta[direction]["column"];
             } else {
-                for(d = 0; d < directions.length; d++){
-                    if(grid[row][column].rails[directions[d]] != "#FFFFFF" && directionsReversed[directions[d]] != direction){
-                        let newRow = row + locationDelta[direction]["row"];
-                        let newColumn = column + locationDelta[direction]["column"];
+                for(d = 0; d < constants.directions.length; d++){
+                    if(grid[row][column].rails[constants.directions[d]] != "#FFFFFF" && constants.directionsReversed[constants.directions[d]] != direction){
+                        let newRow = row + constants.locationDelta[direction]["row"];
+                        let newColumn = column + constants.locationDelta[direction]["column"];
             
                         if(!crossed.includes[grid[newRow][newColumn]]){
                             row = newRow;
                             column = newColumn;
-                            direction = directions[d];
-                            d = directions.length;
+                            direction = constants.directions[d];
+                            d = constants.directions.length;
                         }
                     }
                 }
