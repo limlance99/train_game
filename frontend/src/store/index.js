@@ -22,9 +22,9 @@ const state = {
     "Lance moved here",
   ],
   listOfClickedRails: [
-    {"id": 0, "color": '#000000' },
-    {"id": 1, "color": '#0099FF' },
-    {"id": 2, "color": '#0099FF' },
+    {"buttonID": 0, "color": '#000000' },
+    {"buttonID": 1, "color": '#0099FF' },
+    {"buttonID": 2, "color": '#0099FF' },
   ],
   chatMessages: [],
 }
@@ -35,6 +35,9 @@ const mutations = {
     state.listOfClickedRails = data.map; 
   },
   newRail: (state, data) => {
+    console.log(data.rail);
+    // state.listOfClickedRails.push(data.rail);
+
     state.rail = data.rail;
     state.actionHistory.push(data.newHistory);
   },
