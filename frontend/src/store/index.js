@@ -45,8 +45,7 @@ const mutations = {
     state.actionHistory.push(data.newHistory);
   },
   moveTrain: (state, data) => {
-    state.directions = data.directions;
-    console.log(state.directions);
+    state.directions = data
     state.actionHistory.push(data.newHistory);
   },
   broadcastMessage: (state, message) => {
