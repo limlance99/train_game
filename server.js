@@ -1,7 +1,7 @@
 const app = require('express')();
 const http = require('http').Server(app);
 const io = require("socket.io")(http);
-const socket = require('./backend/socket');
+const rail = require('./backend/rail');
 // const matrix = require('./backend/matrix');
 const port = 3000;
 
@@ -27,10 +27,10 @@ http.listen(port, () => {
     console.log(`Listening on port ${port}`)
 });
 
-const railMap = {}
+const railMap = new rail.RailMap();
 const users = {};
 const map = [];
 const actionHistory = [];
 
-socket.init(io, map, users, actionHistory, 0);
+socket.init(io, map, users, actionHistory, railMap);
 // matrix.init(io, map, actionHistory);

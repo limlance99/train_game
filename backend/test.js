@@ -9,7 +9,7 @@ function main() {
     railMap.add(new rails.Rail(7, "#FF0000", 3));
     railMap.add(new rails.Rail(6, "#FF0000", 3));
     
-    console.log(algo.railsToEdges(railMap.rails));
+    console.log(railMap.solve());
 }
 
 main();

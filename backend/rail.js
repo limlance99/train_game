@@ -27,7 +27,7 @@ class RailMap {
     }
 
     solve() {
-        edgeList = algo.railsToEdges(this.rails);
+        let edgeList = algo.railsToEdges(this.rails);
         return algo.solve(edgeList);
     }
 
