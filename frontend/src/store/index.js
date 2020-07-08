@@ -8,8 +8,24 @@ const state = {
     buttonID: null,
     color: null,
   },
-  actionHistory: [],
-  listOfClickedRails: [],
+  actionHistory: [
+    "Lance moved here",
+    "Lance moved here",
+    "Lance moved here","Lance moved here",
+    "Lance moved here",
+    "Lance moved here","Lance moved here",
+    "Lance moved here",
+    "Lance moved here","Lance moved here",
+    "Lance moved here",
+    "Lance moved here","Lance moved here",
+    "Lance moved here",
+    "Lance moved here",
+  ],
+  listOfClickedRails: [
+    {"id": 0, "color": '#000000' },
+    {"id": 1, "color": '#0099FF' },
+    {"id": 2, "color": '#0099FF' },
+  ],
   chatMessages: [],
 }
 
