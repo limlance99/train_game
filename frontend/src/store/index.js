@@ -23,7 +23,8 @@ const state = {
     5: "#414144",
   },
   chatMessages: [],
-  directions: ["e","e", "e", "s", "s", "s"],
+  directions: []
+  // directions: ["e","e", "e", "s", "s", "s"],
 }
 
 const mutations = {
@@ -45,6 +46,7 @@ const mutations = {
   },
   moveTrain: (state, data) => {
     state.directions = data.directions;
+    console.log(state.directions);
     state.actionHistory.push(data.newHistory);
   },
   broadcastMessage: (state, message) => {
