@@ -12,7 +12,7 @@
               <div
                 @click="send_button(row, col, 0)"
                 class="col-md-auto rail rail-vertical"
-                :style="[listOfClickedRails[(row * width + col) * 4 + 0] != undefined ? listOfClickedRails[(row * width + col) * 4 + 0] : '#FFFFFF']"
+                :style="[(listOfClickedRails[(row * width + col) * 4 + 0] != undefined) ? 'backgroundColor :' + listOfClickedRails[(row * width + col) * 4 + 0] : 'backgroundColor: #FFFFFF']"
               ></div>
               <div class="col-md-auto rail-vertical-invis"></div>
             </div>
@@ -20,13 +20,13 @@
               <div
                 @click="send_button(row, col, 3)"
                 class="col-md-auto rail rail-horizontal"
-                :style="[listOfClickedRails[(row * width + col) * 4 + 3] != undefined ? listOfClickedRails[(row * width + col) * 4 + 3] : '#FFFFFF']"
+                :style="{ backgroundColor : listOfClickedRails[(row * width + col) * 4 + 0] }"
               ></div>
               <div class="col-md-auto center-box"></div>
               <div
                 @click="send_button(row, col, 1)"
                 class="col-md-auto rail rail-horizontal"
-                :style="[listOfClickedRails[(row * width + col) * 4 + 1] != undefined ? listOfClickedRails[(row * width + col) * 4 + 1] : '#FFFFFF']"
+                :style="[(listOfClickedRails[(row * width + col) * 4 + 1] != undefined) ? 'backgroundColor :' + listOfClickedRails[(row * width + col) * 4 + 1] : 'backgroundColor: #FFFFFF']"
               ></div>
             </div>
             <div class="row">
@@ -34,7 +34,7 @@
               <div
                 @click="send_button(row, col, 2)"
                 class="col-md-auto rail rail-vertical"
-                :style="[listOfClickedRails[(row * width + col) * 4 + 2] != undefined ? listOfClickedRails[(row * width + col) * 4 + 2] : '#FFFFFF']"
+                :style="[(listOfClickedRails[(row * width + col) * 4 + 2] != undefined )? 'backgroundColor :' + listOfClickedRails[(row * width + col) * 4 + 2] : 'backgroundColor: #FFFFFF']"
               ></div>
               <div class="col-md-auto rail-vertical-invis"></div>
             </div>
