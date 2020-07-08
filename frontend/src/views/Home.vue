@@ -1,0 +1,183 @@
+<template>
+  <div id="app">
+    <div class="header"></div>
+    <div class="d-flex flex-row">
+      <div class="col-md-auto container ml-5 mr-5">
+        <div v-for="row in height" class="row justify-content-center ml-5 mr-5" :key="row">
+          <div v-for="col in width" class="col col-md-auto" :key="col">
+            <div class="row">
+              <div class="col-md-auto rail-vertical-invis"></div>
+              <div
+                @click="send_button(row, col, 0)"
+                class="col-md-auto rail rail-vertical"
+                :style="{ 'backgroundColor': setColor(row, col, 0) }"
+              ></div>
+              <div class="col-md-auto rail-vertical-invis"></div>
+            </div>
+            <div class="row">
+              <div
+                @click="send_button(row, col, 3)"
+                class="col-md-auto rail rail-horizontal"
+                :style="{ 'backgroundColor': setColor(row, col, 3) }"
+              ></div>
+              <div class="col-md-auto center-box"></div>
+              <div
+                @click="send_button(row, col, 1)"
+                class="col-md-auto rail rail-horizontal"
+                :style="{ 'backgroundColor': setColor(row, col, 1) }"
+              ></div>
+            </div>
+            <div class="row">
+              <div class="col-md-auto rail-vertical-invis"></div>
+              <div
+                @click="send_button(row, col, 2)"
+                class="col-md-auto rail rail-vertical"
+                :style="{ 'backgroundColor': setColor(row, col, 2) }"
+              ></div>
+              <div class="col-md-auto rail-vertical-invis"></div>
+            </div>
+          </div>
+        </div>
+        <button type="button" @click="send_button(0,0,2)" class="btn btn-success btn-lg btn-block mt-2 mb">Go</button>
+      </div>
+
+      <div class="flex-grow-1">
+        <div class="history"></div>
+        <div class="chatbox"></div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+// @ is an alias to /src
+import {mapState} from "vuex";
+export default {
+  name: "Home",
+  data() {
+    return {
+      clicked: [],
+      directions: [],
+      startAnimation: false,
+      width: 3,
+      height: 3
+    };
+  },
+  computed: {
+    ...mapState(['rail']),
+  },
+  methods: {
+    send_button(row, col, direction) {
+      row -= 1;
+      col -= 1;
+      var id = (row * this.width + col) * 4 + direction;
+      // console.log("WUT", selectedRails);
+      // Socket.sendRail(id);
+      this.$socket.emit("railClicked", id);
+      console.log("sent");
+      // var i;
+      this.toggleRail(id);
+    },
+
+    find_path() {
+      // get info from backend
+      this.directions = ["e", "e", "s", "s", "e"];
+      this.startAnimation = true;
+    },
+
+    toggleRail(id) {
+      if (this.clicked.includes(id)) {
+        this.clicked = this.clicked.filter(function(value) {
+          return value != id;
+        });
+      } else {
+        this.clicked.push(id);
+      }
+    },
+    // find_path() {
+    //   // get info from backend
+    //   this.directions = ["e", "e", "s", "s", "e"];
+    //   this.startAnimation = true;
+    // },
+    setColor(row, col, direction) {
+      console.log("went thru here");
+      // row -= 1;
+      // col -= 1;
+      // var id = (row * this.width + col) * 4 + direction;
+      // if (selectedRails.map[id] != undefined || selectedRails.map[id] != null) {
+      //   return selectedRails.map[id].color;
+      // }
+      console.log(row + col + direction);
+      return "#FFFFFF";
+    }
+  },
+  watch: {
+    clicked() {
+      console.log(this.clicked);
+    }
+  },
+  mounted() {
+    // console.log("w", selectedRails);
+  }
+};
+</script>
+
+<style>
+.header {
+    margin-top: 10px;
+}
+
+.box {
+    width:  80%
+}
+
+.rail-vertical {
+    width: 50px;
+    height: 80px;
+    border-style: solid;
+    border-width: 1.5px;
+    padding: 0;
+}
+
+.rail-vertical-invis {
+    width: 80px;
+    height: 80px;
+    border-style: hidden;
+    border-width: 1.5px;
+    padding: 0;
+}
+
+.rail-horizontal {
+    width: 80px;
+    height: 50px;
+    border-style: solid;
+    border-width: 1.5px;
+    padding: 0;
+}
+
+.center-box {
+    width: 50px;
+    height: 50px;
+    padding: 0;
+}
+
+.rail:hover {
+    cursor: pointer;
+    background-color: #855E3F;
+}
+
+.sidebar {
+    width: 600px;
+    background-color: #E0E0E0;
+}
+
+.history {
+    height: 50%;
+    background-color: rgb(177, 177, 255);
+}
+
+.chatbox {
+    height: 50%;
+    background-color: rgb(255, 255, 177);
+}
+</style>
