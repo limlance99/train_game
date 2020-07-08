@@ -84,8 +84,14 @@ export default {
       col -= 1;
       var id = (row * this.width + col) * 4 + direction;
       // Socket.sendRail(id);
-      this.$socket.emit("railClicked", id);
-      console.log("sent");
+      this.$socket.emit("railClicked", {
+        id: id,
+        placed: (
+          this.listOfClickedRails[id] == undefined || 
+          this.listOfClickedRails[id] == null || 
+          this.listOfClickedRails[id] == "#FFFFFF"
+        )
+      });
     },
 
     find_path() {
