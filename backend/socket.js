@@ -1,6 +1,7 @@
-utils = require('./utils');
+const matrix = require('./matrix');
+const utils = require('./utils');
 
-module.exports.init = (io, users, actionHistory, railMap) => {
+module.exports.init = (io, map, users, actionHistory, railMap) => {
     io.on("connection", socket => {
         socket.emit("startUp", {
             map: railMap, 
@@ -15,6 +16,8 @@ module.exports.init = (io, users, actionHistory, railMap) => {
 
         socket.on("railClicked", railID => {
             if (socket.id in users) {
+                let newColor = matrix.updateMap(railID, users[socket.id].color, map);
+
                 action = `${users[socket.id].name} clicked rail ${railID}`;
                 rail = {
                     id: railID,
@@ -24,7 +27,7 @@ module.exports.init = (io, users, actionHistory, railMap) => {
                 socket.broadcast.emit("newRail", {
                     rail: {
                         id: railID,
-                        color: colors[socket.id]
+                        color: newColor
                     },
                     newHistory: action
                 });
