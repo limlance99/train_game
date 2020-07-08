@@ -2,8 +2,10 @@
     <div class="h-50">
         <div class="history h-100">
             <h5> History </h5>
-            <div v-for="(line, index) in actionHistory" :key="index">
-                {{line}}
+            <div v-for="(historyLine, index) in actionHistory" :key="index">
+                <span :style="`color:${historyLine.color}`">
+                    {{historyLine.name}}
+                </span>: {{historyLine.message}}
             </div>
         </div>
     </div>
