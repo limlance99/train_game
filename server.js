@@ -1,8 +1,8 @@
 const app = require('express')();
 const http = require('http').Server(app);
 const io = require("socket.io")(http);
-const socket = require('./backend/socket');
-const port = 8080;
+const socket = require('./backend/socket')
+const port = 3000;
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/frontend/index.html');
