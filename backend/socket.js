@@ -12,7 +12,7 @@ module.exports.init = (io, railMap, users, actionHistory) => {
 
         socket.on("disconnect", data => {
             if (socket.id in users) {
-                message = `${names[socket.id]} has disconnected`;
+                message = `${users[socket.id].name} has disconnected`;
                 io.sockets.emit("broadcastMessage", message);
             }
         });
@@ -47,7 +47,7 @@ module.exports.init = (io, railMap, users, actionHistory) => {
                 io.sockets.emit("newRail", {
                     rail: {
                         id: railID,
-                        color: users[socket.id].color
+                        color: railMap.rails[railID].enabled ? users[socket.id].color : "0xFFFFFF"
                     },
                     newHistory: action
                 });
