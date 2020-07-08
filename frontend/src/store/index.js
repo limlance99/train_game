@@ -22,6 +22,7 @@ const state = {
     4: "#00c6d7",
   },
   chatMessages: [],
+  directions: ["e","e", "e", "s", "s", "s"],
 }
 
 const mutations = {
@@ -35,7 +36,8 @@ const mutations = {
     console.log(data.rail);
     // state.listOfClickedRails.push(data.rail);
 
-    state.rail = data.rail;
+    let rail = data.rail;
+    state.listOfClickedRails[rail.id] = rail.color;
     state.actionHistory.push(data.newHistory);
   },
   moveTrain: (state, data) => {

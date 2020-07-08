@@ -100,7 +100,7 @@ export default {
       col -= 1;
       var id = (row * this.width + col) * 4 + direction;
       
-      if (this.listOfClickedRails[id] != undefined && this.listOfClickedRails != null) {
+      if (this.listOfClickedRails[id] != undefined && this.listOfClickedRails[id] != null) {
         return this.listOfClickedRails[id];
       }
       
