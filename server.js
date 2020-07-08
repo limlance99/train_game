@@ -19,6 +19,11 @@ app.get('/css/:pageValue', (req, res) => {
     res.sendFile(__dirname + '/frontend/dist/css/' + file);
 });
 
+app.get('/img/:pageValue', (req, res) => {
+    const file = req.params.pageValue;
+    res.sendFile(__dirname + '/frontend/dist/img/' + file);
+});
+
 app.get('/js/:pageValue', (req, res) => {
     const file = req.params.pageValue;
     res.sendFile(__dirname + '/frontend/dist/js/' + file);

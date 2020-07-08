@@ -1,7 +1,7 @@
 <template>
   <div>
     <img src="@/assets/train.png" class="train" id="train" />
-    <button @click="moveTrain()">GO</button>
+    <!-- <button @click="moveTrain()">GO</button> -->
   </div>
 </template>
 
@@ -13,29 +13,29 @@ export default {
     ...mapState(["directions"]),
   },
   methods: {
-    moveTrain() {
-      var elem = document.getElementById("train");
-      var top = 100;
-      var left = 60;
-      var listOfDirections = this.directions;
-      var id = setInterval(frame, 5);
-      var i = 0;
-      var face = "e";
+    // moveTrain() {
+    //   var elem = document.getElementById("train");
+    //   var top = 100;
+    //   var left = 60;
+    //   var listOfDirections = this.directions;
+    //   var id = setInterval(frame, 5);
+    //   var i = 0;
+    //   var face = "e";
 
-      function frame() {
+    //   function frame() {
           
-        if (i == listOfDirections.length) {
-          clearInterval(id);
-        } else {
-          // if 
-          // if (face == east) {
+    //     if (i == listOfDirections.length) {
+    //       clearInterval(id);
+    //     } else {
+    //       // if 
+    //       // if (face == east) {
             
-          // };
-          elem.style.top = top + "px";
-          elem.style.left = top + "px";
-        }
-      }
-    }
+    //       // };
+    //       elem.style.top = top + "px";
+    //       elem.style.left = top + "px";
+    //     }
+    //   }
+    // }
   }
 };
 </script>

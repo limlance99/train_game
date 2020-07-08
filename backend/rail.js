@@ -38,6 +38,10 @@ class RailMap {
         }
         return railColorMap;
     }
+
+    enabled(railID) {
+        return railMap.rails[railID].enabled;
+    }
 }
 
 module.exports.Rail = Rail;
