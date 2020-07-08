@@ -14,7 +14,8 @@ module.exports.init = (io, railMap, users, actionHistory) => {
                 io.sockets.emit("userLeft", {
                     name: users[socket.id].name,
                     color: users[socket.id].color,
-                    message: "has disconnected"
+                    message: "has disconnected",
+                    time: (new Date()).toLocaleTimeString()
                 });
             }
         });
@@ -28,7 +29,8 @@ module.exports.init = (io, railMap, users, actionHistory) => {
                 action = {
                     name: users[socket.id].name,
                     color: users[socket.id].color,
-                    message: placed ? `added rail ${railID}` : `removed rail ${railID}`
+                    message: placed ? `added rail ${railID}` : `removed rail ${railID}`,
+                    time: (new Date()).toLocaleTimeString()
                 };
                 io.sockets.emit("newRail", {
                     rail: {
@@ -46,7 +48,8 @@ module.exports.init = (io, railMap, users, actionHistory) => {
             action = {
                 name: users[socket.id].name,
                 color: users[socket.id].color,
-                message: `started the train`
+                message: `started the train`,
+                time: (new Date()).toLocaleTimeString()
             };
             io.sockets.emit("moveTrain", {
                 directions: railMap.solve(),
@@ -71,7 +74,8 @@ module.exports.init = (io, railMap, users, actionHistory) => {
                 name: users[socket.id].name,
                 color: users[socket.id].color,
                 message: utils.joinMessage(),
-                accepted: true
+                accepted: true,
+                time: (new Date()).toLocaleTimeString()
             });
         });
 
@@ -80,7 +84,8 @@ module.exports.init = (io, railMap, users, actionHistory) => {
                 io.sockets.emit("broadcastMessage", {
                     name: users[socket.id].name,
                     color: users[socket.id].color,
-                    message: data
+                    message: data,
+                    time: (new Date()).toLocaleTimeString()
                 });
             }
         });
