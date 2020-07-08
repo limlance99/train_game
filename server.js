@@ -32,5 +32,5 @@ const users = {};
 const map = [];
 const actionHistory = [];
 
-socket.init(io, users, actionHistory, 0);
+socket.init(io, map, users, actionHistory, 0);
 // matrix.init(io, map, actionHistory);
