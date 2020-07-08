@@ -175,12 +175,12 @@ export default {
 }
 
 .history {
-  background-color: rgb(177, 177, 255);
+  background-color: rgb(199, 193, 193);
   padding: 10px;
 }
 
 .chatbox {
-  background-color: rgb(255, 255, 177);
+  background-color: rgb(255, 255, 255);
   padding: 10px;
 }
 </style>

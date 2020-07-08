@@ -3,6 +3,7 @@
         <div class="chatbox h-100">
             <h5> Chatbox </h5>
             <div v-for="(chatLine, index) in chatMessages" :key="index">
+                [{{historyLine.time}}]
                 <span :style="`color:${chatLine.color}`">
                     {{chatLine.name}}
                 </span>: {{chatLine.message}}
