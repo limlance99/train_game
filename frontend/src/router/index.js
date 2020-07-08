@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-
+import VModal from 'vue-js-modal'
+ 
+Vue.use(VModal)
 Vue.use(VueRouter)
 
   const routes = [

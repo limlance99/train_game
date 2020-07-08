@@ -4,6 +4,11 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 const state = {
+  newRail: {
+    buttonID: null,
+    color: null,
+  },
+  askingName: false,
   actionHistory: [
     "Lance moved here",
     "Lance moved here",
@@ -22,6 +27,7 @@ const state = {
 const mutations = {
   startUp: (state, data) => {
     console.log(data)
+    state.askingName = true;
     // state.actionHistory = data.actionHistory;
     // state.listOfClickedRails = data.map; 
   },
@@ -54,7 +60,11 @@ const actions = {
   },
   SOCKET_broadcastMessage({commit}, message) {
     commit("broadcastMessage", message);
-  }
+  },
+  SOCKET_sendUser({commit}, message) {
+    commit("sendUser", message);
+    state.askingName = false;
+  },
 }
 
 export default new Vuex.Store({
