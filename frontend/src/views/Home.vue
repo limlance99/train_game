@@ -1,8 +1,10 @@
 <template>
   <div id="app">
     <div class="header"></div>
+    <Name />
     <div class="d-flex flex-row">
       <div class="col-md-auto container ml-5 mr-5">
+        <Train />
         <div v-for="row in height" class="row justify-content-center ml-5 mr-5" :key="row">
           <div v-for="col in width" class="col col-md-auto" :key="col">
             <div class="row">
@@ -58,16 +60,19 @@
 import { mapState } from "vuex";
 import History from "@/components/History.vue";
 import Chatbox from "@/components/Chatbox.vue";
+import Train from "@/components/Train.vue";
+import Name from "@/components/Name.vue";
+
 export default {
   name: "Home",
-  components: { History, Chatbox },
+  components: { History, Chatbox, Train, Name },
   data() {
     return {
-      clicked: [],
       directions: [],
       startAnimation: false,
       width: 3,
-      height: 3
+      height: 3,
+      gettingName: false
     };
   },
   computed: {
@@ -81,8 +86,6 @@ export default {
       // Socket.sendRail(id);
       this.$socket.emit("railClicked", id);
       console.log("sent");
-      // var i;
-      this.toggleRail(id);
     },
 
     find_path() {
@@ -91,20 +94,6 @@ export default {
       this.startAnimation = true;
     },
 
-    toggleRail(id) {
-      if (this.clicked.includes(id)) {
-        this.clicked = this.clicked.filter(function(value) {
-          return value != id;
-        });
-      } else {
-        this.clicked.push(id);
-      }
-    },
-    // find_path() {
-    //   // get info from backend
-    //   this.directions = ["e", "e", "s", "s", "e"];
-    //   this.startAnimation = true;
-    // },
     setColor(row, col, direction) {
       // console.log("went thru here");
       row -= 1;
@@ -119,13 +108,7 @@ export default {
     }
   },
   watch: {
-    clicked() {
-      console.log(this.clicked);
-    }
   },
-  mounted() {
-    // console.log("w", selectedRails);
-  }
 };
 </script>
 

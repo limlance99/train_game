@@ -1,0 +1,49 @@
+<template>
+<div>
+<modal name="hello-world">
+  <div class="input-group mb-3">
+  <input type="text" class="form-control" placeholder="Wats ur name" v-model="username">
+  <div class="input-group-append">
+    <button @click="sendName" class="input-group-text" id="basic-addon2"> Enter </button>
+  </div>
+</div>
+</modal>
+</div>
+</template>
+
+<script>
+import { mapState } from "vuex";
+export default {
+  name: "Name",
+  data() {
+    return {
+      username: ""
+    };
+  },
+  computed: {
+    ...mapState(['askingName']),
+  },
+  methods: {
+    show () {
+      this.$modal.show('hello-world');
+    },
+    hide () {
+      this.$modal.hide('hello-world');
+    },
+    sendName() {
+      console.log(this.username);
+      this.$socket.emit("sendName", this.username);
+    }
+  },
+  watch: {
+    askingName() {
+      if (this.askingName == true) {
+        this.$modal.show('hello-world');
+      }
+      else {
+        this.$modal.hide('hello-world');
+      }
+    }
+  }
+};
+</script>
