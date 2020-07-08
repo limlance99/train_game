@@ -1,5 +1,5 @@
 const algo = require('./algo');
-const constants = require('./constants')
+const constants = require('./constants');
 
 class Rail {
     constructor(railID, color, width) {

@@ -86,7 +86,7 @@ function solve(edgeList) {
             node = next;
         }
 
-        else if (neighbors.length == 1) {
+        else if (neighbors.length <= 1) {
             return path;
         } 
         

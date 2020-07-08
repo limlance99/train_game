@@ -1,8 +1,14 @@
 // const matrix = require('./matrix');
 const utils = require('./utils');
-const rail = require('./backend/rail');
+const rail = require('./rail');
 
-module.exports.init = (io, map, users, actionHistory, railMap) => {
+module.exports.init = (io) => {
+    let railMap = new rail.RailMap();
+    let users = {};
+    let map = [];
+    let actionHistory = [];
+    let frozen = false;
+
     io.on("connection", socket => {
         socket.emit("startUp", {
             map: railMap, 
@@ -51,12 +57,12 @@ module.exports.init = (io, map, users, actionHistory, railMap) => {
                     newHistory: action
                 });
                 actionHistory.push(action);
-                console.log(railMap.solve())
             }
         });
 
         socket.on("goClicked", data => {
-            console.log(data);
+            frozen = true;
+            io.sockets.emit("trainPath", railMap.solve());
         });
 
         socket.on("trainStop", data => {
