@@ -43,8 +43,8 @@ data() {
         // doneAnimating: false
         // tempHeight: this.mapHeight,
         // tempWidth: this.mapWidth
-        tempHeight: 3,
-        tempWidth: 3
+        tempHeight: null,
+        tempWidth: null
     };
 },
   computed: {
