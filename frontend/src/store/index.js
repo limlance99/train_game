@@ -35,7 +35,8 @@ const mutations = {
     console.log(state.listOfClickedRails);
   },
   newActionHistory: (state, data) => {
-    if (data.error) {
+    console.log(data);
+    if (data.newHistory.error) {
       state.errorMessage = data.newHistory;
     } else {
       state.actionHistory.push(data.newHistory);
