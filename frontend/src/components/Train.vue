@@ -9,7 +9,7 @@
 <script>
 import { mapState } from "vuex";
 
-var animationDone;
+// var animationDone;
 
 export default {
 data() {
@@ -24,7 +24,7 @@ data() {
     moveTrain() {
       this.doneAnimating = false;
       // var animationDone = this.doneAnimating
-      console.log("directions", this.directions, animationDone);
+      console.log("directions", this.directions);
       console.log(this.directions[0]);
       var dirLen = this.directions.length;
       console.log(dirLen);
@@ -47,6 +47,9 @@ data() {
             if (direcs[i-1] == 's') {
               elem.style.transform = "rotate(0deg) scaleX(-1)";
             }
+            if (direcs[i-1] == 'n') {
+              elem.style.transform = "rotate(0deg)";
+            }
             elem.style.left = currentPosX + movement + "px"; 
             currentPosX = currentPosX + movement;
         }
@@ -54,10 +57,19 @@ data() {
             if (direcs[i-1] == 's') {
               elem.style.transform = "rotate(0deg)";
             }
+            if (direcs[i-1] == 'n') {
+              elem.style.transform = "rotate(0deg) scaleX(-1)";
+            }
             elem.style.left = currentPosX - movement + "px";
             currentPosX = currentPosX - movement;
         }
         else if (direcs[i] == 'n') {
+            if (direcs[i-1] == 'e') {
+              elem.style.transform = "rotate(90deg)";
+            }
+            if (direcs[i-1] == 'w') {
+              elem.style.transform = "rotate(-90deg) scaleX(-1)";
+            }
             elem.style.top = currentPosY - movement + "px";
             currentPosY = currentPosY - movement;
         }
@@ -76,9 +88,7 @@ data() {
 
         if (i > dirLen) {
           clearInterval(id);
-          animationDone = true;
-          
-          console.log("done", animationDone);
+          console.log("done");
           that.$socket.emit('trainStop');
         } 
 
@@ -135,7 +145,7 @@ data() {
   watch: {
       directions() {
           console.log("DIRECTIONS CHANGED: ", this.directions)
-          if (this.directions.length >0 && !animationDone) {
+          if (this.directions.length >0) {
               this.moveTrain()
           }
       },
