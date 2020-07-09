@@ -5,13 +5,6 @@ const vector = {
     'e': [0, 1]
 };
 
-const opposite = {
-    'n': 's',
-    's': 'n',
-    'e': 'w',
-    'w': 'e'
-};
-
 function checkNeighbor(node, edge) {
     if (equals(node, edge[0]))
         return edge[1];
