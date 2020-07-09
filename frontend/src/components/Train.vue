@@ -28,10 +28,11 @@ data() {
       console.log(dirLen);
       var direcs = this.directions
       var elem = document.getElementById("train");
+      var elemGrid = document.getElementById("grid");
       var top = 170;
       var left = -20;
       var movement = 100/10;
-      elem.style.left = left + "px";
+      elem.style.left = elemGrid.style.left + "px";
       elem.style.top = top + "px";
       var currentPosX = left;
       var currentPosY = top;
@@ -141,7 +142,6 @@ data() {
       // }
     }
   },
-
   watch: {
       directions() {
           console.log("DIRECTIONS CHANGED: ", this.directions)
