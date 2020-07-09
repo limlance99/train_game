@@ -15,8 +15,8 @@ const state = {
   chatMessages: [],
   directions: [],
   userColor: "",
-  mapHeight: 3,
-  mapWidth: 3,
+  mapHeight: null,
+  mapWidth: null,
   errorMessage: {},
 }
 
