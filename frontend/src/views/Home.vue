@@ -5,7 +5,7 @@
       <div class="col-md-auto container ml-5 mr-5">
         <Train @enableButtons="enableButtons"/>
 
-        <!-- <Dimensions /> -->
+        <Dimensions />
 
         <div v-for="row in mapHeight" class="row justify-content-center ml-5 mr-5" :key="row">
           <div v-for="col in mapWidth" class="col col-md-auto" :key="col">
@@ -65,13 +65,13 @@ import History from "@/components/History.vue";
 import Chatbox from "@/components/Chatbox.vue";
 import Train from "@/components/Train.vue";
 import Name from "@/components/Name.vue";
-// import Dimensions from "@/components/Dimensions.vue";
+import Dimensions from "@/components/Dimensions.vue";
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 export default {
   name: "Home",
-  components: { History, Chatbox, Train, Name, /*Dimensions*/ },
+  components: { History, Chatbox, Train, Name, Dimensions },
   data() {
     return {
       directions: [],

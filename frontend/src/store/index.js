@@ -24,8 +24,8 @@ const mutations = {
   startUp: (state, data) => {
     console.log(data)
     state.askingName = true;
-    // state.mapHeight = data.height;
-    // state.mapWidth = data.width;
+    state.mapHeight = data.height;
+    state.mapWidth = data.width;
     state.listOfClickedRails = data.map; 
     state.actionHistory = data.actionHistory;
     state.userColor = data.color;
