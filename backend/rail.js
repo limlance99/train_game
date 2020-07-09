@@ -28,7 +28,7 @@ class Rail {
     }
 
     changeID(width) {
-        this.id = ((this.__row * width) + this.__column) * 4 + this.__direction_numbers;
+        this.id = ((this.__row * width) + this.__column) * 4 + this.__direction_number;
     }
 
     isValid(width, height) {
@@ -82,29 +82,6 @@ class RailMap {
     }
 
     transform(width, height) {
-        this.height = height;
-        this.width = width;
-        let newRails = {};
-        let newInvalidRails = [];
-        for (let [railID, rail] of Object.entries(this.rails)) {
-            rail.changeID(width);
-            if (rail.isValid(this.width, this.height)) 
-                newRails[rail.id] = rail;
-            else
-                newInvalidRails.push(rail);
-        }
-        for (let rail of this.invalidRails) {
-            rail.changeID(width);
-            if (rail.isValid(this.width, this.height)) 
-                newRails[rail.id] = rail;
-            else
-                newInvalidRails.push(rail);
-        }
-        this.rails = newRails;
-        this.invalidRails = newInvalidRails;
-    }
-
-    transformTest(width, height) {
         this.height = height;
         this.width = width;
         let newRails = {};

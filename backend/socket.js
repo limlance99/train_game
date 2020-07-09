@@ -8,8 +8,6 @@ module.exports.init = (io, railMap, users, actionHistory) => {
             color: utils.chooseRandomColor()
         }
 
-        console.log(railMap.encode());
-
         socket.emit("startUp", {
             map: railMap.encode(), 
             actionHistory: actionHistory,
@@ -121,8 +119,7 @@ module.exports.init = (io, railMap, users, actionHistory) => {
         });
 
         socket.on("changeDimensions", dimensions => {
-            railMap.transformTest(dimensions.width, dimensions.height);
-            console.log(railMap.encode());
+            railMap.transform(dimensions.width, dimensions.height);
             io.sockets.emit("newMap", {
                 height: dimensions.height,
                 width: dimensions.width,
