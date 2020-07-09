@@ -28,7 +28,7 @@ data() {
       console.log(dirLen);
       var direcs = this.directions
       var elem = document.getElementById("train");
-      var top = 120;
+      var top = 170;
       var left = -20;
       var movement = 100/10;
       elem.style.left = left + "px";
@@ -170,7 +170,7 @@ data() {
   position: absolute;
   transform: scaleX(-1);
   width: 100px;
-  top: 120px;
+  top: 170px;
   float: left;
   left: -20px;
   z-index: 1;
