@@ -104,20 +104,21 @@ export default {
         col -= 1;
         var id = (row * this.mapWidth + col) * 4 + direction;
         // Socket.sendRail(id);
-        let rail = {
-          id,
-          color: this.userColor,
-        }
+        let placed = (
+          this.listOfClickedRails[id] == undefined || 
+            this.listOfClickedRails[id] == null || 
+            this.listOfClickedRails[id] == "#FFFFFF"
+          );
         this.$socket.emit("railClicked", {
           id: id,
           width: this.mapWidth,
-          placed: (
-            this.listOfClickedRails[id] == undefined || 
-            this.listOfClickedRails[id] == null || 
-            this.listOfClickedRails[id] == "#FFFFFF"
-          )
+          placed: placed
         });
-        this.$store.commit("newRail", rail);
+        let rail = {
+          id,
+          color: (placed) ? this.userColor : "#FFFFFF",
+        }
+        this.$store.commit("newRail", rail); 
       }
     },
 
