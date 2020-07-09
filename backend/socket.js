@@ -20,7 +20,8 @@ module.exports.init = (io, railMap, users, actionHistory) => {
             }
         });
 
-        socket.on("railClicked", data => {
+        socket.on("railClicked", async (data) => {
+            await utils.timeout(1000);
             if (socket.id in users) {
                 let railID = data.id;
                 let placed = data.placed;
