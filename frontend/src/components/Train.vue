@@ -47,6 +47,9 @@ data() {
             if (direcs[i-1] == 's') {
               elem.style.transform = "rotate(0deg) scaleX(-1)";
             }
+            if (direcs[i-1] == 'n') {
+              elem.style.transform = "rotate(0deg)";
+            }
             elem.style.left = currentPosX + movement + "px"; 
             currentPosX = currentPosX + movement;
         }
@@ -54,10 +57,19 @@ data() {
             if (direcs[i-1] == 's') {
               elem.style.transform = "rotate(0deg)";
             }
+            if (direcs[i-1] == 'n') {
+              elem.style.transform = "rotate(0deg) scaleX(-1)";
+            }
             elem.style.left = currentPosX - movement + "px";
             currentPosX = currentPosX - movement;
         }
         else if (direcs[i] == 'n') {
+            if (direcs[i-1] == 'e') {
+              elem.style.transform = "rotate(90deg)";
+            }
+            if (direcs[i-1] == 'w') {
+              elem.style.transform = "rotate(-90deg) scaleX(-1)";
+            }
             elem.style.top = currentPosY - movement + "px";
             currentPosY = currentPosY - movement;
         }
