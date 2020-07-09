@@ -103,3 +103,5 @@ function solve(edgeList) {
 }
 
 module.exports.solve = solve;
+module.exports.add = add;
+module.exports.vector = vector;

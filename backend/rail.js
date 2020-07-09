@@ -58,16 +58,15 @@ class RailMap {
                     1 + (2 * rail.row),
                     1 + (2 * rail.col)
                 ];
-                let nodeB = add(nodeA, vector[rail.direction]);
-                edges.push([nodeA, nodeB]);
+                let nodeB = algo.add(nodeA, algo.vector[rail.direction]);
+                edgeList.push([nodeA, nodeB]);
             }
         }
         return edgeList;
     }
 
     solve() {
-        let edgeList = algo.railsToEdges(this.rails);
-        return algo.solve(edgeList);
+        return algo.solve(this.toEdgeList());
     }
 
     encode() {
