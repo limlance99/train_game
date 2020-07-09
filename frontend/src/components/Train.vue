@@ -29,19 +29,20 @@ data() {
       var top = 120;
       var left = 10;
       var movement = 100;
-      
+      elem.style.left = left + "px";
+      elem.style.top = top + "px";
       var currentPosX = left;
       var currentPosY = top;
-        elem.style.left = left;
-        elem.style.top = top;
-    var i = 0;
-    var id = setInterval(function() { frame(); i+=1; }, 500);
+        
+      var i = 0;
+      var id = setInterval(function() { frame(); i+=1; }, 500);
     
       function frame() {
         
         console.log("went thru here once", i, direcs, dirLen)
         if (i > dirLen) {
             console.log("done")
+            this.$socket.emit("trainStop");
             clearInterval(id);
             return true;
         } 
@@ -69,10 +70,17 @@ data() {
   },
   watch: {
       directions() {
+          console.log("DIRECTIONS CHANGED: ", this.directions)
           if (this.directions.length >0) {
               this.doneAnimating = this.moveTrain()
           }
       },
+      doneAnimating() {
+          if (this.doneAnimating == true) {
+              this.directions = [];
+              this.doneAnimating = false;
+          }
+      }
   }
 };
 </script>

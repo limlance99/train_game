@@ -35,7 +35,7 @@ const mutations = {
   },
   moveTrain: (state, data) => {
     state.directions = data.directions
-    console.log(data.directions)
+    console.log("directions from backend", data.directions)
     state.actionHistory.push(data.newHistory);
   },
   broadcastMessage: (state, message) => {
