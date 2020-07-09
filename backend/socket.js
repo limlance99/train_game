@@ -29,9 +29,9 @@ module.exports.init = (io, railMap, users, actionHistory) => {
             await utils.timeout(1000);
             let railID = data.id;
             let placed = data.placed;
+            
             if (socket.id in users && !frozen) {
-
-                railMap.add(new rail.Rail(railID, users[socket.id].color, 3), placed);
+                railMap.add(railID, users[socket.id].color, placed)
                 action = {
                     name: users[socket.id].name,
                     color: users[socket.id].color,
