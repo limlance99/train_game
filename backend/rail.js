@@ -5,27 +5,35 @@ class Rail {
     constructor(railID, color, width) {
         this.id = railID;
         this.direction = constants.directions[railID % 4];
-        this.row = Math.trunc(Math.trunc(railID / 4) / width);
-        this.col = Math.trunc(Math.trunc(railID / 4) % width);
-        this.color = color;
+        this.__row = Math.trunc(Math.trunc(railID / 4) / width);
+        this.__column = Math.trunc(Math.trunc(railID / 4) % width);
+        this.__color = color;
         this.enabled = true;
+    }
+
+    get row() {
+        return this.__row;
+    }
+
+    get col() {
+        return this.__column;
+    }
+
+    get color() {
+        return this.enabled ? this.__color : "#FFFFFF";
     }
 }
 
 class RailMap {
-    constructor() {
+    constructor(width) {
         this.rails = {};
-        this.width = 3;
+        this.width = width;
     }
 
-    add(rail, placed) {
+    add(railID, color, placed) {
+        let rail = new Rail(railID, color, this.width)
         this.rails[rail.id] = rail;
         this.rails[rail.id].enabled = placed;
-    }
-
-    newAdd(railID, color, placed){
-        let rail = new Rail(railID, color, this.width)
-        this.add(rail, placed)
     }
 
     solve() {
@@ -42,9 +50,7 @@ class RailMap {
     }
 
     color(railID) {
-        if (!(railID in this.rails))
-            return "#FFFFFF";
-        return this.rails[railID].enabled ? this.rails[railID].color : "#FFFFFF";
+        return railID in this.rails ? this.rails[railID].color : "#FFFFFF";
     }
 }
 

@@ -17,9 +17,12 @@
   },
   "homepage": "https://github.com/limlance99/train_game#readme",
   "dependencies": {
+    "bootstrap": "^4.5.0",
+    "bootstrap-vue": "^2.15.0",
     "express": "^4.17.1",
     "http-server": "^0.12.3",
     "socket.io": "^2.3.0",
+    "vue": "^2.6.11",
     "vue-js-modal": "^2.0.0-rc.3"
   },
   "devDependencies": {

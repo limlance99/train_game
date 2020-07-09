@@ -4,7 +4,7 @@
     <Name />
     <div class="d-flex flex-row">
       <div class="col-md-auto container ml-5 mr-5">
-        <Train />
+        <Train @enableButtons="enableButtons"/>
         <div v-for="row in height" class="row justify-content-center ml-5 mr-5" :key="row">
           <div v-for="col in width" class="col col-md-auto" :key="col">
             <div class="row">
@@ -43,6 +43,7 @@
         <button
           type="button"
           @click="go()"
+          :disabled="preventClicking"
           class="btn btn-success btn-lg btn-block mt-2 mb"
         >Go</button>
       </div>
@@ -62,6 +63,8 @@ import History from "@/components/History.vue";
 import Chatbox from "@/components/Chatbox.vue";
 import Train from "@/components/Train.vue";
 import Name from "@/components/Name.vue";
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 export default {
   name: "Home",
@@ -69,35 +72,44 @@ export default {
   data() {
     return {
       directions: [],
-      startAnimation: false,
+      preventClicking: false,
       width: 3,
       height: 3,
       gettingName: false,
     };
   },
   computed: {
-    ...mapState(["listOfClickedRails"]),
+    ...mapState(["listOfClickedRails", "errorMessage"]),
   },
   methods: {
+    makeToast(message = null) {
+        console.log("make toast")
+        this.$bvToast.toast(message, {
+          title: 'Error',
+          toaster: 'b-toaster-top-center',
+          variant: 'warning',
+          solid: true
+        })
+    },
     send_button(row, col, direction) {
-      row -= 1;
-      col -= 1;
-      var id = (row * this.width + col) * 4 + direction;
-      // Socket.sendRail(id);
-      this.$socket.emit("railClicked", {
-        id: id,
-        placed: (
-          this.listOfClickedRails[id] == undefined || 
-          this.listOfClickedRails[id] == null || 
-          this.listOfClickedRails[id] == "#FFFFFF"
-        )
-      });
+      if (!this.preventClicking) {
+        row -= 1;
+        col -= 1;
+        var id = (row * this.width + col) * 4 + direction;
+        // Socket.sendRail(id);
+        this.$socket.emit("railClicked", {
+          id: id,
+          placed: (
+            this.listOfClickedRails[id] == undefined || 
+            this.listOfClickedRails[id] == null || 
+            this.listOfClickedRails[id] == "#FFFFFF"
+          )
+        });
+      }
     },
 
-    find_path() {
-      // get info from backend
-      this.directions = ["e", "e", "s", "s", "e"];
-      this.startAnimation = true;
+    enableButtons() {
+      this.preventClicking = false;
     },
 
     setColor(row, col, direction) {
@@ -114,12 +126,21 @@ export default {
     },
     go() {
       this.$socket.emit("goClicked");
+      this.preventClicking = true;
     }
   },
   watch: {
     listOfClickedRails() {
       this.ClickedRails = this.listOfClickedRails;
       console.log(this.ClickedRailslistOfClickedRails);
+    },
+    errorMessage() {
+      if (this.errorMessage != null && this.errorMessage != undefined) {
+        console.log(this.errorMessage.name + " " + this.errorMessage.message)
+        var message = this.errorMessage.name + " " + this.errorMessage.message;
+        console.log(message)
+        this.makeToast(message);
+      }
     }
   },
 };

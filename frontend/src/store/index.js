@@ -17,42 +17,41 @@ const state = {
   userColor: "",
   mapHeight: 3,
   mapWidth: 3,
-  // directions: ["e","e", "e", "s", "s", "s"],
+  errorMessage: {},
 }
 
 const mutations = {
   startUp: (state, data) => {
     console.log(data)
     state.askingName = true;
-    state.actionHistory = data.actionHistory;
-    state.listOfClickedRails = data.map; 
-    state.userColor = data.color;
     state.mapHeight = data.height;
     state.mapWidth = data.width;
+    state.listOfClickedRails = data.map; 
+    state.actionHistory = data.actionHistory;
+    state.userColor = data.color;
   },
   newRail: (state, rail) => {
-    // console.log(data.rail);
-    // state.listOfClickedRails.push(data.rail);
-
-    // let rail = data.rail;
     Vue.set(state.listOfClickedRails, rail.id, rail.color);
-    // state.listOfClickedRails[rail.id] = rail.color;
     console.log(state.listOfClickedRails);
-    // state.actionHistory.push(data.newHistory);
   },
-  newActionHistory: (state, message) => {
-    state.actionHistory.push(message);
+  newActionHistory: (state, data) => {
+    if (data.error) {
+      state.errorMessage = data.newHistory;
+    } else {
+      state.actionHistory.push(data.newHistory);
+    }
   },
-  moveTrain: (state, directions) => {
-    state.directions = directions;
+  moveTrain: (state, data) => {
+    state.directions = data.directions;
   },
   newChatMessage: (state, message) => {
     state.chatMessages.push(message); 
   },
-  sendUser: (state, data) => {
-    // console.log(data);
-    state.chatMessages.push(data);
-    state.askingName = false;
+  userAccept: (state) => state.askingName = false,
+  newMap: (state, data) => {
+    state.mapWidth = data.width;
+    state.mapHeight = data.mapHeight;
+    state.listOfClickedRails = data.map;
   }
 }
 
@@ -63,19 +62,24 @@ const actions = {
   SOCKET_newRail({commit}, obj) {
     console.log("I HAVE A NEW RAIL");
     commit("newRail", obj.rail);
-    commit("newActionHistory", obj.newHistory);
+    commit("newActionHistory", obj);
   },
   SOCKET_moveTrain({commit}, obj) {
     commit("moveTrain", obj);
-    commit("newActionHistory", obj.newHistory);
+    commit("newActionHistory", obj);
   },
   SOCKET_broadcastMessage({commit}, message) {
-    commit("broadcastMessage", message);
+    commit("newChatMessage", message);
   },
-  SOCKET_sendUser({commit}, message) {
-    commit("sendUser", message);
+  SOCKET_userJoined({commit}, message) {
+    commit("newChatMessage", message);
   },
-  // SOCKET_newMap
+  SOCKET_newMap({commit}, obj) {
+    commit("newMap", obj);
+  },
+  SOCKET_userAccept({commit}) {
+    commit("userAccept");
+  }
 }
 
 export default new Vuex.Store({
