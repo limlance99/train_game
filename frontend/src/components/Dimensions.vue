@@ -1,5 +1,5 @@
 <template>
-    <div class="card d-inline-flex mt-4 mb-4" style="border: none">
+    <div class="card d-inline-flex" style="border: none">
         <div class="row">
         <label style="margin-top: 6px">Height</label>
         <b-input-group class="col-sm">
