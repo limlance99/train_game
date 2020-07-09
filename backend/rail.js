@@ -12,11 +12,11 @@ class Rail {
     }
 
     get row() {
-        return this.r;
+        return this.__row;
     }
 
     get col() {
-        return this.c;
+        return this.__column;
     }
 
     get color() {
