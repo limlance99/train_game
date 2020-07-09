@@ -103,6 +103,29 @@ class RailMap {
         this.rails = newRails;
         this.invalidRails = newInvalidRails;
     }
+
+    transformTest(width, height) {
+        this.height = height;
+        this.width = width;
+        let newRails = {};
+        let newInvalidRails = [];
+        for (let [railID, rail] of Object.entries(this.rails)) {
+            rail.changeID(width);
+            if (rail.isValid(this.width, this.height)) 
+                newRails[rail.id] = rail;
+            else
+                newInvalidRails.push(rail);
+        }
+        for (let rail of this.invalidRails) {
+            rail.changeID(width);
+            if (rail.isValid(this.width, this.height)) 
+                newRails[rail.id] = rail;
+            else
+                newInvalidRails.push(rail);
+        }
+        this.rails = newRails;
+        this.invalidRails = newInvalidRails;
+    }
 }
 
 module.exports.Rail = Rail;

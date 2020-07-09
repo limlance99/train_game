@@ -7,6 +7,9 @@ module.exports.init = (io, railMap, users, actionHistory) => {
         users[socket.id] = {
             color: utils.chooseRandomColor()
         }
+
+        console.log(railMap.encode());
+
         socket.emit("startUp", {
             map: railMap.encode(), 
             actionHistory: actionHistory,
@@ -118,7 +121,8 @@ module.exports.init = (io, railMap, users, actionHistory) => {
         });
 
         socket.on("changeDimensions", dimensions => {
-            railMap.transform(dimensions.width, dimensions.height);
+            railMap.transformTest(dimensions.width, dimensions.height);
+            console.log(railMap.encode());
             io.sockets.emit("newMap", {
                 height: dimensions.height,
                 width: dimensions.width,
