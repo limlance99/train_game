@@ -26,10 +26,10 @@ module.exports.init = (io, railMap, users, actionHistory) => {
         });
 
         socket.on("railClicked", async (data) => {
-            // await utils.timeout(1000);
+            await utils.timeout(1000);
+            let railID = data.id;
+            let placed = data.placed;
             if (socket.id in users && !frozen) {
-                let railID = data.id;
-                let placed = data.placed;
 
                 railMap.add(new rail.Rail(railID, users[socket.id].color, 3), placed);
                 action = {
@@ -37,7 +37,7 @@ module.exports.init = (io, railMap, users, actionHistory) => {
                     color: users[socket.id].color,
                     message: placed ? `added rail ${railID}` : `removed rail ${railID}`,
                     time: (new Date()).toLocaleTimeString(),
-                    valid: true
+                    error: false
                 };
                 io.sockets.emit("newRail", {
                     rail: {
@@ -56,7 +56,11 @@ module.exports.init = (io, railMap, users, actionHistory) => {
                         color: railMap.color(railID)
                     },
                     newHistory: {
-                        valid: false
+                        name: "You",
+                        color: users[socket.id].color,
+                        message: `failed to modify rail ${railID}`,
+                        time: (new Date()).toLocaleTimeString(),
+                        error: true
                     }
                 });
             }
