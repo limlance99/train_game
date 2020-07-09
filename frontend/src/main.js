@@ -8,12 +8,8 @@ import SocketIO from "socket.io-client"
 import BootstrapVue from 'bootstrap-vue'
 import { BVToastPlugin } from 'bootstrap-vue'
 
-<<<<<<< HEAD
 Vue.use(BVToastPlugin)
 Vue.use(BootstrapVue)
-=======
-
->>>>>>> 07ddaf09e94ca02b0c8f5b221ecb645894594277
 Vue.config.productionTip = false
 
 
