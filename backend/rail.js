@@ -15,8 +15,16 @@ class Rail {
         return this.__row;
     }
 
+    set row(row){
+        this.__row = row;
+    }
+
     get col() {
         return this.__column;
+    }
+
+    set col(column){
+        this.__column = column;
     }
 
     get color() {
@@ -102,6 +110,33 @@ class RailMap {
         }
         this.rails = newRails;
         this.invalidRails = newInvalidRails;
+    }
+
+    insert (location, axis, insert) {
+        let offset = insert? 1:-1;
+        let newRails = {}
+
+        if (axis == "row") this.height += offset;
+        else this.width += offset;
+
+        for (let[railID, rail] of Object.entries(this.rails)){
+            if (rail[axis] == location){
+                if(insert){
+                    rail[axis] = rail[axis] + offset;
+                    rail.changeID(this.width);
+                    newRails[rail.id] = rail;
+                }
+            } else if(rail[axis] > location) {
+                rail[axis] = rail[axis] + offset;
+                rail.changeID(this.width);
+                newRails[rail.id] = rail;
+            } else {
+                rail.changeID(this.width);
+                newRails[rail.id] = rail;
+            }
+        }
+
+        this.rails = newRails;
     }
 }
 

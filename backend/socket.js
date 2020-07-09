@@ -119,10 +119,22 @@ module.exports.init = (io, railMap, users, actionHistory) => {
         });
 
         socket.on("changeDimensions", dimensions => {
+            /*/ remove asterisk to test out insert
+            let insert = true; //set false to delete row/column
+            let axis = "row"; //set to column to insert/delete column
+            let location = axis=="row" ? dimensions.height-1:dimensions.width-1
+            
+            //to use, set the corresponding height/width sa change size to the row/column where you want to insert/delete
+            //click Change Size button for magic
+            
+            railMap.insert(location, axis, insert);
+            //*/
+
             railMap.transform(dimensions.width, dimensions.height);
+            
             io.sockets.emit("newMap", {
-                height: dimensions.height,
-                width: dimensions.width,
+                height: railMap.height,
+                width: railMap.width,
                 map: railMap.encode()
             });
         });
