@@ -10,7 +10,9 @@ module.exports.init = (io, railMap, users, actionHistory) => {
         socket.emit("startUp", {
             map: railMap.encode(), 
             actionHistory: actionHistory,
-            color: users[socket.id].color
+            color: users[socket.id].color,
+            width: railMap.width,
+            height: railMap.height
         });
 
         socket.on("disconnect", data => {
@@ -92,14 +94,6 @@ module.exports.init = (io, railMap, users, actionHistory) => {
             users[socket.id].name = name;
 
             message = `${users[socket.id].name} ${utils.joinMessage()}`;
-            
-            // io.sockets.emit("sendUser", {
-            //     name: users[socket.id].name,
-            //     color: users[socket.id].color,
-            //     message: utils.joinMessage(),
-            //     accepted: true,
-            //     time: (new Date()).toLocaleTimeString()
-            // });
             
             socket.emit("userAccept");
             socket.broadcast.emit("userJoined", {
