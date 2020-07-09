@@ -102,20 +102,4 @@ function solve(edgeList) {
     } 
 }
 
-function railsToEdges(rails) {
-    let edges = [];
-    for (const [railID, rail] of Object.entries(rails)) {
-        if (rail.enabled) {
-            let nodeA = [
-                1 + (2 * rail.row),
-                1 + (2 * rail.col)
-            ];
-            let nodeB = add(nodeA, vector[rail.direction]);
-            edges.push([nodeA, nodeB]);
-        }
-    }
-    return edges;
-}
-
 module.exports.solve = solve;
-module.exports.railsToEdges = railsToEdges;

@@ -14,46 +14,44 @@ const state = {
   listOfClickedRails: {},
   chatMessages: [],
   directions: [],
-  errorMessage: {}
-  // directions: ["e","e", "e", "s", "s", "s"],
+  userColor: "",
+  mapHeight: 3,
+  mapWidth: 3,
+  errorMessage: {},
 }
 
 const mutations = {
   startUp: (state, data) => {
     console.log(data)
     state.askingName = true;
-    state.actionHistory = data.actionHistory;
+    state.mapHeight = data.height;
+    state.mapWidth = data.width;
     state.listOfClickedRails = data.map; 
+    state.actionHistory = data.actionHistory;
+    state.userColor = data.color;
   },
-  newRail: (state, data) => {
-    console.log(data.rail);
-    // state.listOfClickedRails.push(data.rail);
-
-    let rail = data.rail;
+  newRail: (state, rail) => {
     Vue.set(state.listOfClickedRails, rail.id, rail.color);
-    // state.listOfClickedRails[rail.id] = rail.color;
-    // console.log(state.listOfClickedRails);
-    console.log(data.newHistory);
-    if (data.newHistory.name == "You") {
+    console.log(state.listOfClickedRails);
+  },
+  newActionHistory: (state, data) => {
+    if (data.error) {
       state.errorMessage = data.newHistory;
-    }
-    else {
+    } else {
       state.actionHistory.push(data.newHistory);
     }
   },
   moveTrain: (state, data) => {
-    state.directions = data.directions
-    console.log("directions from backend", data.directions)
-    // console.log(data.newHistory);
-    state.actionHistory.push(data.newHistory);
+    state.directions = data.directions;
   },
-  broadcastMessage: (state, message) => {
+  newChatMessage: (state, message) => {
     state.chatMessages.push(message); 
   },
-  sendUser: (state, data) => {
-    // console.log(data);
-    state.chatMessages.push(data);
-    state.askingName = false;
+  userAccept: (state) => state.askingName = false,
+  newMap: (state, data) => {
+    state.mapWidth = data.width;
+    state.mapHeight = data.mapHeight;
+    state.listOfClickedRails = data.map;
   }
 }
 
@@ -63,17 +61,25 @@ const actions = {
   },
   SOCKET_newRail({commit}, obj) {
     console.log("I HAVE A NEW RAIL");
-    commit("newRail", obj);
+    commit("newRail", obj.rail);
+    commit("newActionHistory", obj);
   },
   SOCKET_moveTrain({commit}, obj) {
     commit("moveTrain", obj);
+    commit("newActionHistory", obj);
   },
   SOCKET_broadcastMessage({commit}, message) {
-    commit("broadcastMessage", message);
+    commit("newChatMessage", message);
   },
-  SOCKET_sendUser({commit}, message) {
-    commit("sendUser", message);
+  SOCKET_userJoined({commit}, message) {
+    commit("newChatMessage", message);
   },
+  SOCKET_newMap({commit}, obj) {
+    commit("newMap", obj);
+  },
+  SOCKET_userAccept({commit}) {
+    commit("userAccept");
+  }
 }
 
 export default new Vuex.Store({
