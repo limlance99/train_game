@@ -60,7 +60,7 @@ module.exports.init = (io, railMap, users, actionHistory) => {
         });
 
         socket.on("trainStop", data => {
-            console.log(data);
+            console.log("Hello");
         });
 
         socket.on("sendName", name => {
