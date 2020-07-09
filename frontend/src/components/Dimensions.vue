@@ -27,7 +27,7 @@
             </b-input-group-append>
         </b-input-group>
 
-        <button class="btn btn-primary" @click="changeSize()"> Change Size </button>
+        <button class="btn btn-primary" @click="sendNewSize()"> Change Size </button>
         </div>
     </div>
 </template>
@@ -41,12 +41,20 @@ export default {
 data() {
     return {
         // doneAnimating: false
+        // tempHeight: this.mapHeight,
+        // tempWidth: this.mapWidth
+        tempHeight: 3,
+        tempWidth: 3
     };
 },
   computed: {
-    ...mapState([''])
+    ...mapState(['mapHeight, mapWidth, listOfClickedRails'])
   },
   methods: {
+      sendNewSize() {
+          this.$socket.emit("changeDimensions", {height: this.tempHeight, width: this.tempWidth, map: this.listOfClickedRails})
+          console.log("emitted");
+      }
   }
 };
 </script>
