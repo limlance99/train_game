@@ -4,12 +4,17 @@ const rail = require('./rail');
 module.exports.init = (io, railMap, users, actionHistory) => {
     let frozen = false;
     io.on("connection", socket => {
+        users[socket.id] = {
+            color: utils.chooseRandomColor()
+        }
         socket.emit("startUp", {
             map: railMap.encode(), 
-            actionHistory: actionHistory
+            actionHistory: actionHistory,
+            color: users[socket.id].color
         });
 
         socket.on("disconnect", data => {
+            frozen = false;
             if (socket.id in users) {
                 io.sockets.emit("userLeft", {
                     name: users[socket.id].name,
@@ -21,8 +26,8 @@ module.exports.init = (io, railMap, users, actionHistory) => {
         });
 
         socket.on("railClicked", async (data) => {
-            await utils.timeout(1000);
-            if (socket.id in users) {
+            // await utils.timeout(1000);
+            if (socket.id in users && !frozen) {
                 let railID = data.id;
                 let placed = data.placed;
 
@@ -45,6 +50,8 @@ module.exports.init = (io, railMap, users, actionHistory) => {
         });
 
         socket.on("goClicked", data => {
+            if (frozen)
+                return;
             frozen = true;
             action = {
                 name: users[socket.id].name,
@@ -60,15 +67,12 @@ module.exports.init = (io, railMap, users, actionHistory) => {
         });
 
         socket.on("trainStop", data => {
-            console.log("Hello");
+            frozen = false;
         });
 
         socket.on("sendName", name => {
             // console.log(name)
-            users[socket.id] = {
-                name: name,
-                color: utils.chooseRandomColor()
-            };
+            users[socket.id].name = name;
 
             message = `${users[socket.id].name} ${utils.joinMessage()}`;
             io.sockets.emit("sendUser", {
