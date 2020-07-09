@@ -92,15 +92,15 @@ module.exports.init = (io, railMap, users, actionHistory) => {
             users[socket.id].name = name;
 
             message = `${users[socket.id].name} ${utils.joinMessage()}`;
-            /*
-            io.sockets.emit("sendUser", {
-                name: users[socket.id].name,
-                color: users[socket.id].color,
-                message: utils.joinMessage(),
-                accepted: true,
-                time: (new Date()).toLocaleTimeString()
-            });
-            */
+            
+            // io.sockets.emit("sendUser", {
+            //     name: users[socket.id].name,
+            //     color: users[socket.id].color,
+            //     message: utils.joinMessage(),
+            //     accepted: true,
+            //     time: (new Date()).toLocaleTimeString()
+            // });
+            
             socket.emit("userAccept");
             socket.broadcast.emit("userJoined", {
                 name: users[socket.id].name,
@@ -109,6 +109,7 @@ module.exports.init = (io, railMap, users, actionHistory) => {
                 accepted: true,
                 time: (new Date()).toLocaleTimeString()
             });
+            
         });
 
         socket.on("sendMessage", data => {
@@ -120,6 +121,16 @@ module.exports.init = (io, railMap, users, actionHistory) => {
                     time: (new Date()).toLocaleTimeString()
                 });
             }
+        });
+
+        socket.on("changeDimensions", dimensions => {
+            railMap.width = dimensions.width
+            //refactor id's of all rails in railMap; baka pwede i-encapsulate with changing the width?
+            io.sockets.emit("newMap", {
+                height: dimensions.height,
+                width: dimensions.width,
+                map: railMap.encode()
+            });
         });
     });
 }

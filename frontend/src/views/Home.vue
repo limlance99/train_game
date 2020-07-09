@@ -5,38 +5,7 @@
       <div class="col-md-auto container ml-5 mr-5">
         <Train @enableButtons="enableButtons"/>
 
-        <div class="card d-inline-flex mt-4 mb-4" style="border: none">
-          <div class="row">
-            <label>Height</label>
-            <b-input-group class="col-sm-3">
-              <b-input-group-prepend>
-                <b-btn @click="tempHeight -= 1" variant="outline-info">-</b-btn>
-              </b-input-group-prepend>
-
-              <b-form-input type="number" v-model="tempHeight" min="1"></b-form-input>
-
-              <b-input-group-append>
-                <b-btn  @click="tempHeight += 1" variant="outline-secondary">+</b-btn>
-              </b-input-group-append>
-            </b-input-group>
-
-            <label>Width</label>
-            <b-input-group class="col-sm-3">
-              <b-input-group-prepend>
-                <b-btn @click="tempWidth -= 1" variant="outline-info">-</b-btn>
-              </b-input-group-prepend>
-
-              <b-form-input type="number" v-model="tempWidth" min="1"></b-form-input>
-
-              <b-input-group-append>
-                <b-btn @click="tempWidth += 1" variant="outline-secondary">+</b-btn>
-              </b-input-group-append>
-            </b-input-group>
-
-            <button class="btn btn-primary" @click="changeSize()"> Change Size </button>
-          </div>
-        </div>
-
+        <Dimensions @changeSize="changeSize"/>
 
         <div v-for="row in height" class="row justify-content-center ml-5 mr-5" :key="row">
           <div v-for="col in width" class="col col-md-auto" :key="col">
@@ -96,20 +65,19 @@ import History from "@/components/History.vue";
 import Chatbox from "@/components/Chatbox.vue";
 import Train from "@/components/Train.vue";
 import Name from "@/components/Name.vue";
+import Dimensions from "@/components/Dimensions.vue";
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 export default {
   name: "Home",
-  components: { History, Chatbox, Train, Name },
+  components: { History, Chatbox, Train, Name, Dimensions },
   data() {
     return {
       directions: [],
       preventClicking: false,
       width: 3,
       height: 3,
-      tempWidth: 3,
-      tempHeight: 3,
       gettingName: false,
     };
   },
@@ -126,9 +94,9 @@ export default {
           solid: true
         })
     },
-    changeSize() {
-      this.height = this.tempHeight;
-      this.width = this.tempWidth;
+    changeSize(tempHeight, tempWidth) {
+      this.height = tempHeight;
+      this.width = tempWidth;
     },
     send_button(row, col, direction) {
       if (!this.preventClicking) {
