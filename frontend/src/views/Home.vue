@@ -6,7 +6,11 @@
         <Train @enableButtons="enableButtons"/>
 
         <Dimensions />
-
+        <div class="container">
+          <div v-for="row in mapWidth + 1" class="row d-inline-flex p-2" :key="row">
+            <b-button> <i class="fa fa-plus-square" aria-hidden="true"></i> </b-button>
+          </div>
+        </div>
         <div v-for="row in mapHeight" class="row justify-content-center ml-5 mr-5" :key="row">
           <div v-for="col in mapWidth" class="col col-md-auto" :key="col">
             <div class="row">
