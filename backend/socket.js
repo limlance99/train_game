@@ -124,8 +124,7 @@ module.exports.init = (io, railMap, users, actionHistory) => {
         });
 
         socket.on("changeDimensions", dimensions => {
-            railMap.width = dimensions.width
-            //refactor id's of all rails in railMap; baka pwede i-encapsulate with changing the width?
+            railMap.transform(dimensions.width, dimensions.height);
             io.sockets.emit("newMap", {
                 height: dimensions.height,
                 width: dimensions.width,
