@@ -3,7 +3,7 @@ const http = require('http').Server(app);
 const io = require("socket.io")(http);
 const rail = require('./backend/rail');
 const socket = require('./backend/socket');
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/frontend/dist/index.html');
