@@ -15,11 +15,17 @@ class Rail {
 class RailMap {
     constructor() {
         this.rails = {};
+        this.width = 3;
     }
 
     add(rail, placed) {
         this.rails[rail.id] = rail;
         this.rails[rail.id].enabled = placed;
+    }
+
+    newAdd(railID, color, placed){
+        let rail = new Rail(railID, color, this.width)
+        this.add(rail, placed)
     }
 
     solve() {
