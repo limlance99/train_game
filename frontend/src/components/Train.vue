@@ -14,7 +14,7 @@ var animationDone;
 export default {
 data() {
     return {
-        // doneAnimating: false
+        doneAnimating: false
     };
 },
   computed: {
@@ -41,6 +41,7 @@ data() {
       
       var i = 0;
       var j = 0;
+      var that = this;
       var id = setInterval(function() { 
         if (direcs[i] == 'e') {
             if (direcs[i-1] == 's') {
@@ -78,7 +79,7 @@ data() {
           animationDone = true;
           
           console.log("done", animationDone);
-          return true;
+          that.$socket.emit('trainStop');
         } 
 
         if (i % 2 == 0) {
