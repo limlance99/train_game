@@ -7,14 +7,14 @@
     
     <div class="d-flex flex-row pt-3 pb-3">
       <div class="row flex-shrink-1">
-        <div class="col-md-auto pb-3 pt-4 m-3">
+        <div class="col-md-auto pb-0 mb-0 pt-4 ml-3 mt-4">
           <div class="container h-100 d-flex flex-column justify-content-between mr-0 ml-0 pr-0">
             <div v-for="number in ((2*mapHeight) + 1)" class="" :key="number">
               <b-button class="mt-auto"> <i :class="(number % 2 == 0) ? 'fa fa-minus-square' : 'fa fa-plus-square'" aria-hidden="true"></i> </b-button>
             </div>
           </div>
         </div>
-        <div class="col-md-auto container ml-3 mr-5">
+        <div class="col-md-auto container ml-5">
           <Train @enableButtons="enableButtons"/>
 
           <div class="container d-flex justify-content-between p-0 mb-4">
