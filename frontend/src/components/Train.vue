@@ -31,7 +31,7 @@ data() {
       var elem = document.getElementById("train");
       var top = 170;
       var left = -20;
-      var movement = 100/((direcs.length+1)*6);
+      var movement = 100/10;
       elem.style.left = left + "px";
       elem.style.top = top + "px";
       var currentPosX = left;
@@ -108,7 +108,7 @@ data() {
           i+=1; 
           j = 0;
         } 
-      }, 100/(direcs.length*.6));
+      }, 100/(direcs.length*.6 + 1));
     
       // function frame() {
         
