@@ -1,6 +1,5 @@
 <template>
   <div>
-    <button class="mt-100px" @click="moveTrain()"> GO {{ directions }} {{ directions.length }}</button>
     <img src="@/assets/train.png" class="train" id="train" />
     
   </div>
