@@ -4,7 +4,7 @@ const constants = require('./constants');
 class Rail {
     constructor(railID, color, width) {
         this.id = railID;
-        this.direction = constants.directions[railID % 4];
+        this.__direction_number = railID % 4;
         this.__row = Math.trunc(Math.trunc(railID / 4) / width);
         this.__column = Math.trunc(Math.trunc(railID / 4) % width);
         this.__color = color;
@@ -22,18 +22,47 @@ class Rail {
     get color() {
         return this.enabled ? this.__color : "#FFFFFF";
     }
+
+    get direction() {
+        return constants.directions[this.__direction_number];
+    }
+
+    changeID(width) {
+        this.id = ((this.__row * width) + this.__column) * 4 + this.__direction_numbers;
+    }
+
+    isValid(width, height) {
+        return this.__row < height && this.__column < width;
+    }
 }
 
 class RailMap {
-    constructor(width) {
+    constructor(width, height) {
         this.rails = {};
+        this.invalidRails = {};
         this.width = width;
+        this.height = height;
     }
 
     add(railID, color, placed) {
         let rail = new Rail(railID, color, this.width)
         this.rails[rail.id] = rail;
         this.rails[rail.id].enabled = placed;
+    }
+
+    toEdgeList() {
+        let edgeList = [];
+        for (const [railID, rail] of Object.entries(this.rails)) {
+            if (rail.enabled) {
+                let nodeA = [
+                    1 + (2 * rail.row),
+                    1 + (2 * rail.col)
+                ];
+                let nodeB = add(nodeA, vector[rail.direction]);
+                edges.push([nodeA, nodeB]);
+            }
+        }
+        return edgeList;
     }
 
     solve() {
@@ -51,6 +80,29 @@ class RailMap {
 
     color(railID) {
         return railID in this.rails ? this.rails[railID].color : "#FFFFFF";
+    }
+
+    transform(width, height) {
+        this.height = height;
+        this.width = width;
+        let newRails = {};
+        let newInvalidRails = {};
+        for (let [railID, rail] of Object.entries(this.rails)) {
+            rail.changeID(width);
+            if (rail.isValid(this.width, this.height)) 
+                newRails[rail.id] = rail;
+            else
+                newInvalidRails[rail.id] = rail;
+        }
+        for (let [railID, rail] of Object.entries(this.invalidRails)) {
+            rail.changeID(width);
+            if (rail.isValid(this.width, this.height)) 
+                newRails[rail.id] = rail;
+            else
+                newInvalidRails[rail.id] = rail;
+        }
+        this.rails = newRails;
+        this.invalidRails = newInvalidRails;
     }
 }
 
