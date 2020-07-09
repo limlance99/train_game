@@ -101,7 +101,7 @@ data() {
           i+=1; 
           j = 0;
         } 
-      }, 100);
+      }, 100/(direcs.length*.6));
     
       // function frame() {
         
