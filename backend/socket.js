@@ -31,7 +31,9 @@ module.exports.init = (io, railMap, users, actionHistory) => {
             let placed = data.placed;
             
             if (socket.id in users && !frozen) {
-                railMap.add(railID, users[socket.id].color, placed)
+
+                // rail.railMap.newAdd(railID, users[socket.id].color, placed)
+                railMap.add(new rail.Rail(railID, users[socket.id].color, 3), placed);
                 action = {
                     name: users[socket.id].name,
                     color: users[socket.id].color,
@@ -92,7 +94,17 @@ module.exports.init = (io, railMap, users, actionHistory) => {
             users[socket.id].name = name;
 
             message = `${users[socket.id].name} ${utils.joinMessage()}`;
+            /*
             io.sockets.emit("sendUser", {
+                name: users[socket.id].name,
+                color: users[socket.id].color,
+                message: utils.joinMessage(),
+                accepted: true,
+                time: (new Date()).toLocaleTimeString()
+            });
+            */
+            socket.emit("userAccept");
+            socket.broadcast.emit("userJoined", {
                 name: users[socket.id].name,
                 color: users[socket.id].color,
                 message: utils.joinMessage(),
