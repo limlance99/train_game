@@ -4,7 +4,8 @@
   "description": "train game",
   "scripts": {
     "start": "nodemon server.js",
-    "dev": "(cd frontend && npm run build) && npm run start"
+    "dev": "(cd frontend && npm run build) && npm run start",
+    "prod": "(cd frontend && npm install && npm run build) && npm run start"
   },
   "repository": {
     "type": "git",
