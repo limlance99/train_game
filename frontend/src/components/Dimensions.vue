@@ -48,12 +48,22 @@ data() {
     };
 },
   computed: {
-    ...mapState(['mapHeight, mapWidth, listOfClickedRails'])
+    ...mapState(["mapHeight", "mapWidth", "listOfClickedRails"])
   },
   methods: {
       sendNewSize() {
           this.$socket.emit("changeDimensions", {height: this.tempHeight, width: this.tempWidth, map: this.listOfClickedRails})
-          console.log("emitted");
+          console.log(this.tempHeight, this.tempWidth);
+      }
+  },
+  watch: {
+      mapHeight() {
+          console.log("changed Height to ", this.mapHeight)
+          this.tempHeight = this.mapHeight;
+      },
+      mapWidth() {
+          console.log("changed width to ", this.mapWidth)
+          this.tempWidth = this.mapWidth;
       }
   }
 };
