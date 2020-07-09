@@ -13,7 +13,7 @@
                 @click="send_button(row, col, 0)"
                 class="col-md-auto rail rail-vertical"
                 :style="`background-color: ${(listOfClickedRails[((row-1) * width + (col-1)) * 4 + 0 - '']) ? listOfClickedRails[((row-1) * width + (col-1)) * 4 + 0 - ''] : '#FFFFFF'}`"
-              ></div>
+              >{{((row-1) * width + (col-1)) * 4 + 0}}</div>
               <div class="col-md-auto rail-vertical-invis"></div>
             </div>
             <div class="row">
@@ -21,13 +21,13 @@
                 @click="send_button(row, col, 3)"
                 class="col-md-auto rail rail-horizontal"
                  :style="`background-color: ${(listOfClickedRails[((row-1) * width + (col-1)) * 4 + 3 - '']) ? listOfClickedRails[((row-1) * width + (col-1)) * 4 + 3 - ''] : '#FFFFFF'}`"
-              ></div>
+              >{{((row-1) * width + (col-1)) * 4 + 3}}</div>
               <div class="col-md-auto center-box"></div>
               <div
                 @click="send_button(row, col, 1)"
                 class="col-md-auto rail rail-horizontal"
                  :style="`background-color: ${(listOfClickedRails[((row-1) * width + (col-1)) * 4 + 1 - '']) ? listOfClickedRails[((row-1) * width + (col-1)) * 4 + 1 - ''] : '#FFFFFF'}`"
-              ></div>
+              >{{((row-1) * width + (col-1)) * 4 + 1}}</div>
             </div>
             <div class="row">
               <div class="col-md-auto rail-vertical-invis"></div>
@@ -35,7 +35,7 @@
                 @click="send_button(row, col, 2)"
                 class="col-md-auto rail rail-vertical"
                 :style="`background-color: ${(listOfClickedRails[((row-1) * width + (col-1)) * 4 + 2 - '']) ? listOfClickedRails[((row-1) * width + (col-1)) * 4 + 2 - ''] : '#FFFFFF'}`"
-              ></div>
+              >{{((row-1) * width + (col-1)) * 4 + 2}}</div>
               <div class="col-md-auto rail-vertical-invis"></div>
             </div>
           </div>
