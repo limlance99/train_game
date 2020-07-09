@@ -41,8 +41,10 @@ export default {
 data() {
     return {
         // doneAnimating: false
-        tempHeight: this.mapHeight,
-        tempWidth: this.mapWidth
+        // tempHeight: this.mapHeight,
+        // tempWidth: this.mapWidth
+        tempHeight: 3,
+        tempWidth: 3
     };
 },
   computed: {
@@ -50,7 +52,8 @@ data() {
   },
   methods: {
       sendNewSize() {
-          this.$socket.emit("newMap", {height: tempHeight, width: tempWidth, map: listOfClickedRails})
+          this.$socket.emit("changeDimensions", {height: this.tempHeight, width: this.tempWidth, map: this.listOfClickedRails})
+          console.log("emitted");
       }
   }
 };
