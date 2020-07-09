@@ -22,22 +22,28 @@ data() {
   methods: {
     moveTrain() {
       // this.doneAnimating = false;
+      var direcs = this.directions
       console.log("directions", this.directions);
       console.log(this.directions[0]);
       var dirLen = this.directions.length;
       console.log(dirLen);
-      var direcs = this.directions
+      
       var elem = document.getElementById("train");
-      var elemGrid = document.getElementById("grid");
       var top = 170;
       var left = -20;
-      var movement = 100/10;
-      elem.style.left = elemGrid.style.left + "px";
+      var movement = 100/((direcs.length+1)*6);
+      elem.style.left = left + "px";
       elem.style.top = top + "px";
       var currentPosX = left;
       var currentPosY = top;
       var max = 10;
-      
+
+      if (direcs.length == 0) {
+          console.log("done");
+          // that.doneAnimating = true;
+          this.$socket.emit('trainStop');
+          this.$emit("enableButtons");
+      }
       var i = 0;
       var j = 0;
       var that = this;
@@ -47,7 +53,7 @@ data() {
               elem.style.transform = "rotate(0deg) scaleX(-1)";
             }
             if (direcs[i-1] == 'n') {
-              elem.style.transform = "rotate(0deg)";
+              elem.style.transform = "rotate(0deg) scaleX(-1)";
             }
             elem.style.left = currentPosX + movement + "px"; 
             currentPosX = currentPosX + movement;
@@ -57,7 +63,7 @@ data() {
               elem.style.transform = "rotate(0deg)";
             }
             if (direcs[i-1] == 'n') {
-              elem.style.transform = "rotate(0deg) scaleX(-1)";
+              elem.style.transform = "rotate(0deg)";
             }
             elem.style.left = currentPosX - movement + "px";
             currentPosX = currentPosX - movement;
@@ -145,9 +151,7 @@ data() {
   watch: {
       directions() {
           console.log("DIRECTIONS CHANGED: ", this.directions)
-          if (this.directions.length >0) {
-              this.moveTrain()
-          }
+          this.moveTrain()
       },
       // trainStopped() {
       //   console.log("trainStopped")
