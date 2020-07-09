@@ -50,7 +50,7 @@ const mutations = {
   userAccept: (state) => state.askingName = false,
   newMap: (state, data) => {
     state.mapWidth = data.width;
-    state.mapHeight = data.mapHeight;
+    state.mapHeight = data.height;
     state.listOfClickedRails = data.map;
     console.log(data);
   }
