@@ -96,7 +96,7 @@ module.exports.init = (io, railMap, users, actionHistory) => {
             message = `${users[socket.id].name} ${utils.joinMessage()}`;
             
             socket.emit("userAccept");
-            socket.broadcast.emit("userJoined", {
+            io.sockets.emit("userJoined", {
                 name: users[socket.id].name,
                 color: users[socket.id].color,
                 message: utils.joinMessage(),
