@@ -1,6 +1,6 @@
 <template>
-    <div class="h-50">
-        <div class="chatbox h-100">
+    <div class="pb-0 h-50">
+        <div class="chatContainer h-100">
             <h5> Chatbox </h5>
             <div v-for="(chatLine, index) in chatMessages" :key="index">
                 [{{chatLine.time}}]
@@ -12,7 +12,7 @@
         <div class="flex-shrink-1 input-group">
             <input class="form-control" v-model="chatMessage" placeholder="chat here">
             <div class="input-group-append">
-                <button class="btn btn-primary mb-2" @click="sendMessage()"
+                <button class="btn btn-primary" @click="sendMessage()"
                 :disabled="chatMessage ? false: true">Send</button>
             </div>
         </div>
@@ -42,7 +42,7 @@ export default {
 </script>
 
 <style scoped>
-.chatbox {
+.chatContainer {
     overflow-y: scroll;
 }
 </style>

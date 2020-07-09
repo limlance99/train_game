@@ -29,8 +29,8 @@ data() {
       console.log(dirLen);
       
       var elem = document.getElementById("train");
-      var top = 170;
-      var left = -20;
+      var top = 150;
+      var left = -50;
       var movement = 100/10;
       elem.style.left = left + "px";
       elem.style.top = top + "px";
@@ -174,9 +174,9 @@ data() {
   position: absolute;
   transform: scaleX(-1);
   width: 100px;
-  top: 170px;
+  top: 150px;
   float: left;
-  left: -20px;
+  left: -50px;
   z-index: 1;
   margin: 0
 }
