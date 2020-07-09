@@ -32,7 +32,7 @@ http.listen(port, () => {
     console.log(`Listening on port ${port}`)
 });
 
-let railMap = new rail.RailMap(3);
+let railMap = new rail.RailMap(3, 3);
 let users = {};
 let actionHistory = [];
 

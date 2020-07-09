@@ -39,7 +39,7 @@ class Rail {
 class RailMap {
     constructor(width, height) {
         this.rails = {};
-        this.invalidRails = {};
+        this.invalidRails = [];
         this.width = width;
         this.height = height;
     }
@@ -85,20 +85,20 @@ class RailMap {
         this.height = height;
         this.width = width;
         let newRails = {};
-        let newInvalidRails = {};
+        let newInvalidRails = [];
         for (let [railID, rail] of Object.entries(this.rails)) {
             rail.changeID(width);
             if (rail.isValid(this.width, this.height)) 
                 newRails[rail.id] = rail;
             else
-                newInvalidRails[rail.id] = rail;
+                newInvalidRails.push(rail);
         }
-        for (let [railID, rail] of Object.entries(this.invalidRails)) {
+        for (let rail of this.invalidRails) {
             rail.changeID(width);
             if (rail.isValid(this.width, this.height)) 
                 newRails[rail.id] = rail;
             else
-                newInvalidRails[rail.id] = rail;
+                newInvalidRails.push(rail);
         }
         this.rails = newRails;
         this.invalidRails = newInvalidRails;
