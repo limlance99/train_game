@@ -1,29 +1,31 @@
 <template>
     <div class="card d-inline-flex mt-4 mb-4" style="border: none">
         <div class="row">
-        <label>Height</label>
-        <b-input-group class="col-sm-3">
-            <b-input-group-prepend>
-            <b-btn @click="tempHeight -= 1" variant="outline-info">-</b-btn>
+        <label style="margin-top: 6px">Height</label>
+        <b-input-group class="col-sm">
+            <b-input-group-prepend >
+            <b-btn @click="changeHeight(tempHeight - 1)" variant="outline-info">-</b-btn>
             </b-input-group-prepend>
 
-            <b-form-input type="number" v-model="tempHeight" min="1"></b-form-input>
+                <span class="input-group-text"> {{ tempHeight }} </span>
 
             <b-input-group-append>
-            <b-btn  @click="tempHeight += 1" variant="outline-secondary">+</b-btn>
+            <b-btn  @click="changeHeight(tempHeight + 1)" variant="outline-secondary">+</b-btn>
             </b-input-group-append>
+            
         </b-input-group>
 
-        <label>Width</label>
-        <b-input-group class="col-sm-3">
+        <label style="margin-top: 6px">Width</label>
+        <b-input-group class="col-sm">
             <b-input-group-prepend>
-            <b-btn @click="tempWidth -= 1" variant="outline-info">-</b-btn>
+                
+            <b-btn @click="changeWidth(tempWidth - 1)" variant="outline-info">-</b-btn>
             </b-input-group-prepend>
 
-            <b-form-input type="number" v-model="tempWidth" min="1"></b-form-input>
+            <span class="input-group-text"> {{ tempWidth }} </span>
 
             <b-input-group-append>
-            <b-btn @click="tempWidth += 1" variant="outline-secondary">+</b-btn>
+            <b-btn @click="changeWidth(tempWidth + 1)" variant="outline-secondary">+</b-btn>
             </b-input-group-append>
         </b-input-group>
 
@@ -54,6 +56,18 @@ data() {
       sendNewSize() {
           this.$socket.emit("changeDimensions", {height: this.tempHeight, width: this.tempWidth, map: this.listOfClickedRails})
           console.log(this.tempHeight, this.tempWidth);
+      },
+      changeHeight(size) {
+          if (size < 1) {
+              size = 1;
+          }
+          this.tempHeight = size;
+      },
+      changeWidth(size) {
+          if (size < 3) {
+              size = 3;
+          }
+          this.tempWidth = size;
       }
   },
   watch: {
@@ -64,6 +78,12 @@ data() {
       mapWidth() {
           console.log("changed width to ", this.mapWidth)
           this.tempWidth = this.mapWidth;
+      },
+      tempHeight() {
+          console.log(this.tempHeight);
+      },
+      tempWidth() {
+          console.log(this.tempWidth);
       }
   }
 };
