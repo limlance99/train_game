@@ -121,5 +121,15 @@ module.exports.init = (io, railMap, users, actionHistory) => {
                 });
             }
         });
+
+        socket.on("changeDimensions", dimensions => {
+            railMap.width = dimensions.width
+            //refactor id's of all rails in railMap; baka pwede i-encapsulate with changing the width?
+            io.sockets.emit("newMap", {
+                height: dimensions.height,
+                width: dimensions.width,
+                map: railMap.encode()
+            });
+        });
     });
 }
