@@ -22,7 +22,7 @@ const state = {
 
 const mutations = {
   startUp: (state, data) => {
-    console.log(data)
+    console.log("startup:", data)
     state.askingName = true;
     state.mapHeight = data.height;
     state.mapWidth = data.width;
