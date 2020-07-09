@@ -52,6 +52,7 @@ const mutations = {
     state.mapWidth = data.width;
     state.mapHeight = data.mapHeight;
     state.listOfClickedRails = data.map;
+    console.log(data);
   }
 }
 
