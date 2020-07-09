@@ -5,16 +5,16 @@
       <div class="col-md-auto container ml-5 mr-5">
         <Train @enableButtons="enableButtons"/>
 
-        <Dimensions @changeSize="changeSize"/>
+        <Dimensions />
 
-        <div v-for="row in height" class="row justify-content-center ml-5 mr-5" :key="row">
-          <div v-for="col in width" class="col col-md-auto" :key="col">
+        <div v-for="row in mapHeight" class="row justify-content-center ml-5 mr-5" :key="row">
+          <div v-for="col in mapWidth" class="col col-md-auto" :key="col">
             <div class="row">
               <div class="col-md-auto rail-vertical-invis"></div>
               <div
                 @click="send_button(row, col, 0)"
                 class="col-md-auto rail rail-vertical"
-                :style="`background-color: ${(listOfClickedRails[((row-1) * width + (col-1)) * 4 + 0 - '']) ? listOfClickedRails[((row-1) * width + (col-1)) * 4 + 0 - ''] : '#FFFFFF'}`"
+                :style="`background-color: ${(listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 0 - '']) ? listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 0 - ''] : '#FFFFFF'}`"
               >{{((row-1) * width + (col-1)) * 4 + 0}}</div>
               <div class="col-md-auto rail-vertical-invis"></div>
             </div>
@@ -22,13 +22,13 @@
               <div
                 @click="send_button(row, col, 3)"
                 class="col-md-auto rail rail-horizontal"
-                 :style="`background-color: ${(listOfClickedRails[((row-1) * width + (col-1)) * 4 + 3 - '']) ? listOfClickedRails[((row-1) * width + (col-1)) * 4 + 3 - ''] : '#FFFFFF'}`"
+                 :style="`background-color: ${(listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 3 - '']) ? listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 3 - ''] : '#FFFFFF'}`"
               >{{((row-1) * width + (col-1)) * 4 + 3}}</div>
               <div class="col-md-auto center-box"></div>
               <div
                 @click="send_button(row, col, 1)"
                 class="col-md-auto rail rail-horizontal"
-                 :style="`background-color: ${(listOfClickedRails[((row-1) * width + (col-1)) * 4 + 1 - '']) ? listOfClickedRails[((row-1) * width + (col-1)) * 4 + 1 - ''] : '#FFFFFF'}`"
+                 :style="`background-color: ${(listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 1 - '']) ? listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 1 - ''] : '#FFFFFF'}`"
               >{{((row-1) * width + (col-1)) * 4 + 1}}</div>
             </div>
             <div class="row">
@@ -36,7 +36,7 @@
               <div
                 @click="send_button(row, col, 2)"
                 class="col-md-auto rail rail-vertical"
-                :style="`background-color: ${(listOfClickedRails[((row-1) * width + (col-1)) * 4 + 2 - '']) ? listOfClickedRails[((row-1) * width + (col-1)) * 4 + 2 - ''] : '#FFFFFF'}`"
+                :style="`background-color: ${(listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 2 - '']) ? listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 2 - ''] : '#FFFFFF'}`"
               >{{((row-1) * width + (col-1)) * 4 + 2}}</div>
               <div class="col-md-auto rail-vertical-invis"></div>
             </div>
@@ -82,7 +82,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["listOfClickedRails", "errorMessage"]),
+    ...mapState(["listOfClickedRails", "errorMessage", "mapHeight", "mapWidth", "userColor"]),
   },
   methods: {
     makeToast(message = null) {
@@ -94,24 +94,30 @@ export default {
           solid: true
         })
     },
-    changeSize(tempHeight, tempWidth) {
-      this.height = tempHeight;
-      this.width = tempWidth;
-    },
+    // changeSize(tempHeight, tempWidth) {
+    //   this.height = tempHeight;
+    //   this.width = tempWidth;
+    // },
     send_button(row, col, direction) {
       if (!this.preventClicking) {
         row -= 1;
         col -= 1;
-        var id = (row * this.width + col) * 4 + direction;
+        var id = (row * this.mapWidth + col) * 4 + direction;
         // Socket.sendRail(id);
+        let rail = {
+          id,
+          color: this.userColor,
+        }
         this.$socket.emit("railClicked", {
           id: id,
+          width: this.mapWidth,
           placed: (
             this.listOfClickedRails[id] == undefined || 
             this.listOfClickedRails[id] == null || 
             this.listOfClickedRails[id] == "#FFFFFF"
           )
         });
+        this.$store.commit("newRail", rail);
       }
     },
 
@@ -123,7 +129,7 @@ export default {
       console.log("went thru here");
       row -= 1;
       col -= 1;
-      var id = (row * this.width + col) * 4 + direction;
+      var id = (row * this.mapWidth + col) * 4 + direction;
       
       if (this.listOfClickedRails[id] != undefined && this.listOfClickedRails[id] != null) {
         return this.listOfClickedRails[id];
