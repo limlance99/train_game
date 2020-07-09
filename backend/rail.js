@@ -36,6 +36,8 @@ class RailMap {
     }
 
     color(railID) {
+        if (!(railID in this.rails))
+            return "#FFFFFF";
         return this.rails[railID].enabled ? this.rails[railID].color : "#FFFFFF";
     }
 }
