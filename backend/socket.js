@@ -36,7 +36,8 @@ module.exports.init = (io, railMap, users, actionHistory) => {
                     name: users[socket.id].name,
                     color: users[socket.id].color,
                     message: placed ? `added rail ${railID}` : `removed rail ${railID}`,
-                    time: (new Date()).toLocaleTimeString()
+                    time: (new Date()).toLocaleTimeString(),
+                    valid: true
                 };
                 io.sockets.emit("newRail", {
                     rail: {
@@ -46,6 +47,18 @@ module.exports.init = (io, railMap, users, actionHistory) => {
                     newHistory: action
                 });
                 actionHistory.push(action);
+            }
+
+            else {
+                socket.emit("newRail", {
+                    rail: {
+                        id: railID,
+                        color: railMap.color(railID)
+                    },
+                    newHistory: {
+                        valid: false
+                    }
+                });
             }
         });
 
