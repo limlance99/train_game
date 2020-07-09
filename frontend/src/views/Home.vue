@@ -103,7 +103,6 @@ export default {
   },
   methods: {
     makeToast(message = null) {
-        console.log("make toast")
         this.$bvToast.toast(message, {
           title: 'Error',
           toaster: 'b-toaster-top-center',
