@@ -17,5 +17,9 @@ module.exports = {
             color += hexValues[Math.floor(Math.random() * hexValues.length)];
         }
         return color;
+    },
+
+    timeout(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 };
