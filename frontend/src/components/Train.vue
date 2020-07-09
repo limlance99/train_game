@@ -9,7 +9,7 @@
 <script>
 import { mapState } from "vuex";
 
-var animationDone;
+// var animationDone;
 
 export default {
 data() {
@@ -24,7 +24,7 @@ data() {
     moveTrain() {
       this.doneAnimating = false;
       // var animationDone = this.doneAnimating
-      console.log("directions", this.directions, animationDone);
+      console.log("directions", this.directions);
       console.log(this.directions[0]);
       var dirLen = this.directions.length;
       console.log(dirLen);
@@ -88,9 +88,7 @@ data() {
 
         if (i > dirLen) {
           clearInterval(id);
-          animationDone = true;
-          
-          console.log("done", animationDone);
+          console.log("done");
           that.$socket.emit('trainStop');
         } 
 
@@ -147,7 +145,7 @@ data() {
   watch: {
       directions() {
           console.log("DIRECTIONS CHANGED: ", this.directions)
-          if (this.directions.length >0 && !animationDone) {
+          if (this.directions.length >0) {
               this.moveTrain()
           }
       },
