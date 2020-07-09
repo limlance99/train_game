@@ -6,7 +6,12 @@ train game
 npm install
 ```
 
-### HOW TO RUN
+### HOW TO COMPILE
 ```
 npm run dev
+```
+
+### HOW TO RUN
+```
+npm run start
 ```
