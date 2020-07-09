@@ -92,13 +92,15 @@ module.exports.init = (io, railMap, users, actionHistory) => {
             users[socket.id].name = name;
 
             message = `${users[socket.id].name} ${utils.joinMessage()}`;
-            io.sockets.emit("sendUser", {
+            socket.emit("userAccept");
+            socket.broadcast.emit("newUser", {
                 name: users[socket.id].name,
                 color: users[socket.id].color,
                 message: utils.joinMessage(),
                 accepted: true,
                 time: (new Date()).toLocaleTimeString()
             });
+            
         });
 
         socket.on("sendMessage", data => {
