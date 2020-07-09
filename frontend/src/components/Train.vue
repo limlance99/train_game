@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button class="mt-100px" @click="moveTrain()"> GO {{ directions }} {{ directions.length }} {{ doneAnimating}}</button>
+    <button class="mt-100px" @click="moveTrain()"> GO {{ directions }} {{ directions.length }}</button>
     <img src="@/assets/train.png" class="train" id="train" />
     
   </div>
@@ -14,7 +14,7 @@ import { mapState } from "vuex";
 export default {
 data() {
     return {
-        doneAnimating: false
+        // doneAnimating: false
     };
 },
   computed: {
@@ -22,8 +22,7 @@ data() {
   },
   methods: {
     moveTrain() {
-      this.doneAnimating = false;
-      // var animationDone = this.doneAnimating
+      // this.doneAnimating = false;
       console.log("directions", this.directions);
       console.log(this.directions[0]);
       var dirLen = this.directions.length;
@@ -89,7 +88,9 @@ data() {
         if (i > dirLen) {
           clearInterval(id);
           console.log("done");
+          // that.doneAnimating = true;
           that.$socket.emit('trainStop');
+          that.$emit("enableButtons");
         } 
 
         if (i % 2 == 0) {

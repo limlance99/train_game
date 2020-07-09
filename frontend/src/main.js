@@ -4,7 +4,11 @@ import router from './router'
 import store from './store'
 import VueSocketIO from 'vue-socket.io'
 import SocketIO from "socket.io-client"
+import BootstrapVue from 'bootstrap-vue'
+import { BVToastPlugin } from 'bootstrap-vue'
 
+Vue.use(BVToastPlugin)
+Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 
 Vue.use(new VueSocketIO({

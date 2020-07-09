@@ -12,7 +12,8 @@ const state = {
   actionHistory: [],
   listOfClickedRails: {},
   chatMessages: [],
-  directions: []
+  directions: [],
+  errorMessage: {}
   // directions: ["e","e", "e", "s", "s", "s"],
 }
 
@@ -30,12 +31,19 @@ const mutations = {
     let rail = data.rail;
     Vue.set(state.listOfClickedRails, rail.id, rail.color);
     // state.listOfClickedRails[rail.id] = rail.color;
-    console.log(state.listOfClickedRails);
-    state.actionHistory.push(data.newHistory);
+    // console.log(state.listOfClickedRails);
+    console.log(data.newHistory);
+    if (data.newHistory.name == "You") {
+      state.errorMessage = data.newHistory;
+    }
+    else {
+      state.actionHistory.push(data.newHistory);
+    }
   },
   moveTrain: (state, data) => {
     state.directions = data.directions
     console.log("directions from backend", data.directions)
+    // console.log(data.newHistory);
     state.actionHistory.push(data.newHistory);
   },
   broadcastMessage: (state, message) => {
