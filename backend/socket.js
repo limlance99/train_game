@@ -118,7 +118,7 @@ module.exports.init = (io, railMap, users, actionHistory) => {
             }
         });
 
-        socket.on("upsertRowCol", data => {
+        socket.on("upsertRowCol", async data => {
             await utils.timeout(200);
             
             if(!frozen){
