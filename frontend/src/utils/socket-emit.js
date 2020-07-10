@@ -1,5 +1,5 @@
 export const SOCKET_EMIT = {
-    railClicked(socket, data) {
+    railClicked (socket, data) {
         socket.emit('railClicked', data);
     },
     upsertRowCol(socket, data) {
@@ -11,4 +11,13 @@ export const SOCKET_EMIT = {
     sendMessage(socket, message) {
         socket.emit("sendMessage", message);
     },
+    changeDimensions(socket, data) {
+        socket.emit("changeDimensions", data);
+    },
+    sendName(socket, message) {
+        socket.emit("sendName", message);
+    },
+    trainStop(socket) {
+        socket.emit("trainStop");
+    }
 }

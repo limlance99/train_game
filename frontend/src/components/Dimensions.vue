@@ -37,6 +37,7 @@
 <script>
 import { mapState } from "vuex";
 
+import { SOCKET_EMIT } from '@/utils/socket-emit';
 // var animationDone;
 
 export default {
@@ -54,7 +55,7 @@ data() {
   },
   methods: {
       sendNewSize() {
-          this.$socket.emit("changeDimensions", {height: this.tempHeight, width: this.tempWidth, map: this.listOfClickedRails})
+          SOCKET_EMIT.changeDimensions(this.$socket, {height: this.tempHeight, width: this.tempWidth, map: this.listOfClickedRails})
           console.log(this.tempHeight, this.tempWidth);
       },
       changeHeight(size) {
