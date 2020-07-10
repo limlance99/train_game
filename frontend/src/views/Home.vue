@@ -12,9 +12,10 @@
           <div class="col-md-auto container ml-5 mr-0">
             <Train @enableButtons="enableButtons"/>
 
+            <!-- inserting column -->
             <div class="container d-flex justify-content-between p-0 mb-4">
               <div v-for="number in ((2*mapWidth) + 1)" :key="number">
-                <b-button> <i :class="(number % 2 == 0) ? 'fa fa-minus-square' : 'fa fa-plus-square'" aria-hidden="true"></i> </b-button>
+                <b-button @click="insert(number, 'col')" :disabled="preventClicking"> <i :class="(number % 2 == 0) ? 'fa fa-minus-square' : 'fa fa-plus-square'" aria-hidden="true"></i> </b-button>
               </div>
             </div>
 
@@ -56,10 +57,11 @@
             </div>
           </div>
 
+          <!-- inserting row -->
           <div class="col-md-auto pb-0 mb-0 pt-4 mt-4">
             <div class="container h-100 d-flex flex-column justify-content-between mr-0 ml-0 pr-0">
               <div v-for="number in ((2*mapHeight) + 1)" class="" :key="number">
-                <b-button class="mt-auto"> <i :class="(number % 2 == 0) ? 'fa fa-minus-square' : 'fa fa-plus-square'" aria-hidden="true"></i> </b-button>
+                <b-button @click="insert(number, 'row')" :disabled="preventClicking"> <i :class="(number % 2 == 0) ? 'fa fa-minus-square' : 'fa fa-plus-square'" aria-hidden="true"></i> </b-button>
               </div>
             </div>
           </div>
@@ -114,6 +116,29 @@ export default {
           solid: true
         })
     },
+    insert(number, axis) {
+      var isInsert;
+      var index;
+      
+      if (number % 2 == 0) {
+        index = Math.floor((number - 1) / 2);
+        isInsert = false;
+      }
+      else {
+        index = Math.floor(number / 2);
+        isInsert = true;
+      }
+      console.log({
+        isInsert: isInsert,
+        axis: axis,
+        index: index
+      })
+      this.$socket.emit("upsertRowCol", {
+        isInsert: isInsert,
+        axis: axis,
+        index: index
+      })
+    },
     // changeSize(tempHeight, tempWidth) {
     //   this.height = tempHeight;
     //   this.width = tempWidth;
@@ -147,7 +172,6 @@ export default {
     },
 
     setColor(row, col, direction) {
-      console.log("went thru here");
       row -= 1;
       col -= 1;
       var id = (row * this.mapWidth + col) * 4 + direction;
