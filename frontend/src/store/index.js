@@ -20,6 +20,15 @@ const state = {
   errorMessage: {},
 }
 
+const getters = {
+  latestActionHistory: (state) => {
+    let arr = state.actionHistory;
+    // arr.reverse();
+    arr = arr.slice(Math.max(arr.length - 15, 0));
+    return arr;
+  }
+}
+
 const mutations = {
   startUp: (state, data) => {
     console.log("startup:", data)
@@ -78,14 +87,19 @@ const actions = {
   },
   SOCKET_newMap({commit}, obj) {
     commit("newMap", obj);
+    if (obj.newHistory) commit("newActionHistory", obj);
   },
   SOCKET_userAccept({commit}) {
     commit("userAccept");
+  },
+  SOCKET_userLeft({commit}, message) {
+    commit("newChatMessage", message);
   }
 }
 
 export default new Vuex.Store({
   state,
   mutations,
-  actions
+  actions,
+  getters
 })

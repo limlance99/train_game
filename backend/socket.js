@@ -118,18 +118,44 @@ module.exports.init = (io, railMap, users, actionHistory) => {
             }
         });
 
-        socket.on("changeDimensions", dimensions => {
-            /*/ remove asterisk to test out insert
-            let insert = true; //set false to delete row/column
-            let axis = "row"; //set to column to insert/delete column
-            let location = axis=="row" ? dimensions.height-1:dimensions.width-1
+        socket.on("upsertRowCol", data => {
             
-            //to use, set the corresponding height/width sa change size to the row/column where you want to insert/delete
-            //click Change Size button for magic
             
-            railMap.insert(location, axis, insert);
-            //*/
+            if(!frozen){
+                railMap.insert(data.index, data.axis, data.isInsert);
+                let action = {
+                    name: users[socket.id].name,
+                    color: users[socket.id].color,
+                    message: `${data.isInsert? "inserted at":"removed"} ${data.axis} ${data.index + 1}`,
+                    time: (new Date()).toLocaleTimeString(),
+                    error: false
+                }
 
+                actionHistory.push(action);
+
+                io.sockets.emit("newMap", {
+                    height: railMap.height,
+                    width: railMap.width,
+                    map: railMap.encode(),
+                    newHistory: action
+                });
+            } else {
+                sockets.emit("newMap", {
+                    height: railMap.height,
+                    width: railMap.width,
+                    map: railMap.encode(),
+                    newHistory: {
+                        name: "You",
+                        color: users[socket.id].color,
+                        message: `failed to ${data.isInsert? "insert at":"remove"} ${data.axis} ${data.index + 1}`,
+                        time: (new Date()).toLocaleTimeString(),
+                        error: true
+                    }
+                });
+            }
+        });
+
+        socket.on("changeDimensions", dimensions => {
             railMap.transform(dimensions.width, dimensions.height);
             
             io.sockets.emit("newMap", {
