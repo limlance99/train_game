@@ -15,6 +15,9 @@ function main() {
     railMap.add(new rails.Rail(13, "#FF0000", 3));
     railMap.add(new rails.Rail(12, "#FF0000", 3));
     railMap.add(new rails.Rail(2, "#FF0000", 3));
+    console.log(new rails.Rail(2, "#FF0000", 3));
     console.log(railMap.solve());
+
+
 }
 main();
