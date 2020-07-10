@@ -1,7 +1,7 @@
 <template>
-    <div class="h-50">
-        <div class="history h-100">
-            <h5> History </h5>
+    <div class="h-50 history">
+        <h5> History </h5>
+        <div class="h-100 historyLines">
             <div v-for="(historyLine, index) in actionHistory" :key="index">
                 <b>
                     [{{historyLine.time}}]
@@ -25,6 +25,11 @@ export default {
 
 <style scoped>
 .history {
+    background-color: rgb(199, 193, 193);
+    padding: 10px;
+}
+
+.historyLines {
     overflow-y: scroll;
 }
 

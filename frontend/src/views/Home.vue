@@ -191,6 +191,9 @@ export default {
   margin-top: 100px;
 }
 
+.app {
+  max-height: 700px;
+}
 .box {
   width: 80%;
 }
@@ -235,10 +238,6 @@ export default {
   background-color: #e0e0e0;
 }
 
-.history {
-  background-color: rgb(199, 193, 193);
-  padding: 10px;
-}
 
 .chatbox {
   background-color: rgb(255, 255, 255);
