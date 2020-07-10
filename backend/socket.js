@@ -131,8 +131,24 @@ module.exports.init = (io, railMap, users, actionHistory) => {
                         break;
 
                     case "/clear":
-                        this.railMap = new rail.RailMap(this.railMap.width, this.railMap.height);
+                        railMap.rails = {};
                         
+                        let action = {
+                            name: users[socket.id].name,
+                            color: users[socket.id].color,
+                            message: `removed all the rails`,
+                            time: (new Date()).toLocaleTimeString(),
+                            error: false
+                        }
+        
+                        actionHistory.push(action);
+        
+                        io.sockets.emit("newMap", {
+                            height: railMap.height,
+                            width: railMap.width,
+                            map: railMap.encode(),
+                            newHistory: action
+                        });
                         break;
 
                     default:
