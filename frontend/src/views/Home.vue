@@ -6,65 +6,69 @@
     </div> -->
     
     <div class="d-flex flex-row pt-3 pb-3">
-      <div class="row flex-shrink-1">
-        <div class="col-md-auto pb-0 mb-0 pt-4 ml-3 mt-4">
-          <div class="container h-100 d-flex flex-column justify-content-between mr-0 ml-0 pr-0">
-            <div v-for="number in ((2*mapHeight) + 1)" class="" :key="number">
-              <b-button class="mt-auto"> <i :class="(number % 2 == 0) ? 'fa fa-minus-square' : 'fa fa-plus-square'" aria-hidden="true"></i> </b-button>
+      <div class="col-md-auto">
+        <div class="d-flex flex-row ml-3">
+
+          <div class="col-md-auto container ml-5 mr-0">
+            <Train @enableButtons="enableButtons"/>
+
+            <div class="container d-flex justify-content-between p-0 mb-4">
+              <div v-for="number in ((2*mapWidth) + 1)" :key="number">
+                <b-button> <i :class="(number % 2 == 0) ? 'fa fa-minus-square' : 'fa fa-plus-square'" aria-hidden="true"></i> </b-button>
+              </div>
+            </div>
+
+
+            <div v-for="row in mapHeight" class="row justify-content-center ml-4 mr-2" :key="row">
+              <div v-for="col in mapWidth" class="col col-md-auto" :key="col">
+                <div class="row">
+                  <div class="col-md-auto rail-vertical-invis"></div>
+                  <div
+                    @click="send_button(row, col, 0)"
+                    class="col-md-auto rail rail-vertical"
+                    :style="`background-color: ${(listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 0 - '']) ? listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 0 - ''] : '#FFFFFF'}`"
+                  >{{((row-1) * width + (col-1)) * 4 + 0}}</div>
+                  <div class="col-md-auto rail-vertical-invis"></div>
+                </div>
+                <div class="row">
+                  <div
+                    @click="send_button(row, col, 3)"
+                    class="col-md-auto rail rail-horizontal"
+                    :style="`background-color: ${(listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 3 - '']) ? listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 3 - ''] : '#FFFFFF'}`"
+                  >{{((row-1) * width + (col-1)) * 4 + 3}}</div>
+                  <div class="col-md-auto center-box"></div>
+                  <div
+                    @click="send_button(row, col, 1)"
+                    class="col-md-auto rail rail-horizontal"
+                    :style="`background-color: ${(listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 1 - '']) ? listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 1 - ''] : '#FFFFFF'}`"
+                  >{{((row-1) * width + (col-1)) * 4 + 1}}</div>
+                </div>
+                <div class="row">
+                  <div class="col-md-auto rail-vertical-invis"></div>
+                  <div
+                    @click="send_button(row, col, 2)"
+                    class="col-md-auto rail rail-vertical"
+                    :style="`background-color: ${(listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 2 - '']) ? listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 2 - ''] : '#FFFFFF'}`"
+                  >{{((row-1) * width + (col-1)) * 4 + 2}}</div>
+                  <div class="col-md-auto rail-vertical-invis"></div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-auto container ml-5">
-          <Train @enableButtons="enableButtons"/>
 
-          <div class="container d-flex justify-content-between p-0 mb-4">
-            <div v-for="number in ((2*mapWidth) + 1)" :key="number">
-              <b-button> <i :class="(number % 2 == 0) ? 'fa fa-minus-square' : 'fa fa-plus-square'" aria-hidden="true"></i> </b-button>
-            </div>
-          </div>
-
-
-          <div v-for="row in mapHeight" class="row justify-content-center ml-4 mr-2" :key="row">
-            <div v-for="col in mapWidth" class="col col-md-auto" :key="col">
-              <div class="row">
-                <div class="col-md-auto rail-vertical-invis"></div>
-                <div
-                  @click="send_button(row, col, 0)"
-                  class="col-md-auto rail rail-vertical"
-                  :style="`background-color: ${(listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 0 - '']) ? listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 0 - ''] : '#FFFFFF'}`"
-                >{{((row-1) * width + (col-1)) * 4 + 0}}</div>
-                <div class="col-md-auto rail-vertical-invis"></div>
-              </div>
-              <div class="row">
-                <div
-                  @click="send_button(row, col, 3)"
-                  class="col-md-auto rail rail-horizontal"
-                  :style="`background-color: ${(listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 3 - '']) ? listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 3 - ''] : '#FFFFFF'}`"
-                >{{((row-1) * width + (col-1)) * 4 + 3}}</div>
-                <div class="col-md-auto center-box"></div>
-                <div
-                  @click="send_button(row, col, 1)"
-                  class="col-md-auto rail rail-horizontal"
-                  :style="`background-color: ${(listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 1 - '']) ? listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 1 - ''] : '#FFFFFF'}`"
-                >{{((row-1) * width + (col-1)) * 4 + 1}}</div>
-              </div>
-              <div class="row">
-                <div class="col-md-auto rail-vertical-invis"></div>
-                <div
-                  @click="send_button(row, col, 2)"
-                  class="col-md-auto rail rail-vertical"
-                  :style="`background-color: ${(listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 2 - '']) ? listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 2 - ''] : '#FFFFFF'}`"
-                >{{((row-1) * width + (col-1)) * 4 + 2}}</div>
-                <div class="col-md-auto rail-vertical-invis"></div>
+          <div class="col-md-auto pb-0 mb-0 pt-4 mt-4">
+            <div class="container h-100 d-flex flex-column justify-content-between mr-0 ml-0 pr-0">
+              <div v-for="number in ((2*mapHeight) + 1)" class="" :key="number">
+                <b-button class="mt-auto"> <i :class="(number % 2 == 0) ? 'fa fa-minus-square' : 'fa fa-plus-square'" aria-hidden="true"></i> </b-button>
               </div>
             </div>
           </div>
         </div>
         <button
-          type="button"
-          @click="go()"
-          :disabled="preventClicking"
-          class="btn btn-success btn-lg btn-block mt-5 mr-5 ml-5"
+            type="button"
+            @click="go()"
+            :disabled="preventClicking"
+            class="btn btn-success btn-lg btn-block mt-4"
         >Go</button>
       </div>
       <div class="flex-grow-1">
