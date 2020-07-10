@@ -87,6 +87,7 @@ const actions = {
   },
   SOCKET_newMap({commit}, obj) {
     commit("newMap", obj);
+    if (obj.newHistory) commit("newActionHistory", obj);
   },
   SOCKET_userAccept({commit}) {
     commit("userAccept");
