@@ -73,8 +73,10 @@
             class="btn btn-success btn-lg btn-block mt-4"
         >Go</button>
       </div>
-      <div class="flex-grow-1">
+      <div class="flex-grow-1 actions-messages">
+        <h5 class="mb-0 p-1"> History </h5>
         <History  />
+        <h5 class="mb-0 p-1"> Chat</h5>
         <Chatbox  />
       </div>
     </div>
@@ -191,8 +193,8 @@ export default {
   margin-top: 100px;
 }
 
-.app {
-  max-height: 700px;
+.actions-messages {
+  max-height: 600px;
 }
 .box {
   width: 80%;
@@ -241,6 +243,5 @@ export default {
 
 .chatbox {
   background-color: rgb(255, 255, 255);
-  padding: 10px;
 }
 </style>

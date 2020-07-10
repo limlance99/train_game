@@ -1,36 +1,39 @@
 <template>
-    <div class="h-50 history">
-        <h5> History </h5>
-        <div class="h-100 historyLines">
+        <div class="h-50 history" ref="historyContainer">
             <div v-for="(historyLine, index) in actionHistory" :key="index">
                 <b>
-                    [{{historyLine.time}}]
+                    [{{historyLine.time}}]</b>
                 <span :style="`color:${historyLine.color}`">
                     {{historyLine.name}} {{historyLine.message}}
                 </span>
-                </b>
+                
             </div>
         </div>
-    </div>
+    
 </template>
 
 <script>
-import {mapState} from "vuex";
+import {mapState, /*mapGetters*/} from "vuex";
 export default {
     computed: {
-        ...mapState(["actionHistory"])
+        ...mapState(["actionHistory"]),
+        // ...mapGetters(["latestActionHistory"]),
+    },
+    watch: {
+    actionHistory() {
+      var container = this.$refs.historyContainer;
+      container.scrollTop = container.scrollHeight;
+      
     }
+  }
 }
 </script>
 
 <style scoped>
 .history {
-    background-color: rgb(199, 193, 193);
-    padding: 10px;
-}
-
-.historyLines {
     overflow-y: scroll;
+    background-color: rgb(229, 226, 226);
+    /* padding: 10px; */
 }
 
 </style>

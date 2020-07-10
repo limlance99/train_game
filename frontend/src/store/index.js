@@ -20,6 +20,15 @@ const state = {
   errorMessage: {},
 }
 
+const getters = {
+  latestActionHistory: (state) => {
+    let arr = state.actionHistory;
+    // arr.reverse();
+    arr = arr.slice(Math.max(arr.length - 15, 0));
+    return arr;
+  }
+}
+
 const mutations = {
   startUp: (state, data) => {
     console.log("startup:", data)
@@ -90,5 +99,6 @@ const actions = {
 export default new Vuex.Store({
   state,
   mutations,
-  actions
+  actions,
+  getters
 })
