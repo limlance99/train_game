@@ -15,20 +15,26 @@
             <!-- inserting column -->
             <div class="container d-flex justify-content-between p-0 mb-4">
               <div v-for="number in ((2*mapWidth) + 1)" :key="number">
-                <b-button @click="insert(number, 'col')" :disabled="preventClicking"> <i :class="(number % 2 == 0) ? 'fa fa-minus-square' : 'fa fa-plus-square'" aria-hidden="true"></i> </b-button>
+                <b-button @mouseover="currentlyHoveringOn = {number: number, col: true, subtract: number % 2  == 0}" @mouseleave="currentlyHoveringOn = null" @click="insert(number, 'col')" :disabled="preventClicking"> <i :class="(number % 2 == 0) ? 'fa fa-minus-square' : 'fa fa-plus-square'" aria-hidden="true"></i> </b-button>
               </div>
             </div>
 
 
-            <div v-for="row in mapHeight" class="row justify-content-center ml-4 mr-2" :key="row">
-              <div v-for="col in mapWidth" class="col col-md-auto" :key="col">
+            <div v-for="row in mapHeight" 
+            :style="`color: ${(currentlyHoveringOn && currentlyHoveringOn.subtract && !currentlyHoveringOn.col && (Math.floor((currentlyHoveringOn.number-1)/2) == row-1)) ? 'rgba(236, 100, 75, 1)' : 'inherit'}`" 
+            :class="[{'borderTop' : (currentlyHoveringOn && !currentlyHoveringOn.subtract && !currentlyHoveringOn.col && (Math.floor((currentlyHoveringOn.number)/2) == row-1)), 'borderBottom' : (currentlyHoveringOn && !currentlyHoveringOn.subtract && !currentlyHoveringOn.col && (Math.floor((currentlyHoveringOn.number)/2) == row) && (Math.floor((currentlyHoveringOn.number-1)/2) == mapHeight)) }, 'row', 'justify-content-center', 'ml-4', 'mr-2']" :key="row">
+              
+              <div v-for="col in mapWidth" :style="`color: ${(currentlyHoveringOn && currentlyHoveringOn.subtract && currentlyHoveringOn.col && (Math.floor((currentlyHoveringOn.number-1)/2) == col-1)) ? 'rgba(236, 100, 75, 1)' : 'inherit'}`" :key="col"
+              :class="[{'borderLeft' : (currentlyHoveringOn && !currentlyHoveringOn.subtract && currentlyHoveringOn.col && (Math.floor((currentlyHoveringOn.number)/2) == col-1)), 'borderRight' : (currentlyHoveringOn && !currentlyHoveringOn.subtract && currentlyHoveringOn.col && (Math.floor((currentlyHoveringOn.number)/2) == col) && (Math.floor((currentlyHoveringOn.number)/2) == mapWidth)) }, 'col', 'col-md-auto']">
                 <div class="row">
                   <div class="col-md-auto rail-vertical-invis"></div>
                   <div
                     @click="send_button(row, col, 0)"
                     class="col-md-auto rail rail-vertical"
                     :style="`background-color: ${(listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 0 - '']) ? listOfClickedRails[((row-1) * mapWidth + (col-1)) * 4 + 0 - ''] : '#FFFFFF'}`"
-                  >{{((row-1) * width + (col-1)) * 4 + 0}}</div>
+                  >{{((row-1) * width + (col-1)) * 4 + 0}}
+                  
+                  </div>
                   <div class="col-md-auto rail-vertical-invis"></div>
                 </div>
                 <div class="row">
@@ -61,7 +67,7 @@
           <div class="col-md-auto pb-0 mb-0 pt-4 mt-4">
             <div class="container h-100 d-flex flex-column justify-content-between mr-0 ml-0 pr-0">
               <div v-for="number in ((2*mapHeight) + 1)" class="" :key="number">
-                <b-button @click="insert(number, 'row')" :disabled="preventClicking"> <i :class="(number % 2 == 0) ? 'fa fa-minus-square' : 'fa fa-plus-square'" aria-hidden="true"></i> </b-button>
+                <b-button @mouseover="currentlyHoveringOn = {number: number, col:false, subtract: number % 2  == 0}" @mouseleave="currentlyHoveringOn = null" @click="insert(number, 'row')" :disabled="preventClicking"> <i :class="(number % 2 == 0) ? 'fa fa-minus-square' : 'fa fa-plus-square'" aria-hidden="true"></i> </b-button>
               </div>
             </div>
           </div>
@@ -105,6 +111,7 @@ export default {
       width: 3,
       height: 3,
       gettingName: false,
+      currentlyHoveringOn: null
     };
   },
   computed: {
@@ -174,7 +181,8 @@ export default {
     go() {
       SOCKET_EMIT.goClicked(this.$socket);
       this.preventClicking = true;
-    }
+    },
+
   },
   watch: {
     errorMessage() {
@@ -185,6 +193,12 @@ export default {
         this.makeToast(message);
       }
     },
+<<<<<<< HEAD
+=======
+    currentlyHoveringOn() {
+      console.log(this.currentlyHoveringOn)
+    }
+>>>>>>> 3cd96448f69d5499ded73b156d5e1c496a51fe19
   },
 };
 </script>
@@ -244,5 +258,18 @@ export default {
 
 .chatbox {
   background-color: rgb(255, 255, 255);
+}
+
+.borderTop {
+  border-top: 2px dashed rgba(123, 239, 178, 1);
+}
+.borderBottom {
+  border-bottom: 2px dashed rgba(123, 239, 178, 1);
+}
+.borderLeft {
+  border-left: 2px dashed rgba(123, 239, 178, 1);
+}
+.borderRight {
+  border-right: 2px dashed rgba(123, 239, 178, 1);
 }
 </style>
