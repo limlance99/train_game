@@ -13,7 +13,7 @@ import { SOCKET_EMIT } from "@/utils/socket-emit";
 export default {
 data() {
     return {
-        // doneAnimating: false
+        doneAnimating: false
     };
 },
   computed: {
@@ -21,7 +21,7 @@ data() {
   },
   methods: {
     moveTrain() {
-      // this.doneAnimating = false;
+      this.doneAnimating = false;
       var direcs = this.directions
       console.log("directions", this.directions);
       console.log(this.directions[0]);
@@ -40,7 +40,7 @@ data() {
 
       if (direcs.length == 0) {
           console.log("done");
-          // that.doneAnimating = true;
+          this.doneAnimating = true;
           SOCKET_EMIT.trainStop(this.$socket);
           this.$emit("enableButtons");
       }
@@ -94,9 +94,11 @@ data() {
         if (i > dirLen) {
           clearInterval(id);
           console.log("done");
-          // that.doneAnimating = true;
+          that.doneAnimating = true;
           SOCKET_EMIT.trainStop(that.$socket);
-          that.$emit("enableButtons");
+          if (that.doneAnimating == true) {
+            that.$emit("enableButtons");
+          }
         } 
 
         if (i % 2 == 0) {
