@@ -124,13 +124,38 @@ module.exports.init = (io, railMap, users, actionHistory) => {
         });
 
         socket.on("upsertRowCol", data => {
-            railMap.insert(data.index, data.axis, data.isInsert);
+            if(!frozen){
+                railMap.insert(data.index, data.axis, data.isInsert);
+                let action = {
+                    name: users[socket.id].name,
+                    color: users[socket.id].color,
+                    message: `${data.isInsert? "inserted at":"removed"} ${data.axis} ${data.index + 1}`,
+                    time: (new Date()).toLocaleTimeString(),
+                    error: false
+                }
 
-            io.sockets.emit("newMap", {
-                height: railMap.height,
-                width: railMap.width,
-                map: railMap.encode()
-            });
+                actionHistory.push(action);
+
+                io.sockets.emit("newMap", {
+                    height: railMap.height,
+                    width: railMap.width,
+                    map: railMap.encode(),
+                    newHistory: action
+                });
+            } else {
+                sockets.emit("newMap", {
+                    height: railMap.height,
+                    width: railMap.width,
+                    map: railMap.encode(),
+                    newHistory: {
+                        name: "You",
+                        color: users[socket.id].color,
+                        message: `failed to ${data.isInsert? "insert at":"remove"} ${data.axis} ${data.index + 1}`,
+                        time: (new Date()).toLocaleTimeString(),
+                        error: true
+                    }
+                });
+            }
         });
 
         socket.on("changeDimensions", dimensions => {
