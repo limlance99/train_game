@@ -108,7 +108,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["listOfClickedRails", "errorMessage", "mapHeight", "mapWidth", "userColor"]),
+    ...mapState(["listOfClickedRails", "errorMessage", "mapHeight", "mapWidth", "userColor", "users"]),
   },
   methods: {
     makeToast(message = null) {
@@ -184,7 +184,7 @@ export default {
         console.log(message)
         this.makeToast(message);
       }
-    }
+    },
   },
 };
 </script>
