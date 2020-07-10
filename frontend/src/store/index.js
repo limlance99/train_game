@@ -67,6 +67,7 @@ const mutations = {
 }
 
 const actions = {
+  // SERVER TO CLIENT
   SOCKET_startUp({commit}, obj) {
     commit("startUp", obj);
   },

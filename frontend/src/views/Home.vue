@@ -91,9 +91,10 @@ import Chatbox from "@/components/Chatbox.vue";
 import Train from "@/components/Train.vue";
 import Name from "@/components/Name.vue";
 // import Dimensions from "@/components/Dimensions.vue";
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
 
+import { SOCKET_EMIT } from '@/utils/socket-emit';
 export default {
   name: "Home",
   components: { History, Chatbox, Train, Name, }, //Dimensions },
@@ -134,8 +135,8 @@ export default {
         isInsert: isInsert,
         axis: axis,
         index: index
-      })
-      this.$socket.emit("upsertRowCol", {
+      });
+      SOCKET_EMIT.upsertRowCol(this.$socket, {
         isInsert: isInsert,
         axis: axis,
         index: index
@@ -153,7 +154,7 @@ export default {
             this.listOfClickedRails[id] == null || 
             this.listOfClickedRails[id] == "#FFFFFF"
           );
-        this.$socket.emit("railClicked", {
+        SOCKET_EMIT.railClicked(this.$socket,{
           id: id,
           width: this.mapWidth,
           placed: placed
@@ -171,7 +172,7 @@ export default {
     },
 
     go() {
-      this.$socket.emit("goClicked");
+      SOCKET_EMIT.goClicked(this.$socket);
       this.preventClicking = true;
     }
   },
