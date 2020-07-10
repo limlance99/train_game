@@ -35,7 +35,6 @@ http.listen(port, () => {
 
 let railMap = new rail.RailMap(3, 3);
 let users = {};
-let actionHistory = new action.actionHistory(railMap);
 let actionHistory = [];
 
 socket.init(io, railMap, users, actionHistory);
