@@ -6,7 +6,7 @@
     <div class="input-group mt-3">
     <input type="text" class="form-control" placeholder="Wats ur name" v-model="username">
     <div class="input-group-append">
-      <button @click="sendName" class="input-group-text" id="basic-addon2"> Enter </button>
+      <button @click="sendName" @keyup.enter="sendName" class="input-group-text" id="basic-addon2"> Enter </button>
     </div>
   </div>
 </div>
@@ -35,7 +35,7 @@ export default {
     },
     sendName() {
       console.log(this.username);
-      this.$socket.emit("sendName", this.username);
+      this.$socket.emit("sendName", this.username.trim());
     }
   },
   watch: {
