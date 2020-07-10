@@ -139,10 +139,7 @@ export default {
         index: index
       })
     },
-    // changeSize(tempHeight, tempWidth) {
-    //   this.height = tempHeight;
-    //   this.width = tempWidth;
-    // },
+
     send_button(row, col, direction) {
       if (!this.preventClicking) {
         row -= 1;
