@@ -114,12 +114,35 @@ module.exports.init = (io, railMap, users, actionHistory) => {
 
         socket.on("sendMessage", data => {
             if (socket.id in users) {
-                io.sockets.emit("broadcastMessage", {
-                    name: users[socket.id].name,
-                    color: users[socket.id].color,
-                    message: data,
-                    time: (new Date()).toLocaleTimeString()
-                });
+                if(data[0] == "/"){
+                    console.log(data.split(" "));
+                    console.log(data);
+                    switch(data.split()[0]){
+                        case "/private":
+                            for(let [userID, userData] of Object.entries(users)){
+                                if (userData.name === data.split()[1]) {
+                                    let message = "[whispers] " + data.slice(2).join(" ");
+                                    io.to(userID).emit("broadcastMesage", {
+                                        name: users[socket.id].name,
+                                        color: users[socket.id].color,
+                                        message: message,
+                                        time: (new Date()).toLocaleTimeString()
+                                    });
+                                }
+                            }
+                        break;
+
+
+                    }
+                } else {
+                   io.sockets.emit("broadcastMessage", {
+                        name: users[socket.id].name,
+                        color: users[socket.id].color,
+                        message: data,
+                        time: (new Date()).toLocaleTimeString()
+                    }); 
+                }
+                
             }
         });
 
