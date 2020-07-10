@@ -29,7 +29,7 @@ module.exports.init = (io, railMap, users, actionHistory) => {
         });
 
         socket.on("railClicked", async (data) => {
-            await utils.timeout(1000);
+            await utils.timeout(200);
             let railID = data.id;
             let placed = data.placed;
             
@@ -119,7 +119,7 @@ module.exports.init = (io, railMap, users, actionHistory) => {
         });
 
         socket.on("upsertRowCol", data => {
-            
+            await utils.timeout(200);
             
             if(!frozen){
                 railMap.insert(data.index, data.axis, data.isInsert);
