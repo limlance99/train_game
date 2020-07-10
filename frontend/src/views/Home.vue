@@ -82,7 +82,16 @@
       <div class="flex-grow-1 actions-messages">
         <h5 class="mb-0 p-1"> History </h5>
         <History  />
-        <h5 class="mb-0 p-1"> Chat</h5>
+        <h5 class="mb-0 pr-3 pt-2 pb-1 d-flex justify-content-between"> Chat <b-button v-b-toggle.listUsers class="btn btn-primary btn-sm">Show Online Users</b-button> </h5>
+        
+        <b-collapse id="listUsers">
+          <b-card class="mr-3 p-0">
+            <span>Online Users:</span>
+            <div v-for="(user, index) in users" :key="index">
+              <span :style="`color:${user.color}`">{{user.name}}</span>
+            </div>
+          </b-card>
+        </b-collapse>
         <Chatbox  />
       </div>
     </div>
