@@ -193,12 +193,9 @@ export default {
         this.makeToast(message);
       }
     },
-<<<<<<< HEAD
-=======
     currentlyHoveringOn() {
       console.log(this.currentlyHoveringOn)
     }
->>>>>>> 3cd96448f69d5499ded73b156d5e1c496a51fe19
   },
 };
 </script>
