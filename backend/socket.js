@@ -128,7 +128,7 @@ module.exports.init = (io, railMap, users, actionHistory) => {
 
             io.sockets.emit("newMap", {
                 height: railMap.height,
-                wight: railMap.width,
+                width: railMap.width,
                 map: railMap.encode()
             });
         });
