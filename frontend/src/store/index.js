@@ -18,6 +18,7 @@ const state = {
   mapHeight: null,
   mapWidth: null,
   errorMessage: {},
+  users: {},
 }
 
 const getters = {
@@ -38,6 +39,7 @@ const mutations = {
     state.listOfClickedRails = data.map; 
     state.actionHistory = data.actionHistory;
     state.userColor = data.color;
+    state.users = data.users;
   },
   newRail: (state, rail) => {
     Vue.set(state.listOfClickedRails, rail.id, rail.color);
@@ -58,6 +60,18 @@ const mutations = {
     state.chatMessages.push(message); 
   },
   userAccept: (state) => state.askingName = false,
+  userJoined: (state, obj) => {
+    let user = {
+      name: obj.name,
+      color: obj.color
+    }
+    Vue.set(state.users, obj.id, user);
+  },
+  userLeft: (state, obj) => {
+    console.log("IM HERE YO")
+    console.log(obj.id);
+    Vue.delete(state.users, obj.id);
+  },
   newMap: (state, data) => {
     state.mapWidth = data.width;
     state.mapHeight = data.height;
@@ -67,6 +81,7 @@ const mutations = {
 }
 
 const actions = {
+  // SERVER TO CLIENT
   SOCKET_startUp({commit}, obj) {
     commit("startUp", obj);
   },
@@ -82,8 +97,9 @@ const actions = {
   SOCKET_broadcastMessage({commit}, message) {
     commit("newChatMessage", message);
   },
-  SOCKET_userJoined({commit}, message) {
-    commit("newChatMessage", message);
+  SOCKET_userJoined({commit}, obj) {
+    commit("userJoined", obj);
+    commit("newChatMessage", obj);
   },
   SOCKET_newMap({commit}, obj) {
     commit("newMap", obj);
@@ -92,8 +108,9 @@ const actions = {
   SOCKET_userAccept({commit}) {
     commit("userAccept");
   },
-  SOCKET_userLeft({commit}, message) {
-    commit("newChatMessage", message);
+  SOCKET_userLeft({commit}, obj) {
+    commit("userLeft", obj);
+    commit("newChatMessage", obj);
   }
 }
 

@@ -12,6 +12,7 @@ module.exports.init = (io, railMap, users, actionHistory) => {
             map: railMap.encode(), 
             actionHistory: actionHistory,
             color: users[socket.id].color,
+            users: users, 
             width: railMap.width,
             height: railMap.height
         });
@@ -22,9 +23,12 @@ module.exports.init = (io, railMap, users, actionHistory) => {
                 io.sockets.emit("userLeft", {
                     name: users[socket.id].name,
                     color: users[socket.id].color,
+                    id: socket.id,
                     message: "has disconnected",
                     time: (new Date()).toLocaleTimeString()
                 });
+
+                delete users[socket.id];
             }
         });
 
@@ -100,6 +104,7 @@ module.exports.init = (io, railMap, users, actionHistory) => {
             io.sockets.emit("userJoined", {
                 name: users[socket.id].name,
                 color: users[socket.id].color,
+                id: socket.id,
                 message: utils.joinMessage(),
                 accepted: true,
                 time: (new Date()).toLocaleTimeString()
@@ -119,40 +124,13 @@ module.exports.init = (io, railMap, users, actionHistory) => {
         });
 
         socket.on("upsertRowCol", data => {
-            
-            
-            if(!frozen){
-                railMap.insert(data.index, data.axis, data.isInsert);
-                let action = {
-                    name: users[socket.id].name,
-                    color: users[socket.id].color,
-                    message: `${data.isInsert? "inserted at":"removed"} ${data.axis} ${data.index + 1}`,
-                    time: (new Date()).toLocaleTimeString(),
-                    error: false
-                }
+            railMap.insert(data.index, data.axis, data.isInsert);
 
-                actionHistory.push(action);
-
-                io.sockets.emit("newMap", {
-                    height: railMap.height,
-                    width: railMap.width,
-                    map: railMap.encode(),
-                    newHistory: action
-                });
-            } else {
-                sockets.emit("newMap", {
-                    height: railMap.height,
-                    width: railMap.width,
-                    map: railMap.encode(),
-                    newHistory: {
-                        name: "You",
-                        color: users[socket.id].color,
-                        message: `failed to ${data.isInsert? "insert at":"remove"} ${data.axis} ${data.index + 1}`,
-                        time: (new Date()).toLocaleTimeString(),
-                        error: true
-                    }
-                });
-            }
+            io.sockets.emit("newMap", {
+                height: railMap.height,
+                wight: railMap.width,
+                map: railMap.encode()
+            });
         });
 
         socket.on("changeDimensions", dimensions => {
