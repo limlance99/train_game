@@ -54,6 +54,9 @@ const mutations = {
     state.mapHeight = data.height;
     state.listOfClickedRails = data.map;
     console.log(data);
+  },
+  userLeft: (state, message) => {
+    state.chatMessages.push(message);
   }
 }
 
@@ -81,6 +84,9 @@ const actions = {
   },
   SOCKET_userAccept({commit}) {
     commit("userAccept");
+  },
+  SOCKET_userLeft({commit}, message) {
+    commit("userLeft", message);
   }
 }
 
