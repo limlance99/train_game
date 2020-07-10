@@ -81,6 +81,9 @@ const actions = {
   },
   SOCKET_userAccept({commit}) {
     commit("userAccept");
+  },
+  SOCKET_userLeft({commit}, message) {
+    commit("newChatMessage", message);
   }
 }
 

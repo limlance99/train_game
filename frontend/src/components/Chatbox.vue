@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="flex-shrink-1 input-group">
-            <input class="form-control" v-model="chatMessage" placeholder="chat here">
+            <input class="form-control" v-model="chatMessage" placeholder="chat here" @keyup.enter="sendMessage()">
             <div class="input-group-append">
                 <button class="btn btn-primary" @click="sendMessage()"
                 :disabled="chatMessage ? false: true">Send</button>
@@ -32,7 +32,7 @@ export default {
     },
     methods: {
         sendMessage() {
-            if (this.chatMessage != "") {
+            if (this.chatMessage.trim() != "") {
                 this.$socket.emit('sendMessage', this.chatMessage);
                 this.chatMessage = "";
             }
