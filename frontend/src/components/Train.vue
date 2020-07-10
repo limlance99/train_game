@@ -95,7 +95,7 @@ data() {
           clearInterval(id);
           console.log("done");
           // that.doneAnimating = true;
-          SOCKET_EMIT.trainStop(this.$socket);
+          SOCKET_EMIT.trainStop(that.$socket);
           that.$emit("enableButtons");
         } 
 
