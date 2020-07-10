@@ -21,5 +21,9 @@ module.exports = {
 
     timeout(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
+    },
+
+    getRandomID() {
+        return Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
     }
 };

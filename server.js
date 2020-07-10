@@ -3,6 +3,7 @@ const http = require('http').Server(app);
 const io = require("socket.io")(http);
 const rail = require('./backend/rail');
 const socket = require('./backend/socket');
+const action = require('./backend/action');
 const port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
