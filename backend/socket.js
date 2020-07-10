@@ -12,6 +12,7 @@ module.exports.init = (io, railMap, users, actionHistory) => {
             map: railMap.encode(), 
             actionHistory: actionHistory,
             color: users[socket.id].color,
+            users: users, 
             width: railMap.width,
             height: railMap.height
         });
@@ -22,9 +23,12 @@ module.exports.init = (io, railMap, users, actionHistory) => {
                 io.sockets.emit("userLeft", {
                     name: users[socket.id].name,
                     color: users[socket.id].color,
+                    id: socket.id,
                     message: "has disconnected",
                     time: (new Date()).toLocaleTimeString()
                 });
+
+                delete users[socket.id];
             }
         });
 
@@ -100,6 +104,7 @@ module.exports.init = (io, railMap, users, actionHistory) => {
             io.sockets.emit("userJoined", {
                 name: users[socket.id].name,
                 color: users[socket.id].color,
+                id: socket.id,
                 message: utils.joinMessage(),
                 accepted: true,
                 time: (new Date()).toLocaleTimeString()
