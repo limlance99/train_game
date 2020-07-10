@@ -16,6 +16,7 @@
 
 <script>
 import { mapState } from "vuex";
+import {SOCKET_EMIT} from "@/utils/socket-emit";
 export default {
   name: "Name",
   data() {
@@ -35,7 +36,7 @@ export default {
     },
     sendName() {
       console.log(this.username);
-      this.$socket.emit("sendName", this.username.trim());
+      SOCKET_EMIT.sendName(this.$socket, this.username.trim());
     },
   },
   watch: {

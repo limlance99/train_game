@@ -7,7 +7,7 @@
 
 <script>
 import { mapState } from "vuex";
-
+import { SOCKET_EMIT } from "@/utils/socket-emit";
 // var animationDone;
 
 export default {
@@ -41,7 +41,7 @@ data() {
       if (direcs.length == 0) {
           console.log("done");
           // that.doneAnimating = true;
-          this.$socket.emit('trainStop');
+          SOCKET_EMIT.trainStop(this.$socket);
           this.$emit("enableButtons");
       }
       var i = 0;
@@ -95,7 +95,7 @@ data() {
           clearInterval(id);
           console.log("done");
           // that.doneAnimating = true;
-          that.$socket.emit('trainStop');
+          SOCKET_EMIT.trainStop(this.$socket);
           that.$emit("enableButtons");
         } 
 
