@@ -27,8 +27,6 @@
 
 <script>
 import { mapState } from "vuex";
-import { SOCKET_EMIT } from '@/utils/socket-emit';
-
 export default {
   data() {
     return {
@@ -41,7 +39,7 @@ export default {
   methods: {
     sendMessage() {
       if (this.chatMessage.trim() != "") {
-        SOCKET_EMIT.sendMessage(this.$socket, this.chatMessage);
+        this.$socket.emit("sendMessage", this.chatMessage);
         this.chatMessage = "";
       }
     }
