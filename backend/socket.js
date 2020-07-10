@@ -114,12 +114,51 @@ module.exports.init = (io, railMap, users, actionHistory) => {
 
         socket.on("sendMessage", data => {
             if (socket.id in users) {
-                io.sockets.emit("broadcastMessage", {
-                    name: users[socket.id].name,
-                    color: users[socket.id].color,
-                    message: data,
-                    time: (new Date()).toLocaleTimeString()
-                });
+                switch(data.split(" ")[0]){
+                    case "/private":
+                        for(let [userID, userData] of Object.entries(users)){ 
+                            if (userData.name == data.split(" ")[1]) {
+                                let privateMessage = "//whispers/// " + data.split(" ").slice(2).join(" ");
+                                
+                                io.to(userID).emit("broadcastMessage", {
+                                    name: users[socket.id].name,
+                                    color: users[socket.id].color,
+                                    message: privateMessage,
+                                    time: (new Date()).toLocaleTimeString()
+                                });
+                            }
+                        }
+                        break;
+
+                    case "/clear":
+                        railMap.rails = {};
+                        
+                        let action = {
+                            name: users[socket.id].name,
+                            color: users[socket.id].color,
+                            message: `removed all the rails`,
+                            time: (new Date()).toLocaleTimeString(),
+                            error: false
+                        }
+        
+                        actionHistory.push(action);
+        
+                        io.sockets.emit("newMap", {
+                            height: railMap.height,
+                            width: railMap.width,
+                            map: railMap.encode(),
+                            newHistory: action
+                        });
+                        break;
+
+                    default:
+                        io.sockets.emit("broadcastMessage", {
+                        name: users[socket.id].name,
+                        color: users[socket.id].color,
+                        message: data,
+                        time: (new Date()).toLocaleTimeString()
+                    }); 
+                }
             }
         });
 
