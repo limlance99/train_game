@@ -171,27 +171,12 @@ export default {
       this.preventClicking = false;
     },
 
-    setColor(row, col, direction) {
-      row -= 1;
-      col -= 1;
-      var id = (row * this.mapWidth + col) * 4 + direction;
-      
-      if (this.listOfClickedRails[id] != undefined && this.listOfClickedRails[id] != null) {
-        return this.listOfClickedRails[id];
-      }
-      
-      return "#FFFFFF";
-    },
     go() {
       this.$socket.emit("goClicked");
       this.preventClicking = true;
     }
   },
   watch: {
-    listOfClickedRails() {
-      this.ClickedRails = this.listOfClickedRails;
-      console.log(this.ClickedRailslistOfClickedRails);
-    },
     errorMessage() {
       if (this.errorMessage != null && this.errorMessage != undefined) {
         console.log(this.errorMessage.name + " " + this.errorMessage.message)
